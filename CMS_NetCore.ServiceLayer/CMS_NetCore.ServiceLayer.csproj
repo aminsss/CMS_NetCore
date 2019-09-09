@@ -4,4 +4,19 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="CMS_NetCore.DataLayer">
+      <HintPath>..\CMS_NetCore.DataLayer\bin\Debug\netcoreapp2.2\CMS_NetCore.DataLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS_NetCore.DomainClasses">
+      <HintPath>..\CMS_NetCore.DomainClasses\bin\Debug\netcoreapp2.2\CMS_NetCore.DomainClasses.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS_NetCore.Interfaces">
+      <HintPath>..\CMS_NetCore.Interfaces\bin\Debug\netcoreapp2.2\CMS_NetCore.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS_NetCore.ViewModels">
+      <HintPath>..\CMS_NetCore.ViewModels\bin\Debug\netcoreapp2.2\CMS_NetCore.ViewModels.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -10,6 +10,22 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="wwwroot\assets\plugins\ckeditor-full\adapters\" />
+    <Folder Include="wwwroot\assets\plugins\ckeditor-full\samples\" />
+    <Folder Include="wwwroot\assets\plugins\noty\js\noty\layouts\" />
+    <Folder Include="wwwroot\assets\plugins\noty\js\noty\themes\" />
+    <Folder Include="wwwroot\assets\plugins\paper-ripple\dist\systemjs\" />
+    <Folder Include="wwwroot\assets\plugins\summernote\dist\lang\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CMS_NetCore.DataLayer\CMS_NetCore.DataLayer.csproj" />
   </ItemGroup>
 
 </Project>

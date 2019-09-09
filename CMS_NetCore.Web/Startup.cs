@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CMS_NetCore.DataLayer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +24,10 @@ namespace CMS_NetCore.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            var connection = @"Data Source=.;Initial Catalog=CMS_NetCoreDb;Trusted_Connection=True;ConnectRetryCount=0";
+            services.AddDbContext<AppDbContext>
+                (options => options.UseSqlServer(connection,b=>b.MigrationsAssembly("CMS_NetCore.Web")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,9 +48,15 @@ namespace CMS_NetCore.Web
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                  name: "areas",
+                  template: "{area:exists}/{controller=Default}/{action=Index}/{id?}"
+                );
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }
