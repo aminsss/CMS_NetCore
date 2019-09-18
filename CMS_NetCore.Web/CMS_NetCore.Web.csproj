@@ -25,7 +25,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CMS_NetCore.DataLayer\CMS_NetCore.DataLayer.csproj" />
+    <ProjectReference Include="..\CMS_NetCore.Interfaces\CMS_NetCore.Interfaces.csproj" />
+    <ProjectReference Include="..\CMS_NetCore.ViewModels\CMS_NetCore.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CMS_NetCore.DataLayer">
+      <HintPath>..\CMS_NetCore.DataLayer\bin\Debug\netcoreapp2.2\CMS_NetCore.DataLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS_NetCore.DomainClasses">
+      <HintPath>..\CMS_NetCore.DomainClasses\bin\Debug\netcoreapp2.2\CMS_NetCore.DomainClasses.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS_NetCore.ServiceLayer">
+      <HintPath>..\CMS_NetCore.ServiceLayer\bin\Debug\netcoreapp2.2\CMS_NetCore.ServiceLayer.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="CMS_NetCore.DataLayer">
       <HintPath>..\CMS_NetCore.DataLayer\bin\Debug\netcoreapp2.2\CMS_NetCore.DataLayer.dll</HintPath>
     </Reference>

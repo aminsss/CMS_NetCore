@@ -8,18 +8,17 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IUserService
     {
-        DataGridViewModel<User> GetBySearch(int page, int pageSize,string srchString);
-        User GetUserByIdentity(string mobile);
-        User GetUserByPassword(int userId, string password);
-        User GetById(int? id);
-        void Add(User user);
-        void Edit(User user);
-        void EditPassword(User user,string password);
-        void Delete(User user);
-        void Delete(int id);
-        User UniqueEmail(string email, int userId);
-        User UniqueMobile(string mobile, int userId);
-        IEnumerable<User> Users();
-        IEnumerable<User> GetAllAdmin();
+        Task<DataGridViewModel<User>> GetBySearch(int page, int pageSize, string srchString);
+        Task<User> GetUserByIdentity(string mobile);
+        Task<User> GetUserByPassword(int userId, string password);
+        Task<User> GetById(int? id);
+        Task Add(User user);
+        Task Edit(User user);
+        Task EditPassword(User user, string password);
+        Task Remove(User user);
+        Task<User> UniqueEmail(string email, int userId);
+        Task<User> UniqueMobile(string mobile, int userId);
+        Task<IEnumerable<User>> Users();
+        Task<IEnumerable<User>> GetAllAdmin();
     }
 }
