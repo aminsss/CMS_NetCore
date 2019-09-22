@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace CMS_NetCore.Interfaces
 {
-    public interface IRoleService
+    public interface IChartPost
     {
-        Task<IEnumerable<Role>> Roles();
+        Task<IEnumerable<chartPost>> chartPosts();
     }
 }

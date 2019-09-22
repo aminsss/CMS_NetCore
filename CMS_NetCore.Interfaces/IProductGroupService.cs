@@ -10,16 +10,15 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IProductGroupService
     {
-        DataGridViewModel<ProductGroup> GetBySearch(int? page,int? pageSize,string searchString);
-        ProductGroup GetById(int? id);
-        IList<ProductGroup> GetByType(string type);
-        IList<ProductGroup> GetByDepth(int? depth);
-        IList<ProductGroup> GetByDesDepthOrder();
-        void Edit(ProductGroup productGroup);
-        void Delete(ProductGroup productGroup);
-        void Add(ProductGroup productGroup);
-        void Delete(int? id);
-        bool UniqueAlias(string aliasName, int? productGroupId);
-        IEnumerable<ProductGroup> ProductGroups();
+        Task<DataGridViewModel<ProductGroup>> GetBySearch(int? page,int? pageSize,string searchString);
+        Task<ProductGroup> GetById(int? id);
+        Task<IList<ProductGroup>> GetByType(string type);
+        Task<IList<ProductGroup>> GetByDepth(int? depth);
+        Task Edit(ProductGroup productGroup);
+        Task Delete(ProductGroup productGroup);
+        Task Add(ProductGroup productGroup);
+        Task Delete(int? id);
+        Task<bool> UniqueAlias(string aliasName, int? productGroupId);
+        Task<IEnumerable<ProductGroup>> ProductGroups();
     }
 }

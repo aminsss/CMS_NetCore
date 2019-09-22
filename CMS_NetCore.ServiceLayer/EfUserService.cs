@@ -20,14 +20,15 @@ namespace CMS_NetCore.ServiceLayer
         {
         }
 
-        public async Task<DataGridViewModel<User>> GetBySearch(int page, int pageSize, string srchString)
+        public async Task<DataGridViewModel<User>> GetBySearch(int page, int pageSize, string srchString = "")
         {
             var DataGridView = new DataGridViewModel<User>
             {
-                Records = await FindByCondition(x => x.Name.Contains(srchString)).OrderBy(x => x.UserId)
-                .Include(x => x.Role).Include(x => x.chartPost).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(),
+                Records = await FindByCondition(x => x.moblie.Contains(srchString)).OrderBy(x => x.UserId)
+                .Include(x => x.Role).Include(x => x.chartPost)
+                .Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(),
 
-                TotalCount = await FindByCondition(x => x.Name.Contains(srchString)).OrderBy(x => x.UserId)
+                TotalCount = await FindByCondition(x => x.moblie.Contains(srchString)).OrderBy(x => x.UserId)
                 .Include(x => x.Role).Include(x => x.chartPost).CountAsync()
             };
 
@@ -89,7 +90,9 @@ namespace CMS_NetCore.ServiceLayer
 
         public async Task<IEnumerable<User>> GetAllAdmin() =>
             await FindByCondition(x => x.RoleId == 1).Include(x=>x.Role).ToListAsync();
-        
 
+        public async Task<User> UserExistence(int id) =>
+            await FindByCondition(x => x.UserId == id).FirstOrDefaultAsync();
+            
     }
 }

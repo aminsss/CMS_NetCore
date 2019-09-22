@@ -20,5 +20,6 @@ namespace CMS_NetCore.Interfaces
         Task<User> UniqueMobile(string mobile, int userId);
         Task<IEnumerable<User>> Users();
         Task<IEnumerable<User>> GetAllAdmin();
+        Task<User> UserExistence(int id);
     }
 }

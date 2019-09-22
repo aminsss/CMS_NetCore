@@ -33,6 +33,9 @@ namespace CMS_NetCore.Web
 
             //services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
             services.AddScoped<IUserService, EfUserService>();
+            services.AddScoped<IRoleService, EfRoleService>();
+            services.AddScoped<IChartPost, EfChartPostService>();
+            //services.AddScoped<IAttributeGrpService, EfAttributeGrpService>();
             //services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
         }

@@ -10,14 +10,13 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IAttributeGrpService
     {
-        DataGridViewModel<AttributGrp> GetBySearch(int page, int pageSize, string searchString);
-        AttributGrp GetById(int? id);
-        void Add(AttributGrp attributGrp);
-        void Edit(AttributGrp attributGrp);
-        void Delete(AttributGrp attributGrp);
-        void Delete(int id);
+        Task<DataGridViewModel<AttributGrp>> GetBySearch(int page, int pageSize, string searchString);
+        Task<AttributGrp> GetById(int? id);
+        Task Add(AttributGrp attributGrp);
+        Task Edit(AttributGrp attributGrp);
+        Task Remove(AttributGrp attributGrp);
 
-        IEnumerable<AttributGrp> GetAllAttributeGrp();
-        IList<AttributGrp> GetAttrGrpProductBase(int? productGroupId, int? groupModel);
+        Task<IEnumerable<AttributGrp>> GetAllAttributeGrp();
+        Task<IList<AttributGrp>> GetAttrGrpProductBase(int? productGroupId, int? groupModel);
     }
 }
