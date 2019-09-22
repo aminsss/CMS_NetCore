@@ -15,9 +15,8 @@ namespace CMS_NetCore.Interfaces
         Task<IList<ProductGroup>> GetByType(string type);
         Task<IList<ProductGroup>> GetByDepth(int? depth);
         Task Edit(ProductGroup productGroup);
-        Task Delete(ProductGroup productGroup);
+        Task Remove(ProductGroup productGroup);
         Task Add(ProductGroup productGroup);
-        Task Delete(int? id);
         Task<bool> UniqueAlias(string aliasName, int? productGroupId);
         Task<IEnumerable<ProductGroup>> ProductGroups();
     }

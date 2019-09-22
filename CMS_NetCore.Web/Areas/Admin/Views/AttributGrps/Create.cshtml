@@ -1,48 +1,54 @@
 ﻿@model CMS_NetCore.DomainClasses.AttributGrp
 
 @{
+    ViewBag.Title = "Create";
     Layout = null;
 }
 
-<!DOCTYPE html>
+<form asp-action="Create">
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
-
-<h4>AttributGrp</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+    <div class="form-horizontal" style="padding:10px">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label col-md-2"></label>
+            <div class="col-md-10">
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Attr_type" class="control-label"></label>
+        </div>
+        <div class="form-group">
+            <label asp-for="ProductGroupId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select class="form-control" data-val="true" data-val-required="لطفا گروه محصول را انتخاب کنید" id="ProductGroupId" name="ProductGroupId">
+                    <option value="">-لطفا گروه محصول را انتخاب کنید-</option>
+                    @*@await Component.InvokeAsync("GroupsOfProduct");*@
+                </select>
+                <span asp-validation-for="ProductGroupId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Attr_type" class="control-label col-md-2"></label>
+            <div class="col-md-10">
                 <input asp-for="Attr_type" class="form-control" />
                 <span asp-validation-for="Attr_type" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ProductGroupId" class="control-label"></label>
-                <select asp-for="ProductGroupId" class ="form-control" asp-items="ViewBag.ProductGroupId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+        <div class="form-actions text-left">
+            <button type="submit" class="btn btn-info btn-round">
+                <i class="icon-check"></i>
+                ذخیره
+            </button>
+            <a asp-action="Index" class="btn btn-warning btn-round">
+                <i class="icon-close"></i>
+                بازگشت
+            </a>
+
+        </div>
     </div>
-</div>
+</form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+</script>
 
-</body>
-</html>
+

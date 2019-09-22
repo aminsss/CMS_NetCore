@@ -62,7 +62,7 @@
                             </a>
                         </li>
                         <li class="dropdown dropdown-user">
-                            @*@Html.Action("RetUserID", "Users", new { area = "admin" })*@
+                            @*@await Component.InvokeAsync("UserProfile")*@
                         </li>
                     </ul><!-- /.navbar-left -->
                 </div><!-- /.top-bar -->
@@ -72,8 +72,7 @@
         <!-- BEGIN WRAPPER -->
         <div id="wrapper">
             <!-- BEGIN SIDEBAR -->
-             @*@await Component.InvokeAsync()*@
-             @*@Html.Action("Sidebar", "Partial", new { area = "admin" })*@
+            @await Component.InvokeAsync("Sidebar")
             <!-- END SIDEBAR -->
             <div id="page-content">
                 <div class="row">

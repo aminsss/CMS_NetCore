@@ -156,7 +156,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
             {
                 try
                 {
-                    var fileName = "no-photo.jpg";
+                    var fileName = "no-photo.png";
                     if (file != null )
                     {
                         var uploads = Path.Combine(_env.WebRootPath, "Upload\\Profile");
@@ -242,10 +242,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
             }
         }
 
-        public async Task<ActionResult> RetUserID()
-        {
-            return PartialView(await _userService.GetUserByIdentity(User.Identity.Name));
-        }
+      
 
         public async Task<ActionResult> changePass(int? id)
         {

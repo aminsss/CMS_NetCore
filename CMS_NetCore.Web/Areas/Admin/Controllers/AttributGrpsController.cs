@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CMS_NetCore.DataLayer;
 using CMS_NetCore.DomainClasses;
 using CMS_NetCore.Interfaces;
 
@@ -18,15 +17,14 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
     [Area("Admin")]
     public class AttributGrpsController : Controller
     {
-        private readonly AppDbContext _context;
+        //private readonly AppDbContext _context;
         private IAttributeGrpService _attributeGrpService;
         private IProductGroupService _productGroupService;
 
-        public AttributGrpsController(IAttributeGrpService attributeGrpService, IProductGroupService productGroupService,AppDbContext context)
+        public AttributGrpsController(IAttributeGrpService attributeGrpService, IProductGroupService productGroupService)
         {
             _attributeGrpService = attributeGrpService;
             _productGroupService = productGroupService;
-            _context = context;
         }
             
          
@@ -45,9 +43,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var attributGrp = await _context.AttributGrps
-                .Include(a => a.ProductGroup)
-                .FirstOrDefaultAsync(m => m.AttributGrpId == id);
+            var attributGrp = await _attributeGrpService.GetById(id); 
             if (attributGrp == null)
             {
                 return NotFound();
@@ -57,9 +53,9 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/AttributGrps/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["ProductGroupId"] = new SelectList(_context.ProductGroups, "ProductGroupId", "AliasName");
+            ViewData["ProductGroupId"] = new SelectList( await _productGroupService.ProductGroups(), "ProductGroupId", "AliasName");
             return View();
         }
 
@@ -72,11 +68,10 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(attributGrp);
-                await _context.SaveChangesAsync();
+                await _attributeGrpService.Add(attributGrp);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductGroupId"] = new SelectList(_context.ProductGroups, "ProductGroupId", "AliasName", attributGrp.ProductGroupId);
+            ViewData["ProductGroupId"] = new SelectList(await _productGroupService.ProductGroups(), "ProductGroupId", "AliasName", attributGrp.ProductGroupId);
             return View(attributGrp);
         }
 
@@ -88,13 +83,13 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var attributGrp = await _context.AttributGrps.FindAsync(id);
+            var attributGrp = await _attributeGrpService.GetById(id);
             if (attributGrp == null)
             {
                 return NotFound();
             }
-            ViewData["ProductGroupId"] = new SelectList(_context.ProductGroups, "ProductGroupId", "AliasName", attributGrp.ProductGroupId);
-            return View(attributGrp);
+            ViewData["ProductGroupId"] = new SelectList(await _productGroupService.ProductGroups(), "ProductGroupId", "AliasName", attributGrp.ProductGroupId);
+            return PartialView(attributGrp);
         }
 
         // POST: Admin/AttributGrps/Edit/5
@@ -113,12 +108,11 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(attributGrp);
-                    await _context.SaveChangesAsync();
+                    await _attributeGrpService.Edit(attributGrp);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AttributGrpExists(attributGrp.AttributGrpId))
+                    if (!await _attributeGrpService.AttributeGrpExistence(attributGrp.AttributGrpId))
                     {
                         return NotFound();
                     }
@@ -129,7 +123,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductGroupId"] = new SelectList(_context.ProductGroups, "ProductGroupId", "AliasName", attributGrp.ProductGroupId);
+            ViewData["ProductGroupId"] = new SelectList(await _productGroupService.ProductGroups(), "ProductGroupId", "AliasName", attributGrp.ProductGroupId);
             return View(attributGrp);
         }
 
@@ -141,9 +135,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var attributGrp = await _context.AttributGrps
-                .Include(a => a.ProductGroup)
-                .FirstOrDefaultAsync(m => m.AttributGrpId == id);
+            var attributGrp = await _attributeGrpService.GetById(id);
             if (attributGrp == null)
             {
                 return NotFound();
@@ -157,15 +149,10 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var attributGrp = await _context.AttributGrps.FindAsync(id);
-            _context.AttributGrps.Remove(attributGrp);
-            await _context.SaveChangesAsync();
+            var attributGrp = await _attributeGrpService.GetById(id);
+            await _attributeGrpService.Remove(attributGrp);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AttributGrpExists(int id)
-        {
-            return _context.AttributGrps.Any(e => e.AttributGrpId == id);
-        }
     }
 }
