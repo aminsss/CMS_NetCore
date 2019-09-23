@@ -18,6 +18,7 @@ namespace CMS_NetCore.Interfaces
         Task Remove(ProductGroup productGroup);
         Task Add(ProductGroup productGroup);
         Task<bool> UniqueAlias(string aliasName, int? productGroupId);
+        Task<bool> ProductGroupExistense(int id);
         Task<IEnumerable<ProductGroup>> ProductGroups();
     }
 }

@@ -31,6 +31,18 @@ namespace CMS_NetCore.ServiceLayer
 
         public async Task Add(ProductGroup productGroup)
         {
+            if (productGroup.ParentId == 0)
+            {
+                productGroup.Depth = 0;
+                productGroup.Path = "0";
+            }
+            else
+            {
+                var product_Group = await GetById(productGroup.ParentId);
+                productGroup.Depth = product_Group.Depth + 1;
+                productGroup.Path = product_Group.ProductGroupId + "/" + product_Group.Path;
+            }
+
             Create(productGroup);
             await SaveAsync();
         }
@@ -86,6 +98,9 @@ namespace CMS_NetCore.ServiceLayer
 
         public async Task<bool> UniqueAlias(string aliasName, int? productGroupId) =>
             await FindByCondition(s => s.AliasName == aliasName && s.ProductGroupId != productGroupId).AnyAsync();
+
+        public async Task<bool> ProductGroupExistense(int id) =>
+            await FindByCondition(x => x.ProductGroupId == id).AnyAsync();
 
     }
 }
