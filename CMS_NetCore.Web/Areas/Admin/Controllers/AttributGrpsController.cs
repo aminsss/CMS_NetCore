@@ -56,7 +56,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             ViewData["ProductGroupId"] = new SelectList( await _productGroupService.ProductGroups(), "ProductGroupId", "AliasName");
-            return View();
+            return PartialView();
         }
 
         // POST: Admin/AttributGrps/Create
