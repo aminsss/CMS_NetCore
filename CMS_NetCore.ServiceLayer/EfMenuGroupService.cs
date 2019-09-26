@@ -13,8 +13,6 @@ namespace CMS_NetCore.ServiceLayer
 {
     public class EfMenuGroupService : RepositoryBase<MenuGroup>,IMenuGroupService
     {
-        
-
         public EfMenuGroupService(AppDbContext context ) : base(context)
         {
         }
