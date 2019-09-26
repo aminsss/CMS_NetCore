@@ -38,6 +38,7 @@ namespace CMS_NetCore.Web
             services.AddScoped<IProductGroupService, EfProductGroupService>();
             services.AddScoped<IAttributeGrpService, EfAttributeGrpService>();
             services.AddScoped<IAttributeItemService, EfAttributeItemService>();
+            services.AddScoped<IMenuGroupService, EfMenuGroupService>();
             //services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
         }

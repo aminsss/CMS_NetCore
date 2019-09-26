@@ -37,8 +37,8 @@
                     </td>
                     <td>
                         <a asp-action="Index" asp-controller="AttributItems" asp-route-id="@item.AttributGrpId" class="btn btn-success btn-round"> خصوصیات</a>
-                        <a id="btnEdit_@item.AttributGrpId" data-style="slide-right" class="btn btn-info btn-round" href="#" onclick="Edit(@item.AttributGrpId)">ویرایش</a>
-                        <a class="btn btn-danger btn-round" href="#" onclick="Delete(@item.AttributGrpId)">حذف</a>
+                        <a id="btnEdit_@item.AttributGrpId" data-style="slide-right" class="btn btn-info btn-round" onclick="Edit(@item.AttributGrpId)">ویرایش</a>
+                        <a class="btn btn-danger btn-round" onclick="Delete(@item.AttributGrpId)">حذف</a>
                     </td>
                 </tr>
             }

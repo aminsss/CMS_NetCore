@@ -23,8 +23,8 @@
                 }
             </td>
             <td>
-                <a id="btnEdit_@item.ProductGroupId" class="btn btn-info btn-round" data-style="slide-right" href="#" onclick="Edit(@item.ProductGroupId)">ویرایش</a>
-                <a id="btnDelete_@item.ProductGroupId" class="btn btn-danger btn-round" data-style="slide-right" href="#" onclick="Delete(@item.ProductGroupId)">حذف</a>
+                <a id="btnEdit_@item.ProductGroupId" class="btn btn-info btn-round" data-style="slide-right" onclick="Edit(@item.ProductGroupId)">ویرایش</a>
+                <a id="btnDelete_@item.ProductGroupId" class="btn btn-danger btn-round" data-style="slide-right" onclick="Delete(@item.ProductGroupId)">حذف</a>
             </td>
         </tr>
         if (Model.Any(s => s.ParentId == item.ProductGroupId))
