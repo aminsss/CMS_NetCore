@@ -10,12 +10,12 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IMenuGroupService
     {
-        DataGridViewModel<MenuGroup> GetBySearch(int? page, int? pageSize, string searchString);
-        MenuGroup GetById(int? id);
-        void Add(MenuGroup menuGroup);
-        void Edit(MenuGroup menuGroup);
-        void Delete(MenuGroup menuGroup);
-        void Delete(int? id);
-        IEnumerable<MenuGroup> MenuGroup();
+        Task<DataGridViewModel<MenuGroup>> GetBySearch(int? page, int? pageSize, string searchString);
+        Task<MenuGroup> GetById(int? id);
+        Task Add(MenuGroup menuGroup);
+        Task Edit(MenuGroup menuGroup);
+        Task Remove(MenuGroup menuGroup);
+        Task<IEnumerable<MenuGroup>> MenuGroup();
+        Task<bool> MenuGroupExistence(int? id);
     }
 }
