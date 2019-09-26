@@ -68,7 +68,7 @@
         }
 
         function Edit(id) {
-            var l = Ladda.create(document.querySelector('#btnEdit'));
+            var l = Ladda.create(document.querySelector('#btnEdit_' + id));
             l.start();
             $.ajax({
                 url: "/admin/ProductGroups/Edit/" + id,
@@ -131,11 +131,11 @@
             }).catch(swal.noop);
         }
 
-         function gettoken() {
-        var token = '@Html.AntiForgeryToken()';
-        token = $(token).val();
-        return token;
-   }
+        function gettoken() {
+            var token = '@Html.AntiForgeryToken()';
+            token = $(token).val();
+            return token;
+        }
     </script>
 
 

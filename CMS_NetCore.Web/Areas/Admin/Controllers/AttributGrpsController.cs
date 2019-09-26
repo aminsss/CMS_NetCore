@@ -127,31 +127,14 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
             return View(attributGrp);
         }
 
-        // GET: Admin/AttributGrps/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var attributGrp = await _attributeGrpService.GetById(id);
-            if (attributGrp == null)
-            {
-                return NotFound();
-            }
-
-            return View(attributGrp);
-        }
-
         // POST: Admin/AttributGrps/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<JsonResult> DeleteConfirmed(int id)
         {
             var attributGrp = await _attributeGrpService.GetById(id);
             await _attributeGrpService.Remove(attributGrp);
-            return RedirectToAction(nameof(Index));
+            return Json(true);
         }
 
     }

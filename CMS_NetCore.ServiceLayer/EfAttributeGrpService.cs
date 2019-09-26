@@ -53,7 +53,7 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<AttributGrp> GetById(int? id) =>
-            await FindByCondition(x=>x.ProductGroupId.Equals(id)).Include(x=>x.ProductGroup)
+            await FindByCondition(x=>x.AttributGrpId.Equals(id)).Include(x=>x.ProductGroup)
             .DefaultIfEmpty(new AttributGrp()).SingleAsync();
 
         public async Task<bool> AttributeGrpExistence(int? id) =>

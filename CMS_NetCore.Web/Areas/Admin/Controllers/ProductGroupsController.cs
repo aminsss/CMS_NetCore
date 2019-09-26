@@ -142,23 +142,6 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
             return View(productGroup);
         }
 
-        // GET: Admin/ProductGroups/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var productGroup = await _productGroupService.GetById(id);
-            if (productGroup == null)
-            {
-                return NotFound();
-            }
-
-            return PartialView(productGroup);
-        }
-
         // POST: Admin/ProductGroups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -168,8 +151,6 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
             await _productGroupService.Remove(productGroup);
             return Json(true);
         }
-
-       
 
         public async Task<JsonResult> ErrorGroup(int? productGroupId, int? parentId)
         {
@@ -202,11 +183,6 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
             {
                 return Json(true);
             }
-        }
-
-        public async Task<ActionResult> GroupItems()
-        {
-            return PartialView(await _productGroupService.ProductGroups());
         }
     }
 }

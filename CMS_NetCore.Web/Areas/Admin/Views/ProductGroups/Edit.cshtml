@@ -56,6 +56,10 @@ new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
 </form>
 
 
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+</script>
+
 <script>
      $(function () {
          $('#ParentId').val('@Model.ParentId');
@@ -68,6 +72,3 @@ new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
 </script>
 
 
-<script type="text/javascript" language=javascript>
-    $.validator.unobtrusive.parse(document);
-</script>

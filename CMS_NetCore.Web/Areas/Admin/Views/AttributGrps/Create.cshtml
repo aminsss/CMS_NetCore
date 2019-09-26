@@ -1,9 +1,5 @@
 ﻿@model CMS_NetCore.DomainClasses.AttributGrp
 
-@{
-    ViewBag.Title = "Create";
-    Layout = null;
-}
 
 <form asp-action="Create">
 
@@ -29,7 +25,10 @@
         <div class="form-group">
             <label asp-for="Attr_type" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                <input asp-for="Attr_type" class="form-control" />
+                @Html.DropDownListFor(model => model.Attr_type, new[] {
+new SelectListItem() { Text = "چک باکس", Value = "check" },
+new SelectListItem() { Text = "رادیو باکس", Value = "radio" },
+}, new { @class = "form-control" })
                 <span asp-validation-for="Attr_type" class="text-danger"></span>
             </div>
         </div>

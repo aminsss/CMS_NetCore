@@ -10,11 +10,11 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IAttributeItemService
     {
-        DataGridViewModel<AttributItem> GetByAttrGrpId(int? id);
-        AttributItem GetById(int? id);
-        void Add(AttributItem attributItem);
-        void Edit(AttributItem attributItem);
-        void Delete(AttributItem attributItem);
-        void Delete(int? id);
+        Task<DataGridViewModel<AttributItem>> GetByAttrGrpId(int? id);
+        Task<AttributItem> GetById(int? id);
+        Task Add(AttributItem attributItem);
+        Task Edit(AttributItem attributItem);
+        Task Remove(AttributItem attributItem);
+        Task<bool> AttributeItemsExistence(int? id);
     }
 }

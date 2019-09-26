@@ -1,0 +1,190 @@
+﻿@model IEnumerable<CMS_NetCore.DomainClasses.AttributItem>
+
+<form asp-action="Create">
+
+    <div class="table-responsive portlet box border shadow">
+        <div class="portlet-heading">
+            <h2 class="col-md-10">@ViewBag.Title</h2>
+            <a asp-action="Index" asp-controller="AttributGrps" class="btn btn-warning btn-round pull-left">
+                <i class="icon-close"></i>
+                بازگشت
+            </a>
+            <br />
+        </div>
+        <div class="row">
+            <div class="col-sm-4 m-b-20">
+                <a id="btnAdd" asp-action="Create" data-style="slide-right" class="btn btn-success round">
+                    <i class="icon-plus"></i>
+                    افزودن خصوصیت
+                </a>
+            </div><!-- /.col-sm-4 -->
+            <div class="col-sm-4 m-b-20"></div><!-- /.col-sm-4 -->
+            <div class="col-sm-4 m-b-20">
+                <div class="input-group round">
+                    @*@Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", @placeholder = "جستجو بر اساس نام کاربری..." })
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <i class="icon-magnifier"></i>
+                                <div class="paper-ripple"></div><div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div>
+                            </button>
+                        </span>*@
+                </div><!-- ./input-group -->
+            </div><!-- /.col-sm-4 -->
+        </div>
+        <table class="table table-bordered table-hover table-striped text-center" id="data-table">
+            <thead>
+                <tr>
+                    <th>
+                        خصوصیت
+                    </th>
+                    <th>
+                        گروه خصوصیت
+                    </th>
+                    <th>
+                        گروه پدر
+                    </th>
+                    <th>
+                        عملیات
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="Item_@item.AttributItemId">
+                        <td>
+                            <label class="label-info">@item.Name</label>
+                        </td>
+                        <td>
+                            <label class="label-warning">@item.AttributGrp.Name</label>
+                        </td>
+                        <td>
+                            <label class="label-warning">@item.AttributGrp.ProductGroup.GroupTitle</label>
+                        </td>
+                        <td>
+                            <a id="btnEdit_@item.AttributItemId" data-style="slide-right" class="btn btn-primary btn-round" onclick="Edit(@item.AttributItemId)">ویرایش</a>
+                            <a id="btnDelete" class="btn btn-danger btn-round" onclick="Delete(@item.AttributItemId)">حذف</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+
+    </div>
+</form>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="myModalLabel" class="myModalLabel">تیتر مودال</h4>
+            </div>
+            <div id="bodyModal" class="bodyModal">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <script src="~/assets/plugins/ladda/dist/spin.min.js"></script>
+    <script src="~/assets/plugins/ladda/dist/ladda.min.js"></script>
+    <script src="~/assets/js/pages/ladda.js"></script>
+
+    <script>
+            $("#btnAdd").on("click", function Create(e) {
+                var l = Ladda.create(document.querySelector('#btnAdd'));
+                l.start();
+                e.preventDefault();
+                $.ajax({
+                    url: "/admin/AttributItems/Create/@Url.ActionContext.RouteData.Values["id"]",
+                    type: "Get",
+                    data: {}
+                }).done(function (result) {
+                    $('#myModal').modal('show');
+                    $('#myModalLabel').html('افزودن گروه جدید');
+                    $('#bodyModal').html(result);
+                    l.stop();
+                });
+            });
+
+        function Edit(id) {
+            var l = Ladda.create(document.querySelector('#btnEdit_' + id));
+            l.start();
+            $.ajax({
+                url: "/admin/AttributItems/Edit/" + id,
+                type: "Get",
+                data: {}
+            }).done(function (result) {
+                $('#myModal').modal('show');
+                $('#myModalLabel').html('ویرایش گروه');
+                $('#bodyModal').html(result);
+                l.stop();
+            });
+        }
+
+        function Delete(id) {
+            swal({
+                title: 'آیا اطمینان دارید؟',
+                text: "این عملیات برگشت پذیر نیست...",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#f44336',
+                cancelButtonColor: '#777',
+                confirmButtonText: 'بله، حذف شود. '
+            }).then(function (result) {
+                $.ajax({
+                    url: "/admin/AttributItems/Delete",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    data: {
+                        __RequestVerificationToken: gettoken(),
+                         id: id
+                    },
+                    async: true,
+                    cache: false,
+                    success: function (result) {
+                        swal(
+                            'انتخاب شما حذف کردن بود.',
+                            ' فیلتر با موفقیت حذف شد.',
+                            'success'
+                        ).then($("#Item_" + id).hide(700))
+
+                    },
+                    error: function (xc) {
+                        swal(
+                            'خطا در پردازش.',
+                            ' فیلتر به دلایلی قابل حذف نمیباشد.',
+                            'error'
+                        );
+                    }
+                })
+            }, function (dismiss) {
+                if (dismiss == 'cancel') {
+                    swal(
+                        'لغو گردید',
+                        ' فیلتر همچنان وجود دارد.',
+                        'error'
+                    ).catch(swal.noop);;
+                }
+            }).catch(swal.noop);
+        }
+
+        function gettoken() {
+            var token = '@Html.AntiForgeryToken()';
+            token = $(token).val();
+            return token;
+
+        }
+
+    </script>
+
+}
+
+@section Head{
+    <link href="~/assets/plugins/noty/css/flat.css" rel="stylesheet">
+    <link href="~/assets/plugins/ladda/dist/ladda-themeless.min.css" rel="stylesheet">
+}
+
