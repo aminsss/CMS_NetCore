@@ -1,0 +1,48 @@
+﻿@model CMS_NetCore.DomainClasses.MenuGroup
+
+<form asp-action="Create">
+
+    <div class="form-horizontal" style="padding:10px">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="MenuTitile" class="control-label col-md-3"></label>
+            <div class="col-md-9">
+                <input asp-for="MenuTitile" class="form-control" />
+                <span asp-validation-for="MenuTitile" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IsActive" class="control-label col-md-3"></label>
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.IsActive, new[] {
+        new SelectListItem() { Text = "فعال", Value = bool.TrueString },
+        new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
+        }, new { @class = "form-control" })
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+            <br />
+        </div>
+        <div class="form-group">
+            <label asp-for="MenuType" class="control-label col-md-3"></label>
+            <div class="col-md-9">
+                <input asp-for="MenuType" class="form-control" />
+                <span asp-validation-for="MenuType" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-actions text-left">
+            <button type="submit" class="btn btn-info btn-round">
+                <i class="icon-check"></i>
+                ذخیره
+            </button>
+            <a data-dismiss="modal" class="btn btn-warning btn-round">
+                <i class="icon-close"></i>
+                بازگشت
+            </a>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+</script>
+
