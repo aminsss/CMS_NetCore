@@ -1,6 +1,7 @@
 ﻿@model CMS_NetCore.DomainClasses.ProductGroup
 
 <form asp-action="Edit">
+    <input asp-for="ProductGroupId" type="hidden" />
 
     <div class="form-horizontal" style="padding:10px">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -40,13 +41,6 @@ new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
                 <span asp-validation-for="IsActive" class="text-danger"></span>
             </div>
             <br />
-        </div>
-        <div class="form-group">
-            <label asp-for="type" class="control-label col-md-2"></label>
-            <div class="col-md-10">
-                <input asp-for="type" class="form-control" />
-                <span asp-validation-for="type" class="text-danger"></span>
-            </div>
         </div>
         <div class="form-actions text-left">
             <button type="submit" class="btn btn-info btn-round">

@@ -38,9 +38,10 @@ namespace CMS_NetCore.ServiceLayer
             }
             else
             {
-                var product_Group = await GetById(productGroup.ParentId);
-                productGroup.Depth = product_Group.Depth + 1;
-                productGroup.Path = product_Group.ProductGroupId + "/" + product_Group.Path;
+                var GroupParent = await GetById(productGroup.ParentId);
+                productGroup.Depth = GroupParent.Depth + 1;
+                //define hierarchy of Group  
+                productGroup.Path = GroupParent.ProductGroupId + "/" + GroupParent.Path;
             }
 
             Create(productGroup);
@@ -49,46 +50,45 @@ namespace CMS_NetCore.ServiceLayer
 
         public async Task Remove(ProductGroup productGroup)
         {
-            foreach (var item in await FindAll().OrderByDescending(o => o.Depth).ToListAsync())
-            {
-                foreach (var parent in (item.Path.Split('/')))
-                {
-                    if (parent == (productGroup.ProductGroupId.ToString()))
-                    {
-                        Delete(item);
-                    }
-                }
-            }
+            //remove all children belong to this Group
+            await ChildRemove(productGroup);
+            //remove current Group
             Delete(productGroup);
             await SaveAsync();
         }
 
+        public async Task ChildRemove(ProductGroup productGroup)
+        {
+            foreach (ProductGroup child in await FindByCondition(x => x.ParentId == productGroup.ProductGroupId).ToListAsync())
+            {
+                Delete(child);
+                await ChildRemove(child);
+            }
+        }
 
         public async Task Edit(ProductGroup productGroup)
         {
-            foreach (var item in await GetByDepth(0))
-            {
-                foreach (var parent in (item.Path.Split('/')))
-                {
-                    if (parent == (productGroup.ProductGroupId.ToString()))
-                    {
-                        var parent_item = await GetById(item.ParentId);
-                        item.Depth = parent_item.Depth + 1;
-                        item.Path = parent_item.ProductGroupId + "/" + parent_item.Path;
-                        Update(item);
-                    }
-                }
-            }
-
+            //update curent Group
             Update(productGroup);
+            //updating children's depth and path of changed group 
+            await ChildEdit(productGroup);
             await SaveAsync();
+        }
+
+        public async Task ChildEdit(ProductGroup productGroup)
+        {
+            foreach (ProductGroup child in await FindByCondition(x => x.ParentId == productGroup.ProductGroupId).ToListAsync())
+            {
+                child.Path = productGroup.ProductGroupId + "/" + productGroup.Path;
+                child.Depth = productGroup.Depth + 1;
+                Update(child);
+
+                await ChildEdit(child);
+            }
         }
 
         public async Task<ProductGroup> GetById(int? id) =>
             await FindByCondition(x => x.ProductGroupId.Equals(id)).DefaultIfEmpty(new ProductGroup()).SingleAsync();
-
-        public async Task<IList<ProductGroup>> GetByDepth(int? depth) =>
-            await FindByCondition(x => x.Depth > depth).OrderBy(s => s.Depth).ToListAsync();
 
         public async Task<IEnumerable<ProductGroup>> ProductGroups() =>
             await FindAll().ToListAsync();

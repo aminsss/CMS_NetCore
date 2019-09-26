@@ -3,7 +3,7 @@
 <div class="table-responsive portlet box border shadow">
     <div class="portlet-heading">
         <h2 class="col-md-10">گروه محصولات</h2>
-        <a class="btn btn-success btn-round pull-left" href="#" onclick="Create()">افزودن گروه </a>
+        <a id="btnAdd" class="btn btn-success btn-round pull-left" data-style="slide-right" href="#" onclick="Create()">افزودن گروه </a>
         <br />
     </div>
 
@@ -25,7 +25,7 @@
             </tr>
         </thead>
         <tbody>
-            @await Component.InvokeAsync("ProductsGroupList", new { depth = 0 , parentId = 0 })
+            @await Component.InvokeAsync("ProductsGroupList", new { depth = 0, parentId = 0 })
         </tbody>
     </table>
     <br />
@@ -40,19 +40,21 @@
                 <h4 id="myModalLabel" class="myModalLabel">تیتر مودال</h4>
             </div>
             <div id="bodyModal" class="bodyModal">
-                <p>...</p>
             </div>
-            @*<div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-round" data-dismiss="modal">بازگشت</button>
-                </div>*@
         </div>
     </div>
 </div>
 
 
-    @section Script{
-        <script>
+@section Script{
+    <script src="~/assets/plugins/ladda/dist/spin.min.js"></script>
+    <script src="~/assets/plugins/ladda/dist/ladda.min.js"></script>
+    <script src="~/assets/js/pages/ladda.js"></script>
+
+    <script>
         function Create() {
+            var l = Ladda.create(document.querySelector('#btnAdd'));
+            l.start();
             $.ajax({
                 url: "/admin/ProductGroups/Create",
                 type: "Get",
@@ -61,11 +63,13 @@
                 $('#myModal').modal('show');
                 $('#myModalLabel').html('افزودن گروه جدید');
                 $('#bodyModal').html(result);
-
+                l.stop();
             });
         }
 
         function Edit(id) {
+            var l = Ladda.create(document.querySelector('#btnEdit'));
+            l.start();
             $.ajax({
                 url: "/admin/ProductGroups/Edit/" + id,
                 type: "Get",
@@ -74,23 +78,70 @@
                 $('#myModal').modal('show');
                 $('#myModalLabel').html('ویرایش گروه');
                 $('#bodyModal').html(result);
-
+                l.stop();
             });
         }
+
 
         function Delete(id) {
-            $.ajax({
-                url: "/admin/ProductGroups/Delete/" + id,
-                type: "Get",
-                data: {}
-            }).done(function (result) {
-                $('#myModal').modal('show');
-                $('#myModalLabel').html('آیا از حذف این مورد اطمینان دارید؟');
-                $('#bodyModal').html(result);
+            swal({
+                title: 'آیا اطمینان دارید؟',
+                text: "این عملیات برگشت پذیر نیست...",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#f44336',
+                cancelButtonColor: '#777',
+                confirmButtonText: 'بله، حذف شود. '
+            }).then(function (result) {
+                $.ajax({
+                    url: "/admin/ProductGroups/Delete",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    data: {
+                        __RequestVerificationToken: gettoken(),
+                         id: id
+                    },
+                    async: true,
+                    cache: false,
+                    success: function (result) {
+                        swal(
+                            'انتخاب شما حذف کردن بود.',
+                            'گروه کالا با موفقیت حذف شد.',
+                            'success'
+                        ).then(location.reload())
 
-            });
+                    },
+                    error: function (xc) {
+                        swal(
+                            'خطا در پردازش.',
+                            'گروه کالا به دلایلی قابل حذف نمیباشد.',
+                            'error'
+                        );
+                    }
+                })
+            }, function (dismiss) {
+                if (dismiss == 'cancel') {
+                    swal(
+                        'لغو گردید',
+                        'گروه کالا همچنان وجود دارد.',
+                        'error'
+                    ).catch(swal.noop);;
+                }
+            }).catch(swal.noop);
         }
-        </script>
+
+         function gettoken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
+   }
+    </script>
 
 
+}
+
+@section Head{
+    <link href="~/assets/plugins/ladda/dist/ladda-themeless.min.css" rel="stylesheet">
+    <link href="~/assets/plugins/noty/css/flat.css" rel="stylesheet">
 }

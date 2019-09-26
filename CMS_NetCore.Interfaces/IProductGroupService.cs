@@ -13,7 +13,6 @@ namespace CMS_NetCore.Interfaces
         Task<DataGridViewModel<ProductGroup>> GetBySearch(int? page,int? pageSize,string searchString);
         Task<ProductGroup> GetById(int? id);
         Task<IList<ProductGroup>> GetByType(string type);
-        Task<IList<ProductGroup>> GetByDepth(int? depth);
         Task Edit(ProductGroup productGroup);
         Task Remove(ProductGroup productGroup);
         Task Add(ProductGroup productGroup);

@@ -162,11 +162,11 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         // POST: Admin/ProductGroups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<JsonResult> DeleteConfirmed(int id)
         {
             var productGroup = await _productGroupService.GetById(id);
             await _productGroupService.Remove(productGroup);
-            return RedirectToAction(nameof(Index));
+            return Json(true);
         }
 
        
