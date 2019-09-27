@@ -10,16 +10,16 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IMenuService
     {
-        DataGridViewModel<Menu> GetByMenuGroup(int? menuGroupId);
-        Menu GetById(int? id);
-        IList<Menu> GetByParentId(int? parentId);
-        Menu GetLastOrder(int? parentId,int? menuGroupId);
-        IList<Menu> GetByParentGroupOrder(int? parentId, int? menuGroupId, int? pastDisOrder);
-        void Add(Menu menu);
-        void Edit(Menu menu, int? pastDisOrder, int? pastParentId, int? pastGroupId);
-        void Delete(Menu menu);
-        void Delete(int id);
-        bool UniquePageName(string pageName, int? menuId);
-        IEnumerable<Menu> menus();
+        Task<DataGridViewModel<Menu>> GetByMenuGroup(int? menuGroupId);
+        Task<Menu> GetById(int? id);
+        Task<IList<Menu>> GetByParentId(int? parentId);
+        Task<Menu> GetLastOrder(int? parentId,int? menuGroupId);
+        Task<IList<Menu>> GetByParentGroupOrder(int? parentId, int? menuGroupId, int? pastDisOrder);
+        Task Add(Menu menu);
+        Task Edit(Menu menu, int? pastDisOrder, int? pastParentId, int? pastGroupId);
+        Task Remove(Menu menu);
+        Task<bool> UniquePageName(string pageName, int? menuId);
+        Task<IEnumerable<Menu>> Menus();
+        Task<bool> MenuExistence(int? id);
     }
 }
