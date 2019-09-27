@@ -31,7 +31,6 @@ namespace CMS_NetCore.Web
             services.AddDbContext<AppDbContext>
                 (options => options.UseSqlServer(connection,b=>b.MigrationsAssembly("CMS_NetCore.Web")));
 
-            //services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
             services.AddScoped<IUserService, EfUserService>();
             services.AddScoped<IRoleService, EfRoleService>();
             services.AddScoped<IChartPost, EfChartPostService>();
@@ -39,7 +38,7 @@ namespace CMS_NetCore.Web
             services.AddScoped<IAttributeGrpService, EfAttributeGrpService>();
             services.AddScoped<IAttributeItemService, EfAttributeItemService>();
             services.AddScoped<IMenuGroupService, EfMenuGroupService>();
-            //services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+            services.AddScoped<IMenuService, EfMenuService>();
 
         }
 

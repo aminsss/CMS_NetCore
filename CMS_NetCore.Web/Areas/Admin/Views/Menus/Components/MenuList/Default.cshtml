@@ -1,0 +1,38 @@
+﻿@model IEnumerable<CMS_NetCore.DomainClasses.Menu>
+@{
+    int depth = ViewBag.Depth;
+    int parentId = ViewBag.ParentId;
+
+    foreach (var item in Model.Where(x => x.Depth == depth && x.ParentId == parentId))
+    {
+        <tr>
+            <td style="text-align:right">
+                @string.Concat(Enumerable.Repeat(" ┊ ", Convert.ToInt32(item.Depth))) @Html.DisplayFor(modelItem => item.MenuTitle)
+            </td>
+            <td>
+                <label class="label-info">@item.Depth</label>
+            </td>
+            <td>
+                <label class="label-warning">@item.DisplayOrder</label>
+            </td>
+            <td>
+                @if (item.IsActive == true)
+                {
+                    <label class="label-success">فعال</label>
+                }
+                else
+                {
+                    <label class="label-danger">غیر فعال</label>
+                }
+            </td>
+            <td>
+                <a id="btnEdit_@item.MenuId" class="btn btn-info btn-round" data-style="slide-right" asp-action="Edit" asp-route-Id="@item.MenuId">ویرایش</a>
+                <a id="btnDelete_@item.MenuId" class="btn btn-danger btn-round" data-style="slide-right" onclick="Delete(@item.MenuId)">حذف</a>
+            </td>
+        </tr>
+        if (Model.Any(s => s.ParentId == item.MenuId))
+        {
+            @await Component.InvokeAsync("MenuList", new { depth = (item.Depth + 1), parentId = item.MenuId , menuGroupId = item.MenuGroupId })
+        }
+    }
+}

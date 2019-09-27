@@ -9,7 +9,7 @@ using CMS_NetCore.DataLayer;
 using CMS_NetCore.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Koshop.ServiceLayer
+namespace CMS_NetCore.ServiceLayer
 {
     public class EfMenuService : RepositoryBase<Menu>, IMenuService
     {
