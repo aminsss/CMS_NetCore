@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace CMS_NetCore.Web.ViewComponents
 {
-    [ViewComponent(Name = "ProductsGroupList")]
-    public class ProductsGroupList : ViewComponent
+    [ViewComponent(Name = "ProductsGroupGrid")]
+    public class ProductsGroupGrid : ViewComponent
     {
         private IProductGroupService _productGroupService ;
 
-        public ProductsGroupList(IProductGroupService productGroupService)
+        public ProductsGroupGrid(IProductGroupService productGroupService)
         {
             _productGroupService = productGroupService;
         }

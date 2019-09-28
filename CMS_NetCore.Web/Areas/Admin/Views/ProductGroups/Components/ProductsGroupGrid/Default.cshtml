@@ -29,7 +29,7 @@
         </tr>
         if (Model.Any(s => s.ParentId == item.ProductGroupId))
         {
-            @await Component.InvokeAsync("ProductsGroupList", new { depth = (item.Depth + 1), parentId = item.ProductGroupId })
+            @await Component.InvokeAsync("ProductsGroupGrid", new { depth = (item.Depth + 1), parentId = item.ProductGroupId })
         }
     }
 }
