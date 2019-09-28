@@ -161,8 +161,8 @@ namespace CMS_NetCore.ServiceLayer
         public async Task<bool> UniquePageName(string pageName, int? menuId) =>
             await FindByCondition(s => s.PageName == pageName && s.MenuId != menuId).AnyAsync();
 
-        public async Task<IList<Menu>> GetByParentId(int? parentId) =>
-            await FindByCondition(x => x.ParentId == parentId).ToListAsync();
+        public async Task<IList<Menu>> GetByParentId(int? parentId,int? menuGroupId) =>
+            await FindByCondition(x => x.ParentId == parentId && x.MenuGroupId == menuGroupId).ToListAsync();
 
         public async Task<IEnumerable<Menu>> Menus() =>
             await FindAll().ToListAsync();

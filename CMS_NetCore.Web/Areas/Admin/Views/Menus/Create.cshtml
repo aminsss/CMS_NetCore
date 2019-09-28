@@ -1,6 +1,8 @@
 ﻿@model CMS_NetCore.DomainClasses.Menu
 
-<form asp-action="Create">
+<div id="editor-ltr" hidden></div>
+
+<form asp-action="Create" role="form" method="post">
     <div class="portlet box border shadow">
         <div class="portlet-heading">
             <h2 class="col-md-10">افزودن @Html.DisplayNameFor(model => model)</h2>
@@ -27,11 +29,10 @@
                             <span asp-validation-for="MenuTitle" class="text-danger"></span>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label asp-for="Description" class="control-label"></label>
+                        <label asp-for="Description" class="control-label "></label>
                         <div class="col-md-12 ">
-                            <input asp-for="Description" class="form-control" />
+                            <div id="editor" name="Description"></div>
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
                     </div>
@@ -54,7 +55,7 @@
                     <div class="form-group">
                         <label asp-for="ParentId" class="control-label"></label>
                         <div class="col-md-12">
-                            <select id="ParentId" name="ParentId" class="form-control"></select>
+                            <select  class="form-control" id="ParentId" name="ParentId"></select>
                             <span asp-validation-for="ParentId" class="text-danger"></span>
                         </div>
                     </div>
@@ -82,7 +83,6 @@ new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
                             </select>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label asp-for="PageContetnt" id="lableContent" name="lableContent" class="control-label"></label>
                         <div class="col-md-12">
@@ -97,38 +97,29 @@ new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
         </div>
     </div>
 </form>
-
 @section Script{
+    <script src="/assets/plugins/ckeditor-full/ckeditor.js"></script>
+    <script src="/assets/js/pages/ckeditor.js"></script>
 
-    <script src="~/ckeditor/ckeditor.js"></script>
-    <script src="~/ckeditor/adapters/jquery.js"></script>
     <script>
         $(function () {
-            $('#Description').ckeditor();
+            $('#MenuGroupId').val('@ViewBag.MenuGroupSelected');
         });
-    </script>
 
-    <script>
-     $(function () {
-            //Set the value of your TypeId <select>
-         $('#MenuGroupId').val('@ViewBag.MenuGroupSelected');
-    });
-    </script>
 
-    <script>
         $("#MenuGroupId").change(function (e) {
             getSubMenu();
         });
 
         getSubMenu(@ViewBag.MenuGroupSelected);
+
         function getSubMenu(id) {
             var MenuGroupId = $("#MenuGroupId").val();
             if (id != null) {
                 MenuGroupId = id
             }
-
             $.ajax({
-                url: "/admin/Menus/OrderOfMenus/" + MenuGroupId,
+                url: "/admin/Menus/MenuList/" + MenuGroupId,
                 type: "Get",
                 data: {}
             }).done(function (result) {
@@ -152,18 +143,18 @@ new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
                 }).done(function (result) {
                     $('#lableContent').text("انتخاب گروه محصولات");
                     $('#PageContetnt').remove();
-                    $('#divContetnt').html(result);
+                    $('#divContetnt').html("<select class=\"form-control\" data-val=\"true\" data-val-required=\"لطفا گروه محصول را انتخاب کنید\" id=\"PageContetnt\" name=\"PageContetnt\"><option value = \"\" > --لطفا یک گروه انتخاب کنید--</option >" + result + "</select>");
                 });
             }
             else if (pagetype == "3") {
                 $.ajax({
-                    url: "/admin/Menus/GrouposOfNews",
+                    url: "/admin/Menus/GroupsOfNews",
                     type: "Get",
                     data: {}
                 }).done(function (result) {
                     $('#lableContent').text("انتخاب گروه مطالب");
                     $('#PageContetnt').remove();
-                    $('#divContetnt').html(result)
+                    $('#divContetnt').html("<select class=\"form-control\" data-val=\"true\" data-val-required=\"لطفا گروه محصول را انتخاب کنید\" id=\"PageContetnt\" name=\"PageContetnt\"><option value = \"\" > --لطفا یک گروه انتخاب کنید--</option >" + result + "</select>")
                 });
             }
             else if (pagetype == "4") {
@@ -180,3 +171,4 @@ new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
 
     </script>
 }
+

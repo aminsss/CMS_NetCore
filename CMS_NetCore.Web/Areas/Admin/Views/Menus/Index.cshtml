@@ -2,6 +2,10 @@
     <div class="table-responsive portlet box border shadow">
         <div class="portlet-heading">
             <h2 class="col-md-10">لیست منو</h2>
+                <a asp-action="Index" asp-controller="MenuGroups" class="btn btn-warning btn-round pull-left">
+                    <i class="icon-close"></i>
+                    بازگشت
+                </a>
             <br />
         </div>
         <div class="col-sm-4 m-b-20">
@@ -36,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                @await Component.InvokeAsync("MenuList", new { depth = 0 , parentId = 0 , menuGroupId = ViewBag.MnuGroupSelected })
+                @await Component.InvokeAsync("MenuGridView", new { depth = 0 , parentId = 0 , menuGroupId = ViewBag.MnuGroupSelected })
             </tbody>
         </table>
         <br />
@@ -60,7 +64,7 @@
                 confirmButtonText: 'بله، حذف شود. '
             }).then(function (result) {
                 $.ajax({
-                    url: "/admin/MenuGroups/Delete",
+                    url: "/admin/Menus/Delete",
                     dataType: "json",
                     type: "POST",
                     contentType: 'application/x-www-form-urlencoded; charset=utf-8',
@@ -75,7 +79,7 @@
                             'انتخاب شما حذف کردن بود.',
                             'منو با موفقیت حذف شد.',
                             'success'
-                        ).then($("#Item_" + id).hide(700))
+                        ).then(location.reload())
 
                     },
                     error: function (xc) {

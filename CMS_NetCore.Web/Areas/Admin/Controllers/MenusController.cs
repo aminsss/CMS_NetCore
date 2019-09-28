@@ -169,11 +169,22 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
             }
         }
 
-        public async Task<ActionResult> OrderOfMenus(int? id)
+        public ActionResult MenuList(int? id)
         {
-            var list = await _menuService.GetByMenuGroup(id);
-            return View(list.Records);
+            return ViewComponent("MenuList", new { depth = 0, parentId = 0, menuGroupId = id });
         }
+
+        public ActionResult GroupsOfProduct()
+        {
+            return ViewComponent("GroupsOfProduct");
+        }
+
+        public ActionResult GroupsOfNews()
+        {
+            return ViewComponent("GroupsOfNews");
+        }
+
+       
 
     }
 }

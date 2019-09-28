@@ -12,7 +12,7 @@ namespace CMS_NetCore.Interfaces
     {
         Task<DataGridViewModel<Menu>> GetByMenuGroup(int? menuGroupId);
         Task<Menu> GetById(int? id);
-        Task<IList<Menu>> GetByParentId(int? parentId);
+        Task<IList<Menu>> GetByParentId(int? parentId, int? menuGroupId);
         Task<Menu> GetLastOrder(int? parentId,int? menuGroupId);
         Task<IList<Menu>> GetByParentGroupOrder(int? parentId, int? menuGroupId, int? pastDisOrder);
         Task Add(Menu menu);
