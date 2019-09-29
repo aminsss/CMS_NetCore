@@ -176,12 +176,12 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
 
         public ActionResult GroupsOfProduct()
         {
-            return ViewComponent("GroupsOfProduct");
+            return ViewComponent("ProductGroupList");
         }
 
         public ActionResult GroupsOfNews()
         {
-            return ViewComponent("GroupsOfNews");
+            return ViewComponent("NewsGroupList");
         }
 
        
