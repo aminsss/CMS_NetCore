@@ -25,7 +25,7 @@
                 <select class="form-control" data-val="true" data-val-required="لطفا والد گروه را انتخاب کنید" id="ParentId" name="ParentId">
                     <option value=""></option>
                     <option value="0">--ریشه گروه--</option>
-                    @await Component.InvokeAsync("GroupsOfProduct" , new { depth = 0 , parentId = 0 })
+                    @await Component.InvokeAsync("ProductGroupList", new { depth = 0 , parentId = 0 })
                 </select>
                 @Html.ValidationMessageFor(model => model.ParentId, null, new { @class = "text-danger" })
 
