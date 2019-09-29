@@ -39,6 +39,7 @@ namespace CMS_NetCore.Web
             services.AddScoped<IAttributeItemService, EfAttributeItemService>();
             services.AddScoped<IMenuGroupService, EfMenuGroupService>();
             services.AddScoped<IMenuService, EfMenuService>();
+            services.AddScoped<INewsGroupService, EfNewsGroupService>();
 
         }
 

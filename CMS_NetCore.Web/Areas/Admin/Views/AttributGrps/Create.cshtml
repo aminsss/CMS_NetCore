@@ -17,7 +17,7 @@
             <div class="col-md-10">
                 <select class="form-control" data-val="true" data-val-required="لطفا گروه محصول را انتخاب کنید" id="ProductGroupId" name="ProductGroupId">
                     <option value="">-لطفا گروه محصول را انتخاب کنید-</option>
-                    @await Component.InvokeAsync("GroupsOfProduct", new { depth = 0, parentId = 0 })
+                    @await Component.InvokeAsync("ProductGroupList", new { depth = 0, parentId = 0 })
                 </select>
                 <span asp-validation-for="ProductGroupId" class="text-danger"></span>
             </div>

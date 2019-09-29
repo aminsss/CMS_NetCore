@@ -9,7 +9,7 @@ using CMS_NetCore.DataLayer;
 using CMS_NetCore.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace Koshop.ServiceLayer
+namespace CMS_NetCore.ServiceLayer
 {
     public class EfNewsGroupService : RepositoryBase<NewsGroup>,INewsGroupService
     {
@@ -85,5 +85,8 @@ namespace Koshop.ServiceLayer
         
         public async Task<bool> UniqueAlias(string aliasName, int? newsGroupId) =>
              await FindByCondition(s => s.AliasName == aliasName && s.NewsGroupId != newsGroupId).AnyAsync();
+
+        public async Task<bool> NewsGroupExistence(int? id) =>
+            await FindByCondition(x => x.NewsGroupId.Equals(id)).AnyAsync();
     }
 }

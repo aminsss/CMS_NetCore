@@ -17,6 +17,7 @@ namespace CMS_NetCore.Interfaces
         Task Remove(NewsGroup newsGroup);
         Task<bool> UniqueAlias(string aliasName, int? newsGroupId);
         Task<IEnumerable<NewsGroup>> GetAll();
+        Task<bool> NewsGroupExistence(int? id);
 
         
     }

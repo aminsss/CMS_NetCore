@@ -1,0 +1,61 @@
+﻿@model CMS_NetCore.DomainClasses.NewsGroup
+
+<form asp-action="Edit">
+    <input asp-for="NewsGroupId" type="hidden" />
+    <div class="form-horizontal" style="padding:10px">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="GroupTitle" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="GroupTitle" class="form-control" />
+                <span asp-validation-for="GroupTitle" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AliasName" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="AliasName" class="form-control" />
+                <span asp-validation-for="AliasName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ParentId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select class="form-control" data-val="true" data-val-required="لطفا والد گروه را انتخاب کنید" id="ParentId" name="ParentId">
+                    <option value=""></option>
+                    <option value="0">--ریشه گروه--</option>
+                    @await Component.InvokeAsync("NewsGroupList", new { parentId = 0, depth = 0 })
+                </select>
+                <span asp-validation-for="ParentId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IsActive" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.IsActive, new[] {
+    new SelectListItem() { Text = "فعال", Value = bool.TrueString },
+    new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
+    }, new { @class = "form-control" })
+            </div>
+            <br />
+        </div>
+        <div class="form-actions text-left">
+            <button type="submit" class="btn btn-info btn-round">
+                <i class="icon-check"></i>
+                ذخیره
+            </button>
+            <a asp-action="Index" class="btn btn-warning btn-round">
+                <i class="icon-close"></i>
+                بازگشت
+            </a>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+</script>
+
+<script>
+    $("#ParentId").val(@Model.ParentId);
+</script>
