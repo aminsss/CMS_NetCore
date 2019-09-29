@@ -10,15 +10,13 @@ namespace CMS_NetCore.Interfaces
 {
     public interface INewsGroupService
     {
-        DataGridViewModel<NewsGroup> GetBySearch(int page, int pageSize, string searchString);
-        NewsGroup GetById(int? id);
-        void Add(NewsGroup newsGroup);
-        void Edit(NewsGroup newsGroup);
-        void Delete(NewsGroup newsGroup);
-        void Delete(int? id);
-        bool UniqueAlias(string aliasName, int? newsGroupId);
-
-        IEnumerable<NewsGroup> NewsGroups();
+        Task<DataGridViewModel<NewsGroup>> GetBySearch(int page, int pageSize, string searchString);
+        Task<NewsGroup> GetById(int? id);
+        Task Add(NewsGroup newsGroup);
+        Task Edit(NewsGroup newsGroup);
+        Task Remove(NewsGroup newsGroup);
+        Task<bool> UniqueAlias(string aliasName, int? newsGroupId);
+        Task<IEnumerable<NewsGroup>> GetAll();
 
         
     }
