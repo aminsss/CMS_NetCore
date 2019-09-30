@@ -40,6 +40,9 @@ namespace CMS_NetCore.Web
             services.AddScoped<IMenuGroupService, EfMenuGroupService>();
             services.AddScoped<IMenuService, EfMenuService>();
             services.AddScoped<INewsGroupService, EfNewsGroupService>();
+            services.AddScoped<INewsService, EfNewsService>();
+            services.AddScoped<INewsTagService, EfNewsTagService>();
+            services.AddScoped<INewsGalleryService, EfNewsGalleryService>();
 
         }
 
