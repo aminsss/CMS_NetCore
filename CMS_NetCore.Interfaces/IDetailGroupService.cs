@@ -10,15 +10,12 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IDetailGroupService
     {
-        DataGridViewModel<DetailGroup> GetBySearch(int page, int pageSize, string searchString);
-        void Add(DetailGroup detailGroup);
-        void Edit(DetailGroup detailGroup);
-        void Delete(DetailGroup detailGroup);
-        void Delete(int? id);
-        DetailGroup GetById(int? id);
-        IEnumerable<DetailGroup> DetailGroup();
-
-        //ProductController
-        IList<DetailGroup> GetByProductGroup(int productGroupId);
+        Task<DataGridViewModel<DetailGroup>> GetBySearch(int page, int pageSize, string searchString);
+        Task Add(DetailGroup detailGroup);
+        Task Edit(DetailGroup detailGroup);
+        Task Remove(DetailGroup detailGroup);
+        Task<DetailGroup> GetById(int? id);
+        Task<IEnumerable<DetailGroup>> GetAll();
+        Task<IList<DetailGroup>> GetByProductGroupId(int productGroupId);
     }
 }
