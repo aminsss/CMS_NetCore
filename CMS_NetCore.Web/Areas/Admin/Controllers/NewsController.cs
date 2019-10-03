@@ -45,11 +45,11 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<ActionResult> GetNews(int page = 1, int pageSize = 5, string searchString = "")
         {
-            var list = await _newsService.GetBySearch(page, pageSize, searchString);
+            searchString = searchString ?? string.Empty;
 
+            var list = await _newsService.GetBySearch(page, pageSize, searchString);
             int totalCount = list.TotalCount;
             int numPages = (int)Math.Ceiling((float)totalCount / pageSize);
-
 
             var getList = from obj in list.Records
                           select new
@@ -67,7 +67,6 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         // GET: Admin/News/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["NewsGroupId"] = new SelectList(await _newsGroupService.GetAll(), "NewsGroupId", "AliasName");
             return View();
         }
 
@@ -76,22 +75,23 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(News news, IFormFile newsImage,List<IFormFile> newsGallery, string tags)
+        public async Task<IActionResult> Create(News news, IFormFile newsimage,List<IFormFile> newsgallery, string tags)
         {
             if (ModelState.IsValid)
             {
-                news.UserId = (await _userService.GetUserByIdentity(User.Identity.Name)).UserId;
+                news.UserId = 1010;
+                //news.UserId = (await _userService.GetUserByIdentity(User.Identity.Name)).UserId;
                 var fileName = "no-photo.jpg";
                 if (ModelState.IsValid)
                 {
                     //--------------Create News Images ------------------
-                    if (newsImage != null)
+                    if (newsimage != null)
                     {
                         var uploads = Path.Combine(_env.WebRootPath, "Upload\\NewsImages");
-                        fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(newsImage.FileName);
+                        fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(newsimage.FileName);
                         using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
                         {
-                            await newsImage.CopyToAsync(fileStream);
+                            await newsimage.CopyToAsync(fileStream);
                         }
                         //---------------------resize Images ----------------------
                         InsertShowImage.ImageResizer img = new InsertShowImage.ImageResizer(128);
@@ -100,7 +100,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                     news.NewsImage = fileName;
 
                     //------------Create Gallery Product --------------
-                    foreach (var file in newsGallery)
+                    foreach (var file in newsgallery)
                     {
                         var uploads = Path.Combine(_env.WebRootPath, "Upload\\NewsImages");
                         string galleryname = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
@@ -135,7 +135,6 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                     await _newsService.Add(news);
                     return RedirectToAction(nameof(Index));
                 }
-
             }
             ViewData["NewsGroupId"] = new SelectList(await _newsGroupService.GetAll(), "NewsGroupId", "AliasName", news.NewsGroupId);
             return View(news);
@@ -154,8 +153,6 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["NewsGroupId"] = new SelectList(await _newsGroupService.GetAll(), "NewsGroupId", "AliasName", news.NewsGroupId);
-
             string tags = "";
             foreach (var t in news.NewsTag)
             {
@@ -174,7 +171,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, News news, IFormFile newsImage, List<IFormFile> newsGallery, string tags)
+        public async Task<IActionResult> Edit(int id, News news, IFormFile newsimage, List<IFormFile> newsgallery, string tags)
         {
             if (id != news.NewsId)
             {
@@ -186,9 +183,10 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                 try
                 {
                     var uploads = Path.Combine(_env.WebRootPath, "Upload\\NewsImages");
-                    news.UserId = (await _userService.GetUserByIdentity(User.Identity.Name)).UserId;
+                    news.UserId = 1010;
+                    //news.UserId = (await _userService.GetUserByIdentity(User.Identity.Name)).UserId;
                     //----------------------Edit News Image -----------------------
-                    if (newsImage != null)
+                    if (newsimage != null)
                     {
                         if (news.NewsImage != "no-photo.jpg")
                         {
@@ -197,10 +195,10 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                             if (System.IO.File.Exists(Path.Combine(uploads, "thumbnail", news.NewsImage)))
                                 System.IO.File.Delete(Path.Combine(uploads, "thumbnail", news.NewsImage));
                         }
-                        news.NewsImage = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(newsImage.FileName);
+                        news.NewsImage = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(newsimage.FileName);
                         using (var fileStream = new FileStream(Path.Combine(uploads, news.NewsImage), FileMode.Create))
                         {
-                            await newsImage.CopyToAsync(fileStream);
+                            await newsimage.CopyToAsync(fileStream);
                         }
                         //---------------------resize Images ----------------------
                         InsertShowImage.ImageResizer img = new InsertShowImage.ImageResizer(128);
@@ -210,7 +208,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                     //------------Edit Gallery Product --------------
                     List<NewsGallery> newsGalleries = new List<NewsGallery>();
 
-                    foreach (var file in newsGallery)
+                    foreach (var file in newsgallery)
                     {
                         string galleryname = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
                         using (var fileStream = new FileStream(Path.Combine(uploads, galleryname), FileMode.Create))
@@ -260,7 +258,6 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NewsGroupId"] = new SelectList(await _newsGroupService.GetAll() , "NewsGroupId", "AliasName", news.NewsGroupId);
             return View(news);
         }
 

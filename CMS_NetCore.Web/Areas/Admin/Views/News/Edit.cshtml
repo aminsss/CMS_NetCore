@@ -1,71 +1,153 @@
 ﻿@model CMS_NetCore.DomainClasses.News
 
-@{
-    ViewData["Title"] = "Edit";
-}
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="NewsId" />
+    <input type="hidden" asp-for="NewsImage" />
+    <input type="hidden" asp-for="AddedDate" />
 
-<h1>Edit</h1>
+    <div id="editor-ltr" hidden></div>
 
-<h4>News</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    <div class="portlet box border shadow">
+        <div class="portlet-heading">
+            <h2 class="col-md-10">افزودن خبر</h2>
+            <div class="form-group form-actions">
+                <button type="submit" class="btn btn-info btn-round">
+                    <i class="icon-check"></i>
+                    ذخیره
+                </button>
+                <a asp-action="Index" class="btn btn-warning btn-round">
+                    <i class="icon-close"></i>
+                    بازگشت
+                </a>
+            </div>
+        </div>
+        <div class="form-horizontal">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="NewsId" />
             <div class="form-group">
-                <label asp-for="NewsGroupId" class="control-label"></label>
-                <select asp-for="NewsGroupId" class="form-control" asp-items="ViewBag.NewsGroupId"></select>
-                <span asp-validation-for="NewsGroupId" class="text-danger"></span>
+                <label asp-for="NewsGroupId" class="control-label col-md-2"></label>
+                <div class="col-md-4">
+                    <select class="form-control" data-val="true" data-val-required="لطفا گروه خبری را انتخاب کنید" id="NewsGroupId" name="NewsGroupId">
+                        <option value="">--لطفا یک گروه انتخاب کنید--</option>
+                        @await Component.InvokeAsync("NewsGroupList", new { depth = 0, parentId = 0 })
+                    </select>
+                    <span asp-validation-for="NewsGroupId" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="NewsTitle" class="control-label"></label>
-                <input asp-for="NewsTitle" class="form-control" />
-                <span asp-validation-for="NewsTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewsDescription" class="control-label"></label>
-                <textarea asp-for="NewsDescription" class="form-control"></textarea>
-                <span asp-validation-for="NewsDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewsImage" class="control-label"></label>
-                <input asp-for="NewsImage" class="form-control" />
-                <span asp-validation-for="NewsImage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AliasName" class="control-label"></label>
-                <input asp-for="AliasName" class="form-control" />
-                <span asp-validation-for="AliasName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AddedDate" class="control-label"></label>
-                <input asp-for="AddedDate" class="form-control" />
-                <span asp-validation-for="AddedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModifiedDate" class="control-label"></label>
-                <input asp-for="ModifiedDate" class="form-control" />
-                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IP" class="control-label"></label>
-                <input asp-for="IP" class="form-control" />
-                <span asp-validation-for="IP" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+            <div class="form-group">
+                <label asp-for="NewsTitle" class="control-label col-md-2"></label>
+                <div class="col-md-4">
+                    <input asp-for="NewsTitle" class="form-control" />
+                    <span asp-validation-for="NewsTitle" class="text-danger"></span>
+                </div>
+                <label asp-for="AliasName" class="control-label col-md-2"></label>
+                <div class="col-md-4">
+                    <input asp-for="AliasName" class="form-control" />
+                    <span asp-validation-for="AliasName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label asp-for="NewsDescription" class="control-label col-md-2"></label>
+                <div class="col-md-10 ">
+                    <div id="editor" name="NewsDescription"></div>
+                    <span asp-validation-for="NewsDescription" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2 " for="Tags">کلمات کلیدی</label>
+                <div class="col-md-10">
+                    <input type="text" id="tags" name="tags" class="form-control col-md-5" />
+                    <p class="help-block col-md-7">کلمات کلید را با - از هم جدا کنید</p>
+                </div>
+            </div>
+
+            <label class="control-label col-md-2">تصویر محصول</label>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <div class="file-upload">
+                        <div class="fileinput input-group fileinput-new" data-provides="fileinput">
+
+                            <span class="input-group-addon btn btn-default btn-file">
+                                <span class="fileinput-new">انتخاب تصویر</span>
+                                <span class="fileinput-exists">تغییر تصویر</span>
+                                <input type="file" name="newsimage" id="newsimagepic" />
+                                <input id="File_Content" name="File.Content" type="hidden" value="">
+                            </span>
+                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">حذف</a>
+                            <div class="form-control text-left" data-trigger="fileinput">
+                                <i class="fa fa-file-picture-o pull-lefte fileinput-exists"></i>
+                                <span class="fileinput-filename"></span>
+                                <input id="File_Name" name="File.Name" type="hidden" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <span class="field-validation-valid text-danger" data-valmsg-for="File.Name" data-valmsg-replace="true"></span>
+                    <span class="field-validation-valid text-danger" data-valmsg-for="File.Content" data-valmsg-replace="true"></span>
+                    <span class="field-validation-valid text-danger" data-valmsg-for="File" data-valmsg-replace="true"></span>
+                    <img src="~/upload/newsImages/thumbnail/@Model.NewsImage" class="thumbnail" />
+                </div>
+            </div>
+
+            <label class="control-label col-md-2">گالری تصاویر</label>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <div class="file-upload">
+                        <div class="fileinput input-group fileinput-new" data-provides="fileinput">
+                            <span class="input-group-addon btn btn-default btn-file">
+                                <span class="fileinput-new">انتخاب تصاویر</span>
+                                <span class="fileinput-exists">تغییر تصویر</span>
+                                <input type="file" name="newsgallery" id="newsGallerypic" multiple="multiple" />
+                                <input id="File_Content" name="File.Content" type="hidden" value="">
+                            </span>
+                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">حذف</a>
+                            <div class="form-control text-left" data-trigger="fileinput">
+                                <i class="fa fa-file-picture-o pull-left fileinput-exists"></i>
+                                <span class="fileinput-filename"></span>
+                                <input id="File_Name" name="File.Name" type="hidden" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <span class="field-validation-valid text-danger" data-valmsg-for="File.Name" data-valmsg-replace="true"></span>
+                    <span class="field-validation-valid text-danger" data-valmsg-for="File.Content" data-valmsg-replace="true"></span>
+                    <span class="field-validation-valid text-danger" data-valmsg-for="File" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label class="control-label col-md-2" for="newsGalleryPost"></label>
+                <div class="col-md-10">
+                    @foreach (var galery in Model.NewsGallery)
+                    {
+                        <div class="col-md-3" id="image_@(galery.NewsGalleryId)">
+                            <img src="~/NewsImages/thumbnail/@galery.ImageName" class="thumbnail" style="width:150px; height:150px">
+                            <a class="btn btn-block btn-danger" style="width:150px" onclick="deleteImage(@galery.NewsGalleryId)">حذف</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Script{
+    <script src="/assets/plugins/ckeditor-full/ckeditor.js"></script>
+    <script src="/assets/js/pages/ckeditor.js"></script>
+    <script>
+         $(function () {
+             $('#NewsGroupId').val('@Model.NewsGroup.NewsGroupId');
+        });
+
+        function deleteImage(id) {
+            $.ajax({
+                url: "/Admin/News/deleteGalery/" + id,
+                type: "Get",
+                data: {},
+            }).done(function (result) {
+                $('#image_' + id).hide(700);
+            })
+        }
+    </script>
+}
 
