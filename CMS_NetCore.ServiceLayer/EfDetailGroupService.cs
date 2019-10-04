@@ -56,5 +56,8 @@ namespace CMS_NetCore.ServiceLayer
 
         public async Task<IEnumerable<DetailGroup>> GetAll() =>
            await FindAll().ToListAsync();
+
+        public async Task<bool> DetailGroupExistence(int? id) =>
+            await FindByCondition(x => x.DetailGroupId == id).AnyAsync();
     }
 }

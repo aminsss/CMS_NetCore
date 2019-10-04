@@ -17,5 +17,6 @@ namespace CMS_NetCore.Interfaces
         Task<DetailGroup> GetById(int? id);
         Task<IEnumerable<DetailGroup>> GetAll();
         Task<IList<DetailGroup>> GetByProductGroupId(int productGroupId);
+        Task<bool> DetailGroupExistence(int? id);
     }
 }

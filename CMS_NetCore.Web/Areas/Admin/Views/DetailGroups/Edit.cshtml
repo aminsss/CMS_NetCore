@@ -1,0 +1,42 @@
+﻿@model CMS_NetCore.DomainClasses.DetailGroup
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="DetailGroupId" />
+    <div class="form-horizontal" style="padding:10px">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ProductGroupId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select class="form-control" data-val="true" data-val-required="لطفا گروه محصول را انتخاب کنید" id="ProductGroupId" name="ProductGroupId">
+                    <option value="">-لطفا گروه محصول را انتخاب کنید-</option>
+                    @await Component.InvokeAsync("ProductGroupList", new { parent = 0, depth = 0 })
+                </select>
+                <span asp-validation-for="ProductGroupId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-actions text-left">
+            <button type="submit" class="btn btn-info btn-round">
+                <i class="icon-check"></i>
+                ذخیره
+            </button>
+            <a data-dismiss="modal"  class="btn btn-warning btn-round">
+                <i class="icon-close"></i>
+                بازگشت
+            </a>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+</script>
+
+<script>
+    $("#ProductGroupId").val(@Model.ProductGroupId);
+</script>
