@@ -44,6 +44,7 @@ namespace CMS_NetCore.Web
             services.AddScoped<INewsTagService, EfNewsTagService>();
             services.AddScoped<INewsGalleryService, EfNewsGalleryService>();
             services.AddScoped<IDetailGroupService, EfDetailGroupService>();
+            services.AddScoped<IDetailItemService, EfDetailItemService>();
 
         }
 

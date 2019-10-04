@@ -1,0 +1,167 @@
+﻿@model IEnumerable<CMS_NetCore.DomainClasses.DetailItem>
+
+<div class="table-responsive portlet box border shadow">
+    <div class="portlet-heading">
+        <h2 class="col-md-10">خصوصیات</h2>
+        <a asp-action="Index" asp-controller="DetailGroups" class="btn btn-warning btn-round pull-left">
+            <i class="icon-close"></i>
+            بازگشت
+        </a>
+        <br />
+    </div>
+    <div class="row">
+        <div class="col-sm-4 m-b-20">
+            <a id="btnAdd" data-style="slide-right" class="btn btn-success btn-round " asp-action="Create">
+                <i class="icon-plus"></i>
+                افزودن خصوصیت
+            </a>
+        </div><!-- /.col-sm-4 -->
+    </div>
+    <table class="table table-bordered table-hover table-striped text-center" id="data-table">
+        <thead>
+            <tr>
+                <th>
+                    مشخصات
+                </th>
+                <th>
+                    گروه مشخصات
+                </th>
+                <th>
+                    عملیات
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="Item_@item.DetailItemId">
+                    <td>
+                        <label class="label-info">@item.DetailTitle</label>
+                    </td>
+                    <td>
+                        <label class="label-warning">@item.DetailGroup.Name</label>
+                    </td>
+                    <td>
+                        <a id="btnEdit" data-style="slide-right" class="btn btn-primary btn-round" onclick="Edit(@item.DetailItemId)">ویرایش</a>
+                        <a id="btnDelete" data-style="slide-right" class="btn btn-danger btn-round" onclick="Delete(@item.DetailItemId)">حذف</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="myModalLabel" class="myModalLabel">تیتر مودال</h4>
+            </div>
+            <div id="bodyModal" class="bodyModal">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <script src="~/assets/plugins/ladda/dist/spin.min.js"></script>
+    <script src="~/assets/plugins/ladda/dist/ladda.min.js"></script>
+    <script src="~/assets/js/pages/ladda.js"></script>
+
+    <script>
+
+        $("#btnAdd").on("click", function (e) {
+            e.preventDefault();
+            var l = Ladda.create(document.querySelector('#btnAdd'));
+            l.start();
+            $.ajax({
+                url: "/admin/DetaiItems/Create/@Url.ActionContext.RouteData.Values["id"]",
+                type: "Get",
+                data: {}
+            }).done(function (result) {
+                $('#myModal').modal('show');
+                $('#myModalLabel').html('افزودن گروه جدید');
+                $('#bodyModal').html(result);
+                l.stop();
+            });
+        });
+
+        function Edit(id) {
+            $.ajax({
+                url: "/admin/DetaiItems/Edit/" + id,
+                type: "Get",
+                data: {}
+            }).done(function (result) {
+                $('#myModal').modal('show');
+                $('#myModalLabel').html('ویرایش گروه');
+                $('#bodyModal').html(result);
+
+            });
+        }
+
+       function Delete(id) {
+            swal({
+                title: 'آیا اطمینان دارید؟',
+                text: "این عملیات برگشت پذیر نیست...",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#f44336',
+                cancelButtonColor: '#777',
+                confirmButtonText: 'بله، حذف شود. '
+            }).then(function (result) {
+                $.ajax({
+                    url: "/admin/DetaiItems/Delete",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    data: {
+                        __RequestVerificationToken: gettoken(),
+                         id: id
+                    },
+                    async: true,
+                    cache: false,
+                    success: function (result) {
+                        swal(
+                            'انتخاب شما حذف کردن بود.',
+                            ' گروه خصوصیت با موفقیت حذف شد.',
+                            'success'
+                        ).then($("#Item_" + id).hide(700))
+
+                    },
+                    error: function (xc) {
+                        swal(
+                            'خطا در پردازش.',
+                            ' گروه خصوصیت به دلایلی قابل حذف نمیباشد.',
+                            'error'
+                        );
+                    }
+                })
+            }, function (dismiss) {
+                if (dismiss == 'cancel') {
+                    swal(
+                        'لغو گردید',
+                        ' گروه خصوصیت همچنان وجود دارد.',
+                        'error'
+                    ).catch(swal.noop);;
+                }
+            }).catch(swal.noop);
+        }
+
+        function gettoken() {
+            var token = '@Html.AntiForgeryToken()';
+            token = $(token).val();
+            return token;
+
+        }
+
+    </script>
+
+}
+
+@section Head{
+    <link href="~/assets/plugins/ladda/dist/ladda-themeless.min.css" rel="stylesheet">
+}
+
+
