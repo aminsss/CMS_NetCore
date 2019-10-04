@@ -42,7 +42,7 @@
                         <label class="label-warning">@item.DetailGroup.Name</label>
                     </td>
                     <td>
-                        <a id="btnEdit" data-style="slide-right" class="btn btn-primary btn-round" onclick="Edit(@item.DetailItemId)">ویرایش</a>
+                        <a id="btnEdit_@item.DetailItemId" data-style="slide-right" class="btn btn-primary btn-round" onclick="Edit(@item.DetailItemId)">ویرایش</a>
                         <a id="btnDelete" data-style="slide-right" class="btn btn-danger btn-round" onclick="Delete(@item.DetailItemId)">حذف</a>
                     </td>
                 </tr>
@@ -77,27 +77,29 @@
             var l = Ladda.create(document.querySelector('#btnAdd'));
             l.start();
             $.ajax({
-                url: "/admin/DetaiItems/Create/@Url.ActionContext.RouteData.Values["id"]",
+                url: "/admin/DetailItems/Create/@ViewBag.DetailGroupSelected",
                 type: "Get",
                 data: {}
             }).done(function (result) {
                 $('#myModal').modal('show');
-                $('#myModalLabel').html('افزودن گروه جدید');
+                $('#myModalLabel').html('افزودن خصوصیت جدید');
                 $('#bodyModal').html(result);
                 l.stop();
             });
         });
 
         function Edit(id) {
+            var l = Ladda.create(document.querySelector('#btnEdit_' + id));
+            l.start();
             $.ajax({
-                url: "/admin/DetaiItems/Edit/" + id,
+                url: "/admin/DetailItems/Edit/" + id,
                 type: "Get",
                 data: {}
             }).done(function (result) {
                 $('#myModal').modal('show');
-                $('#myModalLabel').html('ویرایش گروه');
+                $('#myModalLabel').html('ویرایش خصوصیت');
                 $('#bodyModal').html(result);
-
+                l.stop();
             });
         }
 
@@ -112,7 +114,7 @@
                 confirmButtonText: 'بله، حذف شود. '
             }).then(function (result) {
                 $.ajax({
-                    url: "/admin/DetaiItems/Delete",
+                    url: "/admin/DetailItems/Delete",
                     dataType: "json",
                     type: "POST",
                     contentType: 'application/x-www-form-urlencoded; charset=utf-8',
@@ -125,7 +127,7 @@
                     success: function (result) {
                         swal(
                             'انتخاب شما حذف کردن بود.',
-                            ' گروه خصوصیت با موفقیت حذف شد.',
+                            '  خصوصیت با موفقیت حذف شد.',
                             'success'
                         ).then($("#Item_" + id).hide(700))
 
@@ -133,7 +135,7 @@
                     error: function (xc) {
                         swal(
                             'خطا در پردازش.',
-                            ' گروه خصوصیت به دلایلی قابل حذف نمیباشد.',
+                            '  خصوصیت به دلایلی قابل حذف نمیباشد.',
                             'error'
                         );
                     }
@@ -142,7 +144,7 @@
                 if (dismiss == 'cancel') {
                     swal(
                         'لغو گردید',
-                        ' گروه خصوصیت همچنان وجود دارد.',
+                        '  خصوصیت همچنان وجود دارد.',
                         'error'
                     ).catch(swal.noop);;
                 }

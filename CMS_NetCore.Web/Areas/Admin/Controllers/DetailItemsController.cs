@@ -25,16 +25,16 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         // GET: Admin/DetailItems
         public async Task<IActionResult> Index(int? id)
         {
-            TempData["detailGroupId"] = id;
+            ViewBag.DetailGroupSelected = id;
             var list = await _detailItemService.GetByDetailGroupId(id);
             return View(list.Records);
         }
 
         // GET: Admin/DetailItems/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? id)
         {
-            ViewBag.DetailGroupSelected = TempData["detailGroupId"];
-            ViewData["DetailGroupId"] = new SelectList(await _detailGroupService.GetAll(), "DetailGroupId", "Name", TempData["detailGroupId"]);
+            ViewBag.DetailGroupSelected = id;
+            ViewData["DetailGroupId"] = new SelectList(await _detailGroupService.GetAll(), "DetailGroupId", "Name", id);
             return PartialView();
         }
 
