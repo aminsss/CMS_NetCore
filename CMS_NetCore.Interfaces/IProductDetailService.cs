@@ -9,9 +9,9 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IProductDetailService
     {
-        ProductDetail GetProductDetail(int? productId, int? detailItemId);
-        void Delete(ProductDetail productDetail );
-        void Edit(ProductDetail productDetail);
-        void Add(IList<ProductDetail> productDetails);
+        Task<ProductDetail> GetProductDetail(int? productId, int? detailItemId);
+        Task Remove(ProductDetail productDetail );
+        Task Edit(ProductDetail productDetail);
+        Task Add(IList<ProductDetail> productDetails);
     }
 }

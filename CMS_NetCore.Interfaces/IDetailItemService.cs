@@ -15,7 +15,7 @@ namespace CMS_NetCore.Interfaces
         Task Add(DetailItem detailItem);
         Task Edit(DetailItem detailItem);
         Task Remove(DetailItem detailItem);
-        Task<IList<DetailItem>> GetByProduct(Product product);
+        Task<IList<DetailItem>> GetByProductGroupId(Product product);
         Task<bool> DetailItemExistence(int? id);
     }
 }
