@@ -11,9 +11,9 @@ namespace CMS_NetCore.Interfaces
     public interface IProductAttributeService
     {
         Task<Product_Attribut> GetProductAttribute(int? productId, int? atrributeGrpId);
-        Task Remove(Product_Attribut product_Attribut);
-        Task Edit(Product_Attribut product_Attribut);
-        Task Add(IList<Product_Attribut> product_Attributs);
+        void Remove(Product_Attribut product_Attribut);
+        void Edit(Product_Attribut product_Attribut);
+        void Add(IList<Product_Attribut> product_Attributs);
 
     }
 }

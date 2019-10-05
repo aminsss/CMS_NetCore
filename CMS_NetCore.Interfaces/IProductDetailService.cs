@@ -11,7 +11,7 @@ namespace CMS_NetCore.Interfaces
     {
         Task<ProductDetail> GetProductDetail(int? productId, int? detailItemId);
         Task Remove(ProductDetail productDetail );
-        Task Edit(ProductDetail productDetail);
-        Task Add(IList<ProductDetail> productDetails);
+        void Edit(ProductDetail productDetail);
+        void Add(IList<ProductDetail> productDetails);
     }
 }

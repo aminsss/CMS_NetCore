@@ -24,13 +24,12 @@ namespace CMS_NetCore.ServiceLayer
             await SaveAsync();
         }
 
-        public async Task Add(IList<ProductTag> productTags)
+        public void Add(IList<ProductTag> productTags)
         {
             foreach (var productTag in productTags)
             {
                 Create(productTag);
             }
-            await SaveAsync();
         }
     }
 }

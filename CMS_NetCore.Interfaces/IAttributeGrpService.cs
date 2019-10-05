@@ -16,6 +16,7 @@ namespace CMS_NetCore.Interfaces
         Task Edit(AttributGrp attributGrp);
         Task Remove(AttributGrp attributGrp);
         Task<IEnumerable<AttributGrp>> GetAll();
+        Task<IList<AttributGrp>> GetByProductGroupId(int? productGroupId);
         Task<bool> AttributeGrpExistence(int? id);
     }
 }

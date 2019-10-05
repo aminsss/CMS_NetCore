@@ -26,19 +26,17 @@ namespace CMS_NetCore.ServiceLayer
             await SaveAsync();
         }
 
-        public async Task Edit(ProductDetail productDetail)
+        public void Edit(ProductDetail productDetail)
         {
             Update(productDetail);
-            await SaveAsync();
         }
 
-        public async Task Add(IList<ProductDetail> productDetails)
+        public void Add(IList<ProductDetail> productDetails)
         {
             foreach (var productDetail in productDetails)
             {
                 Create(productDetail);
             }
-            await SaveAsync();
         }
     }
 }

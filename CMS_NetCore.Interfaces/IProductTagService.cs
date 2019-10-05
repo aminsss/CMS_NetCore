@@ -11,6 +11,6 @@ namespace CMS_NetCore.Interfaces
     public interface IProductTagService
     {
         Task DeleteByProductId(int? productId);
-        Task Add(IList<ProductTag> productTags);
+        void Add(IList<ProductTag> productTags);
     }
 }

@@ -18,21 +18,20 @@ namespace CMS_NetCore.ServiceLayer
         {
         }
 
-        public async Task Remove(ProductGallery productGallery)
+        public void Remove(ProductGallery productGallery)
         {
             Delete(productGallery);
-            await SaveAsync();
         }
+
         public async Task<ProductGallery> GetById(int id) =>
             await FindByCondition(x=>x.ProductGalleryId.Equals(id)).DefaultIfEmpty(new ProductGallery()).SingleAsync();
 
-        public async Task Add(IList<ProductGallery> productGalleries)
+        public void Add(IList<ProductGallery> productGalleries)
         {
             foreach (var productGallery in productGalleries)
             {
                 Create(productGallery);
             }
-            await SaveAsync();
         }
     }
 }

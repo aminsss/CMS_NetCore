@@ -22,25 +22,22 @@ namespace CMS_NetCore.ServiceLayer
         public async Task<Product_Attribut> GetProductAttribute(int? productId, int? atrributeGrpId) =>
            await FindByCondition(x => x.ProductId == productId && x.AttributItem.AttributGrpId == atrributeGrpId).FirstOrDefaultAsync();
 
-        public async Task Remove(Product_Attribut product_Attribut)
+        public void Remove(Product_Attribut product_Attribut)
         {
             Delete(product_Attribut);
-            await SaveAsync();
         }
 
-        public async Task Edit(Product_Attribut product_Attribut)
+        public void Edit(Product_Attribut product_Attribut)
         {
             Update(product_Attribut);
-            await SaveAsync();
         }
 
-        public async Task Add(IList<Product_Attribut> product_Attributs)
+        public void Add(IList<Product_Attribut> product_Attributs)
         {
             foreach (var product_Attribut in product_Attributs)
             {
                 Create(product_Attribut);
             }
-            await SaveAsync();
         }
     }
 }

@@ -12,10 +12,11 @@ namespace CMS_NetCore.Interfaces
     {
         Task<DataGridViewModel<Product>> GetBySearch(int page,int pageSize,string searchString);
         Task<Product> GetById(int? id);
-        Task Add(Product product);
-        Task Edit(Product product);
+        Task Add(Product product, string galleyFiles, string tags);
+        Task Edit(Product product, string galleyFiles, string tags);
         Task Remove(Product product);
         Task<bool> UniqueAlias(string aliasName, int? productId);
         Task<IEnumerable<Product>> GetAll();
+        Task<bool> ProductExsitence(int? id);
     }
 }
