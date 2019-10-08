@@ -53,17 +53,6 @@ namespace CMS_NetCore.ServiceLayer
             product.AddedDate = DateTime.Now;
             product.ModifiedDate = DateTime.Now;
 
-            //------------Create Gallery Product --------------
-            var Gallery = galleyFiles.Split(',');
-            for (int i = 0; i < Gallery.Length - 1; i++)
-            {
-                product.ProductGallery.Add(new ProductGallery
-                {
-                    ProductId = product.ProductId,
-                    ImageName = Gallery[i],
-                });
-            }
-
             //-------------------Tags---------------------
             if (!string.IsNullOrEmpty(tags))
             {
@@ -76,12 +65,28 @@ namespace CMS_NetCore.ServiceLayer
                     });
                 }
             }
+
+            //------------Create Gallery Product --------------
+            if (!string.IsNullOrEmpty(galleyFiles))
+            {
+                var Gallery = galleyFiles.Split(',');
+                for (int i = 0; i < Gallery.Length - 1; i++)
+                {
+                    product.ProductGallery.Add(new ProductGallery
+                    {
+                        ProductId = product.ProductId,
+                        ImageName = Gallery[i],
+                    });
+                }
+            }
+
+            
             
             Create(product);
             await SaveAsync();
         }
 
-        public async Task Edit(Product product, string galleyFiles, string tags)
+        public async Task Edit(Product product, string galleryFiles, string tags)
         {
             //-------------------Tags---------------------
             await _productTagService.DeleteByProductId(product.ProductId);
@@ -102,17 +107,21 @@ namespace CMS_NetCore.ServiceLayer
 
 
             //------------Create Gallery Product --------------
-            List<ProductGallery> productGalleries = new List<ProductGallery>();
-            var Gallery = galleyFiles.Split(',');
-            for (int i = 0; i < Gallery.Length - 1; i++)
+            if (!string.IsNullOrEmpty(galleryFiles))
             {
-                productGalleries.Add(new ProductGallery
+                List<ProductGallery> productGalleries = new List<ProductGallery>();
+                foreach (var Gallery in galleryFiles.Split(','))
                 {
-                    ProductId = product.ProductId,
-                    ImageName = Gallery[i],
-                });
+                    if (string.IsNullOrEmpty(Gallery))
+                        break;
+                    productGalleries.Add(new ProductGallery
+                    {
+                        ProductId = product.ProductId,
+                        ImageName = Gallery,
+                    });
+                }
+               await _productGalleryService.Add(productGalleries);
             }
-            _productGalleryService.Add(productGalleries);
 
             product.ModifiedDate = DateTime.Now;
             Update(product);
@@ -132,7 +141,7 @@ namespace CMS_NetCore.ServiceLayer
                 if (File.Exists(Path.Combine(_env.WebRootPath, "Upload\\ProductImages\\thumbnail", gallery.ImageName)))
                     File.Delete(Path.Combine(_env.WebRootPath, "Upload\\ProductImages\\thumbnail", gallery.ImageName));
 
-                _productGalleryService.Remove(gallery);
+               await _productGalleryService.Remove(gallery);
             }
            
             //-------------------------delete Images----------------------------------------
@@ -163,7 +172,8 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<Product> GetById(int? id) =>
-            await FindByCondition(x=>x.ProductId.Equals(id)).DefaultIfEmpty(new Product()).SingleAsync();
+            await FindByCondition(x=>x.ProductId.Equals(id))
+            .DefaultIfEmpty(new Product()).SingleAsync();
 
         public async Task<bool> UniqueAlias(string aliasName, int? productId) =>
             await FindByCondition(s => s.AliasName == aliasName && s.ProductId != productId).AnyAsync();
@@ -173,6 +183,21 @@ namespace CMS_NetCore.ServiceLayer
 
         public async Task<bool> ProductExsitence(int? id) =>
             await FindByCondition(x => x.ProductId == id).AnyAsync();
-        
+
+        public async Task<Product> GetIncludeById(int? id) =>
+            await FindByCondition(x => x.ProductId == id)
+            .Include(x => x.ProductTag).Include(x => x.ProductGallery).FirstOrDefaultAsync();
+
+        public async Task DeleteImage(int id)
+        {
+            ProductGallery gallery = await _productGalleryService.GetById(id);
+
+            await _productGalleryService.Remove(gallery);
+
+            if (File.Exists(Path.Combine(_env.WebRootPath, "Upload\\ProductImages", gallery.ImageName)))
+                File.Delete(Path.Combine(_env.WebRootPath, "Upload\\ProductImages", gallery.ImageName));
+            if (File.Exists(Path.Combine(_env.WebRootPath, "Upload\\ProductImages\\thumbnail", gallery.ImageName)))
+                File.Delete(Path.Combine(_env.WebRootPath, "Upload\\ProductImages\\thumbnail", gallery.ImageName));
+        }
     }
 }

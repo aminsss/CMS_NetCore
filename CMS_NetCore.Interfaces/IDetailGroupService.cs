@@ -16,7 +16,7 @@ namespace CMS_NetCore.Interfaces
         Task Remove(DetailGroup detailGroup);
         Task<DetailGroup> GetById(int? id);
         Task<IEnumerable<DetailGroup>> GetAll();
-        Task<IList<DetailGroup>> GetByProductGroupId(int productGroupId);
+        Task<IList<DetailGroup>> GetByProductGroupId(int? productGroupId);
         Task<bool> DetailGroupExistence(int? id);
     }
 }

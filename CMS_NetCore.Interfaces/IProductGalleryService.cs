@@ -9,8 +9,8 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IProductGalleryService
     {
-        void Remove(ProductGallery productGallery);
+        Task Remove(ProductGallery productGallery);
         Task<ProductGallery> GetById(int id);
-        void Add(IList<ProductGallery> productGalleries);
+        Task Add(IList<ProductGallery> productGalleries);
     }
 }

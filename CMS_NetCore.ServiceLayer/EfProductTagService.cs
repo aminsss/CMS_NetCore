@@ -20,7 +20,11 @@ namespace CMS_NetCore.ServiceLayer
 
         public async Task DeleteByProductId(int? productId)
         {
-            FindByCondition(t => t.ProductId == productId).ToList().ForEach(t => Delete(t));
+            var list = await FindByCondition(t => t.ProductId == productId).ToListAsync();
+            foreach (var item in list)
+            {
+                Delete(item);
+            }
             await SaveAsync();
         }
 

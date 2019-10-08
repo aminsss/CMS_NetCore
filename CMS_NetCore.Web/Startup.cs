@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CMS_NetCore.ServiceLayer;
+using Newtonsoft.Json.Serialization;
 
 namespace CMS_NetCore.Web
 {
@@ -25,7 +26,8 @@ namespace CMS_NetCore.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+            options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             var connection = @"Data Source=.;Initial Catalog=CMS_NetCoreDb;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<AppDbContext>

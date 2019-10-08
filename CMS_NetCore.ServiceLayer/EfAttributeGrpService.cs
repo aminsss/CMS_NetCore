@@ -60,6 +60,8 @@ namespace CMS_NetCore.ServiceLayer
             await FindByCondition(x => x.AttributGrpId.Equals(id)).AnyAsync();
 
         public async Task<IList<AttributGrp>> GetByProductGroupId(int? productGroupId) =>
-           await FindByCondition(x => x.ProductGroupId == productGroupId).ToListAsync();
+           await FindByCondition(x => x.ProductGroupId == productGroupId)
+            .Include(x=>x.AttributItem)
+               .ThenInclude(x=>x.Product_Attribut).ToListAsync();
     }
 }

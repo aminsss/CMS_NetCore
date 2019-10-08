@@ -1,71 +1,367 @@
 ﻿@model CMS_NetCore.DomainClasses.Product
 
-@{
-    ViewData["Title"] = "Edit";
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="ProductId" />
+    <input type="hidden" asp-for="AddedDate" />
+    <input type="hidden" asp-for="ProductImage" />
+    <input type="hidden" id="galleryFiles" name="galleryFiles" value="" />
+    <div class="portlet box border shadow">
+        <div class="portlet-heading">
+            <h2 class="col-md-10">ویرایش کالا</h2>
+            <div class="form-group form-actions">
+                <button type="submit" class="btn btn-info btn-round">
+                    <i class="icon-check"></i>
+                    ذخیره
+                </button>
+                <a asp-action="Index" class="btn btn-warning btn-round">
+                    <i class="icon-close"></i>
+                    بازگشت
+                </a>
+            </div>
+        </div>
+        <div class="form-horizontal">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <select class="form-control" data-val="true" data-val-required="لطفا گروه محصول را انتخاب کنید" id="ProductGroupId" name="ProductGroupId">
+                            <option value="">-لطفا گروه محصول را انتخاب کنید-</option>
+                            @await Component.InvokeAsync("ProductGroupList", new { parentId = 0, depth = 0 })
+                        </select>
+                        <span asp-validation-for="ProductGroupId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input asp-for="ProductName" class="form-control" placeholder="نام محصول انگلیسی" />
+                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input asp-for="ProductTitle" class="form-control" placeholder="عنوان محصول فارسی" />
+                        <span asp-validation-for="ProductTitle" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input asp-for="AliasName" class="form-control" placeholder="نام مستعار بدون فاصله و با - از هم جدا کنید" />
+                        <span asp-validation-for="AliasName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input placeholder="کلمات کلیدی ، با - از هم جدا کنید" type="text" id="tags" name="tags" value="@ViewBag.tag" class="form-control col-md-12" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div id="DetailContent"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                    <img id="imgprdctlogo" src="~/Upload/ProductImages/thumbnail/@Model.ProductImage" width="250" height="250" class="thumbnail pull-left" />
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="file-upload">
+                            <div class="fileinput input-group fileinput-new" data-provides="fileinput">
+
+                                <span class="input-group-addon btn btn-default btn-file">
+                                    <span class="fileinput-new">انتخاب تصویر</span>
+                                    <span class="fileinput-exists">تغییر تصویر</span>
+                                    <input type="file" name="PrImage" id="PrImage" />
+                                    <input id="File_Content" name="File.Content" type="hidden" value="">
+                                </span>
+                                <a id="CleanImage" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">حذف</a>
+                                <div class="form-control text-left" data-trigger="fileinput">
+                                    <i class="fa fa-file-picture-o pull-lefte fileinput-exists"></i>
+                                    <span class="fileinput-filename"></span>
+                                    <input id="File_Name" name="File.Name" type="hidden" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <span class="field-validation-valid text-danger" data-valmsg-for="File.Name" data-valmsg-replace="true"></span>
+                        <span class="field-validation-valid text-danger" data-valmsg-for="File.Content" data-valmsg-replace="true"></span>
+                        <span class="field-validation-valid text-danger" data-valmsg-for="File" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-6">
+                        <a id="SendIcon" data-style="slide-right" class="col-md-12 btn btn-info ">
+                            <i class="icon-paper-plane"></i>
+                            ارسال تصویر
+                        </a>
+
+                    </div>
+                    <div class="col-md-6">
+                        <a id="deleteIcon" data-style="slide-right" class="col-md-12 btn btn-danger">
+                            <i class="icon-close"></i>
+                            بدون تصویر
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center badge-inverse text-white small-padding" style="margin:45px 0 10px">
+                    <p> گالری</p>
+                </div>
+                <div class="form-group">
+                    @foreach (var galery in Model.ProductGallery)
+                    {
+                        <div class="col-md-6" id="image_@(galery.ProductGalleryId)">
+                            <img src="/Upload/ProductImages/thumbnail/@galery.ImageName" class="thumbnail " style="width:200px;height:112px; object-fit: contain; ">
+                            <a class="btn btn-block btn-danger" style="width:200px;margin-bottom:20px" onclick="DeleteGallery(@galery.ProductGalleryId)">حذف</a>
+                        </div>
+                    }
+                    <div id="gallerypic-Check" class="col-md-12">
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="file-upload">
+                            <div class="fileinput input-group fileinput-new" data-provides="fileinput">
+                                <span class="input-group-addon btn btn-default btn-file">
+                                    <span class="fileinput-new">گالری تصاویر</span>
+                                    <span class="fileinput-exists">تغییر تصاویر</span>
+                                    <input type="file" name="ProductGallery" id="ProductGallery" multiple="multiple" />
+                                    <input id="File_Content" name="File.Content" type="hidden" value="">
+                                </span>
+                                <a id="CleanGallery" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">حذف</a>
+                                <div class="form-control text-left" data-trigger="fileinput">
+                                    <i class="fa fa-file-picture-o pull-left fileinput-exists"></i>
+                                    <span class="fileinput-filename"></span>
+                                    <input id="File_Name" name="File.Name" type="hidden" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <span class="field-validation-valid text-danger" data-valmsg-for="File.Name" data-valmsg-replace="true"></span>
+                        <span class="field-validation-valid text-danger" data-valmsg-for="File.Content" data-valmsg-replace="true"></span>
+                        <span class="field-validation-valid text-danger" data-valmsg-for="File" data-valmsg-replace="true"></span>
+
+                    </div>
+                </div>
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-12">
+                        <a id="SendGallery" data-style="slide-right" class="col-md-12 btn btn-info ">
+                            <i class="icon-paper-plane"></i>
+                            ارسال گالری عکس
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div id="AttributeContent"></div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</form>
+
+@section Script{
+
+    <script src="~/assets/plugins/ladda/dist/spin.min.js"></script>
+    <script src="~/assets/plugins/ladda/dist/ladda.min.js"></script>
+    <script src="~/assets/js/pages/ladda.js"></script>
+
+    <script src="~/assets/js/textbox/jasny-bootstrap.js"></script>
+    <script src="~/assets/js/textbox/jasny-bootstrap.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#ProductGroupId').val('@Model.ProductGroupId');
+
+            $.ajax({
+                url: "/admin/Products/GetDetails/" + @Model.ProductId,
+                type: "Get",
+                 data: {
+                    productGroupId: @Model.ProductGroupId,
+                },
+            }).done(function (result) {
+                $('#DetailContent').html(result);
+                });
+            $.ajax({
+                url: "/admin/Products/GetAttributes/" + @Model.ProductId,
+                type: "Get",
+                data: {
+                    productGroupId: @Model.ProductGroupId,
+                },
+            }).done(function (result) {
+                $('#AttributeContent').html(result);
+            });
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#SendIcon').on('click',
+                function (e) {
+                    e.preventDefault();
+                    var l = Ladda.create(document.querySelector('#SendIcon'));
+                    l.start();
+                    var file = $('#PrImage').get(0).files[0],
+                        formData = new FormData();
+                    formData.append('file', file);
+                    console.log(file);
+                    $.ajax({
+                        url: '/admin/Products/UploadFile',
+                        type: 'POST',
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        data: formData,
+                        xhr: function () {
+                            var jqXHR = null;
+                            if (window.ActiveXObject) {
+                                jqXHR = new window.ActiveXObject("Microsoft.XMLHTTP");
+                            } else {
+                                jqXHR = new window.XMLHttpRequest();
+                            }
+
+                            return jqXHR;
+                        },
+                        success: function (res) {
+                            $("#imgprdctlogo").attr("src", res.src);
+                            $("#ProductImage").val(res.ImageName);
+                            $('#CleanImage').click();
+                            l.stop();
+                        },
+                        error: function (res) {
+                            l.stop();
+                        },
+                    });
+                });
+
+            $('#SendGallery').on('click',
+                function (e) {
+                    e.preventDefault();
+                    var fi = document.getElementById('ProductGallery');
+                    var l = Ladda.create(document.querySelector('#SendGallery'));
+                    l.start();
+                    if (fi.files.length == 0)
+                        return false;
+                    var formData = new FormData();
+                    for (var i = 0; i < fi.files.length; i++) {
+                        var files = fi.files[i];
+                        formData.append('files', files);
+                    }
+                    console.log(files);
+                    $.ajax({
+                        url: '/admin/Products/UploadGallery',
+                        type: 'POST',
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        data: formData,
+                        xhr: function () {
+                            var jqXHR = null;
+                            if (window.ActiveXObject) {
+                                jqXHR = new window.ActiveXObject("Microsoft.XMLHTTP");
+                            } else {
+                                jqXHR = new window.XMLHttpRequest();
+                            }
+
+                            return jqXHR;
+                        },
+                        success: function (res) {
+                            if (res.status == "Done") {
+                                $("#galleryFiles").val($("#galleryFiles").val() + res.imagesName);
+                                shownewGallery(res.imagesName);
+                                $('#CleanGallery').click();
+                            }
+                            l.stop();
+                        },
+                        error: function (res) {
+                            l.stop();
+                        },
+                    });
+                });
+
+            $('#deleteIcon').on('click',
+                function (e) {
+                    e.preventDefault();
+                    $("#ProductImage").val("no-photo.jpg");
+                    $("#imgprdctlogo").attr("src", "/Upload/ProductImages/thumbnail/no-photo.jpg");
+                    $('#CleanImage').click();
+                });
+        });
+
+
+
+
+        function shownewGallery(id) {
+            $.ajax({
+                url: "/admin/Products/ShowNewGallery",
+                type: "Get",
+                data: {
+                    allpics: id,
+                },
+            }).done(function (result) {
+                $('#gallerypic-Check').append(result);
+            });
+        }
+
+        function removeImage(id) {
+            var deletedS = $("#galleryFiles").val();
+            deletedS = deletedS.replace(id + ",", "")
+            $("#galleryFiles").val(deletedS);
+            $("#image_" + id.replace(".jpg", "")).hide(700);
+        }
+
+        function DeleteGallery(id) {
+            $.ajax({
+                url: "/Admin/Products/DeleteGallery/" + id,
+                type: "Get",
+                data: {},
+            }).done(function (result) {
+                if (result == true) {
+                    $('#image_' + id).hide(700);
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            $('#ProductGroupId').change(function (e) {
+                e.preventDefault();
+                showattrdetail();
+            });
+        });
+
+
+
+        function showattrdetail() {
+            $.ajax({
+                url: "/admin/Products/GetDetails",
+                type: "Get",
+                data: {
+                    productGroupId: $('#ProductGroupId').val()
+                },
+            }).done(function (result) {
+                $('#DetailContent').html(result);
+            });
+            $.ajax({
+                url: "/admin/Products/GetAttributes" ,
+                type: "Get",
+                data: {
+                    productGroupId: $('#ProductGroupId').val()
+                },
+            }).done(function (result) {
+                $('#AttributeContent').html(result);
+            });
+        }
+    </script>
 }
 
-<h1>Edit</h1>
-
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ProductId" />
-            <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductGroupId" class="control-label"></label>
-                <select asp-for="ProductGroupId" class="form-control" asp-items="ViewBag.ProductGroupId"></select>
-                <span asp-validation-for="ProductGroupId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductTitle" class="control-label"></label>
-                <input asp-for="ProductTitle" class="form-control" />
-                <span asp-validation-for="ProductTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductImage" class="control-label"></label>
-                <input asp-for="ProductImage" class="form-control" />
-                <span asp-validation-for="ProductImage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AliasName" class="control-label"></label>
-                <input asp-for="AliasName" class="form-control" />
-                <span asp-validation-for="AliasName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GroupModel" class="control-label"></label>
-                <input asp-for="GroupModel" class="form-control" />
-                <span asp-validation-for="GroupModel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AddedDate" class="control-label"></label>
-                <input asp-for="AddedDate" class="form-control" />
-                <span asp-validation-for="AddedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModifiedDate" class="control-label"></label>
-                <input asp-for="ModifiedDate" class="form-control" />
-                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IP" class="control-label"></label>
-                <input asp-for="IP" class="form-control" />
-                <span asp-validation-for="IP" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Head{
+    <link href="~/assets/plugins/ladda/dist/ladda-themeless.min.css" rel="stylesheet">
+}
 

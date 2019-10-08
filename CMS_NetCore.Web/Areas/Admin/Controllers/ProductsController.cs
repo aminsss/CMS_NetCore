@@ -17,7 +17,6 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;
-        private readonly IProductGroupService _productGroupService;
         private readonly IAttributeGrpService _attributeGrpService;
         private readonly IDetailItemService _detailItemService;
         private readonly IProductAttributeService _productAttributeService;
@@ -25,12 +24,11 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         private readonly IDetailGroupService _detailGroupService;
         private readonly IHostingEnvironment _env;
 
-        public ProductsController(IProductService productService, IProductGroupService productGroupService,
+        public ProductsController(IProductService productService, IHostingEnvironment env ,
             IAttributeGrpService attributeGrpService, IDetailItemService detailItemService, IProductAttributeService productAttributeService
-            , IProductDetailService productDetailService, IDetailGroupService detailGroupService, IHostingEnvironment env)
+            , IProductDetailService productDetailService, IDetailGroupService detailGroupService)
         {
             _productService = productService;
-            _productGroupService = productGroupService;
             _attributeGrpService = attributeGrpService;
             _detailItemService = detailItemService;
             _productAttributeService = productAttributeService;
@@ -79,7 +77,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product, string galleyFiles, string tags)
+        public async Task<IActionResult> Create(Product product, string galleryFiles, string tags)
         {
             if (ModelState.IsValid)
             {
@@ -109,8 +107,8 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                     });
                 }
 
-                await _productService.Add(product, galleyFiles, tags);
-                return RedirectToAction(nameof(Edit), product.ProductId);
+                await _productService.Add(product, galleryFiles, tags);
+                return RedirectToAction(nameof(Index));
             }
             return View(product);
         }
@@ -123,10 +121,20 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var product = await _productService.GetById(id);
+            var product = await _productService.GetIncludeById(id);
             if (product == null)
             {
                 return NotFound();
+            }
+            string tags = "";
+            foreach (var t in product.ProductTag)
+            {
+                tags += t.TagTitle + "-";
+            }
+            if (tags.EndsWith("-"))
+            {
+                tags = tags.Substring(0, tags.Length - 1);
+                ViewBag.tag = tags;
             }
             return View(product);
         }
@@ -136,7 +144,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product product, string galleyFiles, string tags)
+        public async Task<IActionResult> Edit(int id, Product product, string galleryFiles, string tags)
         {
             if (id != product.ProductId)
             {
@@ -152,7 +160,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                     //get request.form of ProductDetail and edit 
                     await AddDetailChanged(product);
                     //Update the Product entity and SaveAsync All Entities
-                    await _productService.Edit(product, galleyFiles, tags);
+                    await _productService.Edit(product, galleryFiles, tags);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -192,10 +200,44 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _productService.GetById(id);
+            var product = await _productService.GetIncludeById(id);
             
             await _productService.Remove(product);
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<JsonResult> DeleteGallery(int id)
+        {
+            await _productService.DeleteImage(id);
+            return Json(true);
+        }
+
+        public IActionResult ShowNewGallery(string allpics)
+        {
+            ViewBag.allpics = allpics;
+            return PartialView();
+        }
+
+        public async Task<IActionResult> GetAttributes(int? id ,int? productGroupId)
+        {
+            if (id != null)
+                ViewBag.ProductId = id;
+            return PartialView(await _attributeGrpService.GetByProductGroupId(productGroupId));
+        }
+
+        public async Task<IActionResult> GetDetails(int? id ,int? productGroupId)
+        {
+            if (id != null)
+                ViewBag.ProductId = id;
+            return PartialView(await _detailGroupService.GetByProductGroupId(productGroupId));
+        }
+
+        public async Task<JsonResult> Uniquealias(string AliasName, int? ProductId)
+        {
+            if (await _productService.UniqueAlias(AliasName, ProductId))
+                return Json(false);
+            else
+                return Json(true);
         }
 
         [HttpPost]
@@ -220,7 +262,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                 }
 
                 //saving new store and the images
-                return Json(new { status = "Done", src = Path.Combine(uploads, fileName), ImageName = fileName });
+                return Json(new { status = "Done", src = Path.Combine("\\Upload\\ProductImages", fileName), ImageName = fileName });
             }
             return Json(new { status = "Error" });
         }
@@ -245,8 +287,7 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
                 InsertShowImage.ImageResizer img = new InsertShowImage.ImageResizer(350);
                 img.Resize(Path.Combine(uploads, galleryname), Path.Combine(uploads, "thumbnail", galleryname));
             }
-            //saving new store and the images
-            return Json(new { status = "Done", ImagesName = names });
+            return Json(new { status = "Done", imagesName = names });
         }
 
         private async Task AddAttributechanged(Product product)
