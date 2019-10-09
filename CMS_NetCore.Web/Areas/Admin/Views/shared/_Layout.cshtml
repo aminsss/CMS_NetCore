@@ -201,17 +201,15 @@
         $(function () {
             // this will get the full URL at the address bar
             var url = window.location.href;
-
             // passes on every "a" tag
             $(".side-menu-container a").each(function () {
                 // checks if its the same on the address bar
-                if (url.replace("#", "") == (this.href)) {
+                if (url.replace("#", "").includes(this.href)) {
                     $(this).closest("a").addClass("current");
                     //for making parent of submenu active
                     $(this).closest("a").parent().parent().addClass("collapse in").attr("aria-expanded", "true");
                     $(this).closest("a").parent().parent().parent().addClass("active open");
                 }
-
             });
 
         });

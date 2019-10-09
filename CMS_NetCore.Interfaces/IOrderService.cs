@@ -10,16 +10,13 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IOrderService
     {
-        DataGridViewModel<Order> GetBySearch(int page, int pageSize, string searchString);
-        Order GetById(int? id);
-        void Add(Order order);
-        void Edit(Order order);
-        void Delete(Order order);
-        void Delete(int? id);
-        IEnumerable<Order> Orders();
+        Task<DataGridViewModel<Order>> GetBySearch(int page, int pageSize, string searchString);
+        Task<Order> GetById(int? id);
+        Task Add(Order order);
+        Task Edit(Order order);
+        Task Remove(Order order);
+        Task<IEnumerable<Order>> GetAll();
 
-        //orderDetail
-        IList<OrderDetail> GetOrderDetail(int? id);
-        DataGridViewModel<OrderDetail> GetAllDetail(int page, int pageSize, string searchString);
+       
     }
 }

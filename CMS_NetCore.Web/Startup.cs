@@ -52,6 +52,8 @@ namespace CMS_NetCore.Web
             services.AddScoped<IProductGalleryService, EfProductGalleryService>();
             services.AddScoped<IProductDetailService, EfProductDetailService>();
             services.AddScoped<IProductAttributeService, EfProductAttributeService>();
+            services.AddScoped<IOrderService, EfOrderService>();
+            services.AddScoped<IOrderDetailService, EfOrderDetailService>();
 
         }
 
