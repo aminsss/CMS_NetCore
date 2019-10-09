@@ -1,0 +1,71 @@
+﻿@model CMS_NetCore.DomainClasses.Message
+<div id="editor-ltr" hidden></div>
+
+<form asp-action="Create">
+    <input type="hidden" name="MessageTo" id="MessageTo" value="@Url.ActionContext.RouteData.Values["id"]" />
+    <div class="portlet box border shadow">
+        <div class="portlet-heading">
+            <h2 class="col-md-10">ارسال پیام</h2>
+            <div class="form-group form-actions">
+                <button type="submit" class="btn btn-info btn-round">
+                    <i class="icon-check"></i>
+                    ارسال
+                </button>
+                <a href="/admin/Messages/Index" class="btn btn-warning btn-round">
+                    <i class="icon-close"></i>
+                    بازگشت
+                </a>
+            </div>
+        </div>
+        <div class="form-horizontal">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <br />
+                <div class="col-md-5">
+                    <div class="form-group col-md-12">
+                        <label asp-for="Subject" class="control-label"></label>
+                        <div class="col-md-12">
+                            <input asp-for="Subject" class="form-control" />
+                            <span asp-validation-for="Subject" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group col-md-12">
+                        <label asp-for="Email" class="control-label"></label>
+                        <div class="col-md-12">
+                            <input asp-for="Email" class="form-control ltr text-left" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-10">
+                    <div class="form-group col-md-12">
+                        <label asp-for="ContentMessage" class="control-label"></label>
+                        <div class="col-md-12">
+                            <div id="editor" name="ContentMessage" class="ltr text-left"></div>
+                            <span asp-validation-for="ContentMessage" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-md-2 pull-left">
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Script{
+    <script src="/assets/plugins/ckeditor-full/ckeditor.js"></script>
+    <script src="/assets/js/pages/ckeditor.js"></script>
+    <script>
+        $(function () {
+            $('#Email').val('@ViewBag.Email')
+        });
+    </script>
+}
+
+

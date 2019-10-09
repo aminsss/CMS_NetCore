@@ -9,7 +9,7 @@ using CMS_NetCore.ViewModels;
 using CMS_NetCore.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Koshop.ServiceLayer
+namespace CMS_NetCore.ServiceLayer
 {
     public class EfMessageService : RepositoryBase<Message>,IMessageService
     {
