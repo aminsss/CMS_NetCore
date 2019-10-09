@@ -9,7 +9,7 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IMenuModuleService 
     {
-        MenuModule GetByModuleId(int? id);
-        void Edit(MenuModule menuModule);
+        Task<MenuModule> GetByModuleId(int? id);
+        Task Edit(MenuModule menuModule);
     }
 }

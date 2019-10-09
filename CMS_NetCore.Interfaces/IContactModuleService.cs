@@ -9,7 +9,7 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IContactModuleService
     {
-        ContactModule GetByModuleId(int? moduleId);
-        void Edit(ContactModule contactModule);
+        Task<ContactModule> GetByModuleId(int? moduleId);
+        Task Edit(ContactModule contactModule);
     }
 }

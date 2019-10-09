@@ -10,17 +10,14 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IModuleService
     {
-        DataGridViewModel<Module> GetBySearch(string searchString);
-        void Add(Module module);
-        void Edit(Module module,int? pastPosition,int? pastDisOrder);
-        void Delete(int id);
-        Module GetById(int? id);
-        Module GetLastByPosition(int? id);
-        IList<Module> GetByPositionId(int? id);
-
-
-        //position
-        IEnumerable<Position> Positions();
+        Task<DataGridViewModel<Module>> GetBySearch(string searchString);
+        Task Add(Module module);
+        Task Edit(Module module,int? pastPosition,int? pastDisOrder);
+        Task Remove(Module module);
+        Task<Module> GetById(int? id);
+        Task<Module> GetLastByPosition(int? id);
+        Task<IList<Module>> GetByPositionId(int? id);
+        Task<bool> ExistModule(int? id);
 
     }
 }

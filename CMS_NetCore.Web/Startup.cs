@@ -55,7 +55,14 @@ namespace CMS_NetCore.Web
             services.AddScoped<IOrderService, EfOrderService>();
             services.AddScoped<IOrderDetailService, EfOrderDetailService>();
             services.AddScoped<IMessageService,EfMessageService>();
-
+            services.AddScoped<IModuleService,EfModuleService>();
+            services.AddScoped<IPositionService,EfPositionService>();
+            services.AddScoped<IComponentService, EfComponentService>();
+            services.AddScoped<IModulePageService, EfModulePageService>();
+            services.AddScoped<IHtmlModuleService, EfHtmlModuleService>();
+            services.AddScoped<IMenuModuleService, EfMenuModuleService>();
+            services.AddScoped<IContactModuleService, EfContactModuleService>();
+            services.AddScoped<IContactPersonService, EfContactPersonService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

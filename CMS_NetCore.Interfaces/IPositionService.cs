@@ -7,9 +7,8 @@ using CMS_NetCore.DomainClasses;
 
 namespace CMS_NetCore.Interfaces
 {
-    public interface IHtmlModuleService
+    public interface IPositionService
     {
-        Task<HtmlModule> GetByModuleId(int? moduleId);
-        Task Edit(HtmlModule htmlModule);
+        Task<IEnumerable<Position>> GetAll();
     }
 }

@@ -9,9 +9,9 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IContactPersonService
     {
-        bool ExistContactPerson(int? moduleId, int? userId);
-        ContactPerson GetByModuleUser(int? moduleId, int? userId);
-        void Add(IList<ContactPerson> contactPeople);
-        void Delete(IList<ContactPerson> contactPeople);
+        Task<bool> ExistContactPerson(int? moduleId, int? userId);
+        Task<ContactPerson> GetByModuleUser(int? moduleId, int? userId);
+        Task Add(IList<ContactPerson> contactPeople);
+        Task Remove(IList<ContactPerson> contactPeople);
     }
 }

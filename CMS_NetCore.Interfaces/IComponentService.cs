@@ -9,6 +9,6 @@ namespace CMS_NetCore.Interfaces
 {
     public interface IComponentService
     {
-        IList<Component> GetAll(); 
+        Task<IList<Component>> GetAll(); 
     }
 }
