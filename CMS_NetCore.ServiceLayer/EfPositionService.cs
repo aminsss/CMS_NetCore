@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 using System.Text;
 using System.Threading.Tasks;
 using CMS_NetCore.DomainClasses;
@@ -15,7 +14,6 @@ namespace CMS_NetCore.ServiceLayer
 {
     public class EfPositionService : RepositoryBase<Position>,IPositionService
     {
-        private IMenuService _menuService;
 
         public EfPositionService(AppDbContext context) : base(context)
         {
