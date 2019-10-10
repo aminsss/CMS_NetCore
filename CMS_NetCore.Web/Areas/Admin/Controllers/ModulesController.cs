@@ -67,14 +67,10 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
             return PartialView(await _componentService.GetAll());
         }
 
-        public async Task<IActionResult> DisplayOrder(int? id)
-        {
-            return PartialView(await _moduleService.GetByPositionId(id));
-        }
 
-        public async Task<IActionResult> ModulePageShow(int? id)
+        public async Task<IActionResult> ModuleMenuShow(int? moduleId)
         {
-            ViewBag.moduleId = id;
+            ViewBag.ModuleId = moduleId;
             return PartialView(await _menuGroupService.MenuGroup());
         }
     }

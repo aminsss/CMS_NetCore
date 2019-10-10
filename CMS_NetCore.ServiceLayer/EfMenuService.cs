@@ -169,5 +169,10 @@ namespace CMS_NetCore.ServiceLayer
 
         public async Task<bool> MenuExistence(int? id) =>
             await FindByCondition(x => x.MenuId.Equals(id)).AnyAsync();
+
+        public async Task<IList<Menu>> GetIncludeModulePage(int? menuGroupId) =>
+            await FindByCondition(x => x.MenuGroupId.Equals(menuGroupId)).Include(x => x.ModulePage).ToListAsync();
+
+
     }
 }

@@ -1,0 +1,20 @@
+﻿@model IEnumerable<CMS_NetCore.DomainClasses.Menu>
+@{
+    int depth = ViewBag.Depth;
+    int parentId = ViewBag.ParentId;
+
+    foreach (var item in Model.Where(x => x.Depth == depth && x.ParentId == parentId))
+    {
+        string check = "";
+        if (Model.Any(x => x.ModulePage.Any(y => y.MenuId == item.MenuId && y.ModuleId == ViewBag.moduleId)))
+        {
+            check = "checked";
+        }
+        <div><input class="form-control" id="Page[@item.MenuId]" name="Page[@item.MenuId]" type="checkbox" @check />  @string.Concat(Enumerable.Repeat(" ┊ ", Convert.ToInt32(item.Depth))) @Html.DisplayFor(modelitem => item.MenuTitle)</div>
+
+        if (Model.Any(s => s.ParentId == item.MenuId))
+        {
+            @await Component.InvokeAsync("ModuleMenuList", new { depth = (item.Depth + 1), parentId = item.MenuId, menuGroupId = item.MenuGroupId })
+        }
+    }
+}

@@ -21,5 +21,6 @@ namespace CMS_NetCore.Interfaces
         Task<bool> UniquePageName(string pageName, int? menuId);
         Task<IEnumerable<Menu>> Menus();
         Task<bool> MenuExistence(int? id);
+        Task<IList<Menu>> GetIncludeModulePage(int? menuGroupId);
     }
 }
