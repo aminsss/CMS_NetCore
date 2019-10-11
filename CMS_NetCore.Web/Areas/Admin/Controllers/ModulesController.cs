@@ -55,11 +55,11 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         // POST: Admin/Modules/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<JsonResult> DeleteConfirmed(int id)
         {
             var module = await _moduleService.GetById(id);
             await _moduleService.Remove(module);
-            return RedirectToAction(nameof(Index));
+            return Json(true);
         }
 
         public async Task<IActionResult> ComponentList()
@@ -67,11 +67,5 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
             return PartialView(await _componentService.GetAll());
         }
 
-
-        public async Task<IActionResult> ModuleMenuShow(int? moduleId)
-        {
-            ViewBag.ModuleId = moduleId;
-            return PartialView(await _menuGroupService.MenuGroup());
-        }
     }
 }

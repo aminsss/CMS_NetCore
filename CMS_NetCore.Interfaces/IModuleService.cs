@@ -18,6 +18,7 @@ namespace CMS_NetCore.Interfaces
         Task<Module> GetLastByPosition(int? id);
         Task<IList<Module>> GetByPositionId(int? id);
         Task<bool> ExistModule(int? id);
+        Task<Module> GetMenuModuleById(int? id);
 
     }
 }

@@ -1,4 +1,4 @@
-﻿using  CMS_NetCore.DomainClasses;
+﻿using CMS_NetCore.DomainClasses;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,9 +6,9 @@ namespace  CMS_NetCore.ViewModels
 {
     public class MenuModulViewModel
     {
-        [Key]
         public int ModuleId { get; set; }
         [StringLength(50, ErrorMessage = "لطفا تعداد کاراکترها را رعایت کنید", MinimumLength = 3)]
+        [Required(ErrorMessage ="عنوان ماژول را وارد کنید")]
         [Display(Name = "عنوان ماژول")]
         public string ModuleTitle { get; set; }
         [Display(Name = "مکان ماژول")]
@@ -39,6 +39,7 @@ namespace  CMS_NetCore.ViewModels
         [Key]
         public int ModuleId { get; set; }
         [StringLength(50, ErrorMessage = "لطفا تعداد کاراکترها را رعایت کنید", MinimumLength = 3)]
+        [Required(ErrorMessage = "عنوان ماژول را وارد کنید")]
         [Display(Name = "عنوان ماژول")]
         public string ModuleTitle { get; set; }
         [Display(Name = "مکان ماژول")]
@@ -71,6 +72,7 @@ namespace  CMS_NetCore.ViewModels
         public int ModuleId { get; set; }
 
         [StringLength(50, ErrorMessage = "لطفا تعداد کاراکترها را رعایت کنید", MinimumLength = 3)]
+        [Required(ErrorMessage = "عنوان ماژول را وارد کنید")]
         [Display(Name = "عنوان ماژول")]
         public string ModuleTitle { get; set; }
 
@@ -110,7 +112,6 @@ namespace  CMS_NetCore.ViewModels
         //[AllowHtml]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-
         public virtual User Users { get; set; }
 
 

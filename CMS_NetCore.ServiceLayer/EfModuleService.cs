@@ -117,5 +117,8 @@ namespace CMS_NetCore.ServiceLayer
 
         public async Task<bool> ExistModule(int? id) =>
             await FindByCondition(x => x.ModuleId.Equals(id)).AnyAsync();
+
+        public async Task<Module> GetMenuModuleById(int? id) =>
+            await FindByCondition(x => x.ModuleId.Equals(id)).Include(x => x.MenuModule).DefaultIfEmpty(new Module()).FirstOrDefaultAsync();
     }
 }

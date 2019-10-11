@@ -49,9 +49,9 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    <tr id="item_@item.ModuleId">
                         <td>
-                            @Html.ActionLink(item.ModuleTitle, item.Component.AdminAction + "Edit", new { id = item.ModuleId, Controller = item.Component.AdminController })
+                            <a asp-action="Edit" asp-controller="@item.Component.AdminController" asp-route-id="@item.ModuleId">@item.ModuleTitle</a>
                         </td>
                         <td>
                             @if (item.IsActive == true)
@@ -73,7 +73,7 @@
                             @Html.DisplayFor(modelItem => item.Position.PositionTitle)
                         </td>
                         <td>
-                            <a asp-action="@item.Component.AdminAction" asp-controller="@item.Component.AdminController" asp-route-id="@item.ModuleId" class="btn btn-info btn-round">ویرایش</a>
+                            <a asp-action="Edit" asp-controller="@item.Component.AdminController" asp-route-id="@item.ModuleId" class="btn btn-info btn-round">ویرایش</a>
                             <a id="btnDelete" data-style="slide-right" class="btn btn-danger btn-round" onclick="Delete(@item.ModuleId)">حذف</a>
                         </td>
                     </tr>
@@ -129,7 +129,7 @@
                 confirmButtonText: 'بله، حذف شود. '
             }).then(function (result) {
                 $.ajax({
-                    url: "/admin/Menus/Delete",
+                    url: "/admin/Modules/Delete",
                     dataType: "json",
                     type: "POST",
                     contentType: 'application/x-www-form-urlencoded; charset=utf-8',
@@ -142,15 +142,15 @@
                     success: function (result) {
                         swal(
                             'انتخاب شما حذف کردن بود.',
-                            'منو با موفقیت حذف شد.',
+                            'ماژول با موفقیت حذف شد.',
                             'success'
-                        ).then(location.reload())
+                        ).then($("#item_" + id).hide(700))
 
                     },
                     error: function (xc) {
                         swal(
                             'خطا در پردازش.',
-                            'منو به دلایلی قابل حذف نمیباشد.',
+                            'ماژول به دلایلی قابل حذف نمیباشد.',
                             'error'
                         );
                     }
@@ -159,7 +159,7 @@
                 if (dismiss == 'cancel') {
                     swal(
                         'لغو گردید',
-                        'منو همچنان وجود دارد.',
+                        'ماژول همچنان وجود دارد.',
                         'error'
                     ).catch(swal.noop);;
                 }

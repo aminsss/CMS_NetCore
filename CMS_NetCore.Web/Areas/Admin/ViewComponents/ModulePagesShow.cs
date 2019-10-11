@@ -18,8 +18,9 @@ namespace CMS_NetCore.Web.ViewComponents
             _menuGroupService = menuGroupService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(int moduleId)
         {
+            ViewBag.moduleId = moduleId;
             var list = await GetModulePage();
             return View(list);
         }

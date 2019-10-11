@@ -1,11 +1,14 @@
 ﻿@model IEnumerable<CMS_NetCore.DomainClasses.MenuGroup>
+@{
+    int moduleId = ViewBag.moduleId ?? 0;
 
-@foreach (var Menugroup in Model)
-{
-    <div class="col-md-3">
-        <br />
-        <label class="label-info">@Menugroup.MenuTitile</label>
-        <br />
-        @await Component.InvokeAsync("MenuList", new { depth = 0, parentId = 0 , menuGroupId = Menugroup.MenuGroupId , moduleId = ViewBag.moduleId })
-    </div>
+    foreach (var Menugroup in Model)
+    {
+        <div class="col-md-3">
+            <br />
+            <label class="label-info">@Menugroup.MenuTitile</label>
+            <br />
+            @await Component.InvokeAsync("ModuleMenuList", new { depth = 0, parentId = 0, menuGroupId = Menugroup.MenuGroupId, moduleId = moduleId })
+        </div>
+    }
 }

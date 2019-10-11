@@ -2,6 +2,7 @@
 @{
     int depth = ViewBag.Depth;
     int parentId = ViewBag.ParentId;
+    int moduleId = ViewBag.moduleId ?? 0;
 
     foreach (var item in Model.Where(x => x.Depth == depth && x.ParentId == parentId))
     {
@@ -14,7 +15,7 @@
 
         if (Model.Any(s => s.ParentId == item.MenuId))
         {
-            @await Component.InvokeAsync("ModuleMenuList", new { depth = (item.Depth + 1), parentId = item.MenuId, menuGroupId = item.MenuGroupId })
+            @await Component.InvokeAsync("ModuleMenuList", new { depth = (item.Depth + 1), parentId = item.MenuId, menuGroupId = item.MenuGroupId, moduleId = moduleId })
+            }
         }
     }
-}
