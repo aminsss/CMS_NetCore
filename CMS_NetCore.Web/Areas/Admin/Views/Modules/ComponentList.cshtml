@@ -4,7 +4,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.ComponentName, item.AdminAction + "Create", item.AdminController , new {id = item.ComponentId } , htmlAttributes: new { @class = "text-info" }) @Html.ActionLink(item.Descroption, item.AdminAction + "Create/" + item.ComponentId, "Modules", new { @class = "text-warning" })
+                <a asp-action="@item.AdminAction" asp-controller="@item.AdminController" asp-route-id="@item.ComponentId"><span class="text-info">@item.ComponentName</span> <span class="text-warning">@item.Descroption</span></a>
             </td>
         </tr>
     }

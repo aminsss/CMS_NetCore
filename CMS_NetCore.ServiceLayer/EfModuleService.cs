@@ -122,5 +122,7 @@ namespace CMS_NetCore.ServiceLayer
             await FindByCondition(x => x.ModuleId.Equals(id)).Include(x => x.MenuModule).DefaultIfEmpty(new Module()).FirstOrDefaultAsync();
         public async Task<Module> GetHtmlModuleById(int? id) =>
                 await FindByCondition(x => x.ModuleId.Equals(id)).Include(x => x.HtmlModule).DefaultIfEmpty(new Module()).FirstOrDefaultAsync();
+        public async Task<Module> GetContactModuleById(int? id) =>
+                    await FindByCondition(x => x.ModuleId.Equals(id)).Include(x => x.ContactModule).DefaultIfEmpty(new Module()).FirstOrDefaultAsync();
     }
 }

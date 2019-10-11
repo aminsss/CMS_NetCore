@@ -20,6 +20,7 @@ namespace CMS_NetCore.Interfaces
         Task<bool> ExistModule(int? id);
         Task<Module> GetMenuModuleById(int? id);
         Task<Module> GetHtmlModuleById(int? id);
+        Task<Module> GetContactModuleById(int? id);
 
     }
 }
