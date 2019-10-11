@@ -55,7 +55,6 @@ namespace  CMS_NetCore.ViewModels
         public int ComponentId { get; set; }
 
         [Display(Name = "محتوای ماژول")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         //[AllowHtml]
         [DataType(DataType.MultilineText)]
         public string HtmlText { get; set; }
