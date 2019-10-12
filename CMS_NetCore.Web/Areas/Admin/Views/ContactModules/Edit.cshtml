@@ -1,0 +1,150 @@
+﻿@model CMS_NetCore.ViewModels.ContactModuleViewModel
+<form asp-action="Edit">
+    <input asp-for="ModuleId" type="hidden" />
+    <input name="pastPosition" type="hidden" value="@Model.PositionId" />
+    <input name="pastDisOrder" type="hidden" value="@Model.DisplayOrder" />
+    <div id="editor-ltr" hidden></div>
+    <div class="portlet box border shadow">
+        <div>
+            <div class="portlet-heading">
+                <h2 class="col-md-10">افزودن ماژول منو</h2>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-info btn-round">
+                        <i class="icon-check"></i>
+                        ذخیره
+                    </button>
+                    <a asp-action="Index" class="btn btn-warning btn-round">
+                        <i class="icon-close"></i>
+                        بازگشت
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <ul class="nav nav-tabs curve">
+            <li class="active">
+                <a data-toggle="tab" href="#tab1">ماژول</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tab2">صفحات انتخابی</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tab3">اطلاعات تماس</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tab4">کاربران انتخابی</a>
+            </li>
+        </ul>
+        <div class="tab-content ">
+            <div id="tab1" class="tab-pane fade active in">
+                <div class="row">
+                    <br />
+                    <div class=" col-md-8">
+                        <div class="form-group">
+                            <label asp-for="ModuleTitle" class="control-label"></label>
+                            <div class="col-md-12">
+                                <input asp-for="ModuleTitle" class="form-control" />
+                                <span asp-validation-for="ModuleTitle" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class=" col-md-4 pull-left">
+                        <div class="form-group">
+                            <label asp-for="IsActive" class="control-label"></label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(model => model.IsActive, new[] {
+new SelectListItem() { Text = "فعال", Value = bool.TrueString },
+new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
+}, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PositionId" class="control-label"></label>
+                            <div class="col-md-12">
+                                <select asp-for="PositionId" class="form-control" asp-items="ViewBag.PositionId"></select>
+                                <span asp-validation-for="PositionId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DisplayOrder" class="control-label"></label>
+                            <div class="col-md-12">
+                                @await Component.InvokeAsync("ModuleOrder", new { positionId = Model.PositionId })
+                                <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div id="tab2" class="tab-pane fade">
+                <div class="row">
+                    @await Component.InvokeAsync("ModulePagesShow", new { moduleId = Model.ModuleId })
+                </div>
+            </div>
+            <div id="tab3" class="tab-pane fade">
+                <div class="row">
+                    <br />
+                    <div class=" col-md-4">
+                        <div class="form-group ">
+                            <label asp-for="PhoneNum" class="control-label"></label>
+                            <div class="col-md-12">
+                                <input asp-for="PhoneNum" class="form-control ltr text-left" />
+                                <span asp-validation-for="PhoneNum" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MobileNum" class="control-label"></label>
+                            <div class="col-md-12">
+                                <input asp-for="MobileNum" class="form-control ltr text-left" />
+                                <span asp-validation-for="MobileNum" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label asp-for="PostCode" class="control-label"></label>
+                            <div class="col-md-12">
+                                <input asp-for="PostCode" class="form-control ltr text-left" />
+                                <span asp-validation-for="PostCode" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label asp-for="Email" class="control-label"></label>
+                            <div class="col-md-12">
+                                <input asp-for="Email" class="form-control ltr text-left" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label asp-for="Address" class="control-label"></label>
+                            <div class="col-md-12">
+                                <input asp-for="Address" class="form-control " />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label asp-for="Description" class="control-label"></label>
+                            <div class="col-md-12">
+                                <div name="Description" id="editor"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab4" class="tab-pane fade">
+                <div class="row">
+                    @await Component.InvokeAsync("ModuleUsersShow", new { moduleId = Model.ModuleId })
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section Script{
+    <script>
+        $("#DisplayOrder").val(@Model.DisplayOrder);
+    </script>
+    <script src="/assets/plugins/ckeditor-full/ckeditor.js"></script>
+    <script src="/assets/js/pages/ckeditor.js"></script>
+}

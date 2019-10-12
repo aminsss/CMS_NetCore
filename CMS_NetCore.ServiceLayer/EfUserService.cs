@@ -93,6 +93,9 @@ namespace CMS_NetCore.ServiceLayer
 
         public async Task<User> UserExistence(int id) =>
             await FindByCondition(x => x.UserId == id).FirstOrDefaultAsync();
-            
+
+        public async Task<IList<User>> GetContactctPerson() =>
+             await FindAll().Include(x => x.ContactPersons).ToListAsync();
+
     }
 }

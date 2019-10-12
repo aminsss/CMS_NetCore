@@ -21,5 +21,6 @@ namespace CMS_NetCore.Interfaces
         Task<IEnumerable<User>> Users();
         Task<IEnumerable<User>> GetAllAdmin();
         Task<User> UserExistence(int id);
+        Task<IList<User>> GetContactctPerson();
     }
 }
