@@ -37,9 +37,15 @@ namespace CMS_NetCore.DomainClasses
         [StringLength(50, ErrorMessage = "تعداد کاراکترها را رعایت کنید")]
         public string Name { get; set; }
 
+        [Display(Name = "نام کاربری")]
+        [StringLength(50, ErrorMessage = "تعداد کاراکترها را رعایت کنید")]
+        public string UserName { get; set; }
+
         [Display(Name = "رمز عبور")]
         [StringLength(50, ErrorMessage = "تعداد کاراکترها را رعایت کنید")]
         public string Password { get; set; }
+
+        public string Token { get; set; }
 
         [Display(Name = "کد فعالسازی")]
         [StringLength(100, ErrorMessage = "تعداد کاراکترها را رعایت کنید")]
@@ -84,6 +90,8 @@ namespace CMS_NetCore.DomainClasses
         [Display(Name = "آدرس")]
         [StringLength(50, ErrorMessage = "تعداد کاراکترها را رعایت کنید")]
         public string Adress { get; set; }
+
+
 
         public Nullable<int> chartPostId { get; set; }
 

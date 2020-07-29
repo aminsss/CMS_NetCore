@@ -45,12 +45,12 @@ namespace  CMS_NetCore.ViewModels
     {
         [Display(Name = "موبایل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید!")]
-        public string mobile { get; set; }
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "لطفا {0} را وارد کنید!")]
         [Display(Name = "رمز عبور")]
         [DataType(DataType.Password)]
-        public string password { get; set; }
+        public string Password { get; set; }
 
         [Display(Name = "مرا به خاطر بسپار")]
         public bool Remember { get; set; }

@@ -9,15 +9,24 @@ using CMS_NetCore.DomainClasses;
 using CMS_NetCore.ViewModels;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using CMS_NetCore.Helpers;
+using Microsoft.Extensions.Options;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace CMS_NetCore.ServiceLayer
 {
     public class EfUserService : RepositoryBase<User>, IUserService
     {
-       
-        public EfUserService(AppDbContext contex)
+
+        private readonly AppSettings _appSettings;
+
+
+        public EfUserService(AppDbContext contex, IOptions<AppSettings> appSettings)
         : base(contex)
         {
+            _appSettings = appSettings.Value;
         }
 
         public async Task<DataGridViewModel<User>> GetBySearch(int page, int pageSize, string srchString = "")
@@ -96,6 +105,38 @@ namespace CMS_NetCore.ServiceLayer
 
         public async Task<IList<User>> GetContactctPerson() =>
              await FindAll().Include(x => x.ContactPersons).ToListAsync();
+
+        public async Task<User> Authenticate(string username, string password)
+        {
+            var user = await FindByCondition(u => u.UserName == username && u.Password == password).FirstOrDefaultAsync();
+
+            // return null if user not found
+            if (user == null)
+                return null;
+
+            // authentication successful so generate jwt token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.UserId.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            user.Token = tokenHandler.WriteToken(token);
+
+            // remove password before returning
+            user.Password = null;
+
+            return user;
+        }
+
+        public async  Task<IEnumerable<User>> GetAll() =>
+            await FindAll().ToListAsync();
 
     }
 }

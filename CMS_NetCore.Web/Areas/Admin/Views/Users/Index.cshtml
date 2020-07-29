@@ -34,73 +34,69 @@
             </div><!-- /.col-sm-4 -->
 
         </div>
-</form>
-        <table class="table table-bordered table-hover table-striped text-center" id="data-table">
-            <thead>
-                <tr>
-                    <th>
-                        نام کاربری
-                    </th>
-                    <th>
-                        نقش کاربر
-                    </th>
-                    <th>
-                        وضعیت ثبت نام
-                    </th>
-                    <th>
-                        ایمیل
-                    </th>
-                    <th>
-                        تاریخ ثبت نام
-                    </th>
-                    <th>
-                        عملیات
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
+    </form>
+    <table class="table table-bordered table-hover table-striped text-center" id="data-table">
+        <thead>
+            <tr>
+                <th>
+                    نام کاربری
+                </th>
+                <th>
+                    نقش کاربر
+                </th>
+                <th>
+                    وضعیت ثبت نام
+                </th>
+                <th>
+                    ایمیل
+                </th>
+                <th>
+                    تاریخ ثبت نام
+                </th>
+                <th>
+                    عملیات
+                </th>
+            </tr>
+        </thead>
+        <tbody>
 
-                <tr ng-repeat="x in users ">
+            <tr ng-repeat="x in users ">
 
-                    <td class="text-right">
-                        <img class="img-person img-circle" src="~/Upload/Profile/thumbnail/{{x.profile}}">
-                        <span>
-                            {{x.moblie}}
-                        </span>
-                    </td>
-                    <td>
-                        {{x.rolename}}
-                    </td>
-                    <td>
-                        {{x.isactive}}
-                    </td>
-                    <td>
-                        {{x.email}}
-                    </td>
-                    <td>
-                        {{x.addedate | date: 'yyyy-MM-dd'}}
-                    </td>
-                    <td>
-                        <a class="btn btn-success btn-round" href="/admin/users/Edit/{{x.userid}}">ویرایش</a>
-                        <a class="btn btn-danger btn-round"  href="/admin/users/Delete/{{x.userid}}">حذف</a>
+                <td class="text-right">
+                    <img class="img-person img-circle" src="~/Upload/Profile/thumbnail/{{x.profile}}">
+                    <span>
+                        {{x.moblie}}
+                    </span>
+                </td>
+                <td>
+                    {{x.rolename}}
+                </td>
+                <td>
+                    {{x.isactive}}
+                </td>
+                <td>
+                    {{x.email}}
+                </td>
+                <td>
+                    {{x.addedate | date: 'yyyy-MM-dd'}}
+                </td>
+                <td>
+                    <a class="btn btn-success btn-round" href="/admin/users/Edit/{{x.userid}}">ویرایش</a>
+                    <a class="btn btn-danger btn-round" href="/admin/users/Delete/{{x.userid}}">حذف</a>
+                </td>
+            </tr>
 
-                        @*<a asp-action="Details" asp-route-id="{{x.userid || id}}" class="btn btn-success btn-round">مشاهده</a>
-                        <a asp-action="Edit" asp-route-id="{{x.userid || id}}" class="btn btn-info btn-round">ویرایش</a>
-                        <a asp-action="Delete" asp-route-id="{{x.userid || id}}" class="btn btn-danger btn-round">حذف</a>*@
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-        <br />
-        <div class="row">
-            <div class="col-md-6">
-                <a class="btn btn-primary">Page: {{pageIndex}} / {{numPages}}</a>
-            </div>
-            <div class="ltr col-md-6">
-                <pagination total-items="totalCount" ng-change="pageChanged()" items-per-page="pageSizeSelected" direction-links="true" ng-model="pageIndex" max-size="maxSize" class="pagination" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
-            </div>
+        </tbody>
+    </table>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-primary">Page: {{pageIndex}} / {{numPages}}</a>
         </div>
+        <div class="ltr col-md-6">
+            <pagination total-items="totalCount" ng-change="pageChanged()" items-per-page="pageSizeSelected" direction-links="true" ng-model="pageIndex" max-size="maxSize" class="pagination" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+        </div>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -112,7 +108,6 @@
                 <h4 id="myModalLabel" class="myModalLabel">تیتر مودال</h4>
             </div>
             <div id="bodyModal" class="bodyModal">
-                <p>...</p>
             </div>
         </div>
     </div>

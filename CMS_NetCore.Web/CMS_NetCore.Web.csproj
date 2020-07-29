@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
     <PackageReference Include="System.Drawing.Common" Version="4.6.0-rc1.19456.4" />
   </ItemGroup>
 
@@ -25,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CMS_NetCore.Helpers\CMS_NetCore.Helpers.csproj" />
     <ProjectReference Include="..\CMS_NetCore.Interfaces\CMS_NetCore.Interfaces.csproj" />
     <ProjectReference Include="..\CMS_NetCore.ViewModels\CMS_NetCore.ViewModels.csproj" />
   </ItemGroup>
