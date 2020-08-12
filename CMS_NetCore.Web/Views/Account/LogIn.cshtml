@@ -4,32 +4,86 @@
     ViewData["Title"] = "LogIn";
 }
 
-<h1>Index</h1>
-
+<div style="padding-top:50px;"></div>
+<div style="padding-top:50px;">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="row">
+            You are Logged in as
+            <span style="font-size:large;color:forestgreen;">
+                @User.Identity.Name
+            </span>
+        </div>
+        <div class="row" style="padding-top:50px;">
+            @Html.ActionLink("Log Off", "Logoff",
+            "Account", null, new { @class = "btn btn-primary btn-lg rph-login-button" })
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <div>
+                    <form asp-action="Login" method="post">
+                        <div>
+                            @Html.AntiForgeryToken()
+                            <div>
+                                <label>User ID</label><br />
+                            </div>
+                            <div>
+                                <label asp-for="UserName" class="control-label"></label>
+                                <input asp-for="UserName" class="form-control txtbox" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                            <div style="padding-top:20px;"></div>
+                            <div>
+                                <label>Password</label><br />
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <label asp-for="Password" class="control-label"></label>
+                                    <input asp-for="Password" class="form-control" />
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="padding-left:35%;width:40%;">
+                            <div class="padding-top:20px;">
+                                <input class="btn btn-primary
+                                btn-lg rph-login-button"
+                                       type="submit" value="LoginUser" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <div style="padding-top:50px;">
+                    <div>
+                        <b>
+                            Please login with any of the below User ID,
+                            Password is span style="font-size:large;color:forestgreen;"
+                            test for all Users
+                        </b>
+                    </div>
+                    <div style="padding-top:10px;">
+                        <ui style="list-style: none;">
+                            <li>jsmith@email.com  -  Director, Read Only - true</li>
+                            <li>srob@email.com  -  Supervisor, Read Only - false</li>
+                            <li>dwill@email.com  -  Analyst, Read Only - false</li>
+                            <li>JBlack@email.com  -  Analyst, Read Only - true</li>
+                        </ui>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    /**/
+    /**/
+</div>
 <p>
     <a asp-action="Create">sign Up</a>
 </p>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Login">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            
-            <input type="submit" />
-        </form>
-    </div>
-</div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

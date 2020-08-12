@@ -8,6 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using CMS_NetCore.DataLayer;
 using CMS_NetCore.DomainClasses;
 using CMS_NetCore.Interfaces;
+using CMS_NetCore.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace CMS_NetCore.Web.Controllers
 {
@@ -23,149 +29,44 @@ namespace CMS_NetCore.Web.Controllers
         }
 
         // GET: Account
-        [HttpGet("LogIn")]
-        public IActionResult LogIn()
+        [AllowAnonymous]
+        public async Task<IActionResult> Login()
         {
+            
             return View();
         }
 
-        
-
-        // GET: Account/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users
-                .Include(u => u.Role)
-                .Include(u => u.chartPost)
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-        // GET: Account/Create
-        public IActionResult Create()
-        {
-            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
-            ViewData["chartPostId"] = new SelectList(_context.chartPosts, "chartPostId", "chartPostId");
-            return View();
-        }
-
-        // POST: Account/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,Name,UserName,Password,Token,ActiveCode,RoleId,ISActive,Email,Profile,MeliID,BirthDate,moblie,phoneNo,State,City,Adress,chartPostId,activecodeDate,AddedDate,ModifiedDate,IP")] User user)
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel login)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(LogIn));
-            }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName", user.RoleId);
-            ViewData["chartPostId"] = new SelectList(_context.chartPosts, "chartPostId", "chartPostId", user.chartPostId);
-            return View(user);
-        }
+            var userToken = await _userService.Authenticate(login.UserName.Trim(), login.Password.Trim());
 
-        // GET: Account/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
+            if (userToken != null)
             {
-                return NotFound();
-            }
+                ////Save token in session object
+                //HttpContext.Session.SetString("JWToken", userToken);
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName", user.RoleId);
-            ViewData["chartPostId"] = new SelectList(_context.chartPosts, "chartPostId", "chartPostId", user.chartPostId);
-            return View(user);
-        }
-
-        // POST: Account/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,Name,UserName,Password,Token,ActiveCode,RoleId,ISActive,Email,Profile,MeliID,BirthDate,moblie,phoneNo,State,City,Adress,chartPostId,activecodeDate,AddedDate,ModifiedDate,IP")] User user)
-        {
-            if (id != user.UserId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                HttpContext.Response.Cookies.Append("JWToken", userToken, new CookieOptions
                 {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserExists(user.UserId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(LogIn));
-            }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName", user.RoleId);
-            ViewData["chartPostId"] = new SelectList(_context.chartPosts, "chartPostId", "chartPostId", user.chartPostId);
-            return View(user);
-        }
+                    HttpOnly = true,
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    SameSite = SameSiteMode.Strict
+                });
 
-        // GET: Account/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
+                return Redirect("~/Account/Login");
             }
 
-            var user = await _context.Users
-                .Include(u => u.Role)
-                .Include(u => u.chartPost)
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            return Redirect("~/Home/Index");
 
-            return View(user);
         }
 
-        // POST: Account/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Logoff()
         {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(LogIn));
+            await HttpContext.SignOutAsync(
+              CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("~/Account/LogIn");
         }
-
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.UserId == id);
-        }
+       
     }
 }

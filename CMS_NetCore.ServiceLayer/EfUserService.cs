@@ -14,6 +14,10 @@ using Microsoft.Extensions.Options;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Http;
 
 namespace CMS_NetCore.ServiceLayer
 {
@@ -105,34 +109,46 @@ namespace CMS_NetCore.ServiceLayer
 
         public async Task<IList<User>> GetContactctPerson() =>
              await FindAll().Include(x => x.ContactPersons).ToListAsync();
-
-        public async Task<User> Authenticate(string username, string password)
+         
+        public async Task<string> Authenticate(string username, string password)
         {
-            var user = await FindByCondition(u => u.UserName == username && u.Password == password).FirstOrDefaultAsync();
+            var user = await FindByCondition(u => u.UserName == username).Include(x=>x.Role).FirstOrDefaultAsync();
 
             // return null if user not found
             if (user == null)
                 return null;
 
-            // authentication successful so generate jwt token
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
+            //var md5 = new MD5CryptoServiceProvider();
+            //var md5data = md5.ComputeHash(data);
+
+            //var hashedPassword = Encoding.ASCII.GetBytes(user.Password);
+
+            if (user.Password == password)
             {
-                Subject = new ClaimsIdentity(new Claim[]
+                // authentication successful so generate jwt token
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+                var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    new Claim(ClaimTypes.Name, user.UserId.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            user.Token = tokenHandler.WriteToken(token);
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim(ClaimTypes.Name , user.Name),
+                        new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                        new Claim(ClaimTypes.Role, user.Role.RoleName.ToString())
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                user.Token = tokenHandler.WriteToken(token);
 
-            // remove password before returning
-            user.Password = null;
+                // remove password before returning
+                user.Password = null;
 
-            return user;
+                return user.Token;
+
+            }
+            else { return null; }
         }
 
         public async  Task<IEnumerable<User>> GetAll() =>

@@ -18,7 +18,7 @@ namespace CMS_NetCore.Interfaces
         Task Remove(User user);
         Task<User> UniqueEmail(string email, int userId);
         Task<User> UniqueMobile(string mobile, int userId);
-        Task<User> Authenticate(string username, string password);
+        Task<string> Authenticate(string username, string password);
         Task<IEnumerable<User>> GetAll();
         Task<IEnumerable<User>> GetAllAdmin();
         Task<User> UserExistence(int id);

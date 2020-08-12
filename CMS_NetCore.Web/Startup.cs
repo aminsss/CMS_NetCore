@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using CMS_NetCore.DataLayer;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -11,22 +7,30 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using CMS_NetCore.Helpers;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.OpenApi.Models;
 using CMS_NetCore.Web.Configs.Extentions;
+using CMS_NetCore.Web.Configs.Methods;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using System.Security.Claims;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CMS_NetCore.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _environment;
+        public IConfiguration Configuration { get; }
+        private ILogger<Startup> _logger;
+
+        public Startup(IConfiguration configuration , IHostingEnvironment environment , ILogger<Startup> logger)
         {
             Configuration = configuration;
+            _environment = environment;
+            _logger = logger;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -40,22 +44,28 @@ namespace CMS_NetCore.Web
             services.AddOurAuthentication(appSettings);
 
             services.AddOurSwagger();
-            services.AddMvc().AddJsonOptions(options =>
-            options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.AddMvc(options  =>{
+                options.Conventions.Add(
+                        new AuthorizeAreaConvention("Admin", "AdministratorPolicy"));
+            }).AddJsonOptions(options =>
+            options.SerializerSettings.ContractResolver = new DefaultContractResolver())
+                .AddSessionStateTempDataProvider();
+
+            //services.AddSession();
 
             var connection = @"Data Source=.;Initial Catalog=CMS_NetCoreDb;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<AppDbContext>
                 (options => options.UseSqlServer(connection,b=>b.MigrationsAssembly("CMS_NetCore.Web")));
 
-
             // configure DI for application services
             services.AddOurDIConfiguration();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (_environment.IsDevelopment())
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
@@ -70,9 +80,32 @@ namespace CMS_NetCore.Web
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            app.UseAuthentication();
+            app.UseStatusCodePages(async context =>
+            {
+                var response = context.HttpContext.Response;
+
+                if (response.StatusCode == (int)System.Net.HttpStatusCode.Unauthorized ||
+                    response.StatusCode == (int)System.Net.HttpStatusCode.Forbidden)
+                    response.Redirect("/Account/Login");
+            });
+
+            //app.UseSession();
+            ////Add JWToken to all incoming HTTP Request Header
+            //app.Use(async (context, next) =>
+            //{
+            //    var JWToken = context.Session.GetString("JWToken");
+            //    if (!string.IsNullOrEmpty(JWToken))
+            //    {
+            //        context.Request.Headers.Add("Authorization", "Bearer " + JWToken);
+            //    }
+            //    await next();
+            //});
+
 
             app.UseStaticFiles();
+            app.UseCookiePolicy();
+            app.UseMiddleware<AuthorizationHeader>();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

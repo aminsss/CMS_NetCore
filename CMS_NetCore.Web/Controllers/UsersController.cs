@@ -30,15 +30,16 @@ namespace CMS_NetCore.Web.Controllers
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody]LoginViewModel userParam)
         {
-            var user = await _userService.Authenticate(userParam.UserName, userParam.Password);
+            var userToken = await _userService.Authenticate(userParam.UserName, userParam.Password);
 
-            if (user == null)
+            if (userToken == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
 
-            return  Ok(user);
+            return  Ok(userToken);
         }
 
         [HttpGet("GetAll")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAll()
         {
             var users = await _userService.GetAll();

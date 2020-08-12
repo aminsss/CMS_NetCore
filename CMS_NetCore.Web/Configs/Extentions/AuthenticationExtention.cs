@@ -7,11 +7,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using CMS_NetCore.Helpers;
 using System.Text;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace CMS_NetCore.Web.Configs.Extentions
 {
     public static class AuthenticationExtention
     {
+        
+
         public static IServiceCollection AddOurAuthentication(this IServiceCollection services, AppSettings appSettings)
         {
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
@@ -31,8 +35,29 @@ namespace CMS_NetCore.Web.Configs.Extentions
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+            })
+            .AddCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.Name = "JWToken";
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Home/Index";
             });
+
+            services.AddAuthorization(o =>
+            {
+                o.AddPolicy("AdministratorPolicy", b =>
+                {
+                    b.RequireAuthenticatedUser();
+                    b.RequireClaim(ClaimTypes.Role, "Admin");
+                });
+            });
+
             return services;
         }
+
+
+       
     }
 }
