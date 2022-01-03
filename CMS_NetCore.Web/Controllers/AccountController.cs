@@ -28,13 +28,13 @@ namespace CMS_NetCore.Web.Controllers
             _userService = userService;
         }
 
-        // GET: Account
-        [AllowAnonymous]
-        public async Task<IActionResult> Login()
-        {
+        //// GET: Account
+        //[AllowAnonymous]
+        //public async Task<IActionResult> Login()
+        //{
             
-            return View();
-        }
+        //    return View();
+        //}
 
         [HttpPost]
         [AllowAnonymous]
@@ -55,7 +55,7 @@ namespace CMS_NetCore.Web.Controllers
                 });
 
                 return Redirect("~/Account/Login");
-            }
+             }
 
             return Redirect("~/Home/Index");
 

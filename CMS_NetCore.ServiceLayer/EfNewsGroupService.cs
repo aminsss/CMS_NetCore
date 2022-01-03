@@ -31,7 +31,7 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<NewsGroup> GetById(int? id) =>
-            await FindByCondition(x=>x.NewsGroupId.Equals(id)).DefaultIfEmpty(new NewsGroup()).SingleAsync();
+            await FindByCondition(x=>x.NewsGroupId.Equals(id)).FirstOrDefaultAsync();
 
         public async Task Add(NewsGroup newsGroup)
         {

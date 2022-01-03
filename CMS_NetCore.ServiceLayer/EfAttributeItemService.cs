@@ -30,8 +30,8 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<AttributItem> GetById(int? id) =>
-             await FindByCondition(x=>x.AttributItemId.Equals(id)).DefaultIfEmpty(new AttributItem())
-            .Include(x=>x.AttributGrp).SingleAsync();
+             await FindByCondition(x=>x.AttributItemId.Equals(id))
+                .Include(x=>x.AttributGrp).FirstOrDefaultAsync();
 
         public async Task Add(AttributItem attributItem)
         {

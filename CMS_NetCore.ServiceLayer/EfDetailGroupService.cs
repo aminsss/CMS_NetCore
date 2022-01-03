@@ -49,7 +49,7 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<DetailGroup> GetById(int? id) =>
-            await FindByCondition(x=>x.DetailGroupId.Equals(id)).DefaultIfEmpty(new DetailGroup()).SingleAsync();
+            await FindByCondition(x=>x.DetailGroupId.Equals(id)).FirstOrDefaultAsync();
 
         public async Task<IList<DetailGroup>> GetByProductGroupId(int? productGroupId) =>
             await FindByCondition(x => x.ProductGroupId.Equals(productGroupId))

@@ -22,10 +22,10 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         private readonly INewsTagService _newsTagService;
         private readonly INewsGalleryService _newsGalleryService;
         private readonly IUserService _userService;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
         public NewsController(INewsService newsService, INewsGroupService newsGroupService, IUserService userService
-            ,INewsTagService newsTagService,INewsGalleryService newsGalleryService , IHostingEnvironment env)
+            ,INewsTagService newsTagService,INewsGalleryService newsGalleryService , IWebHostEnvironment env)
         {
             _newsGroupService = newsGroupService;
             _newsService = newsService;

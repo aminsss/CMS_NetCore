@@ -19,7 +19,7 @@ namespace CMS_NetCore.ServiceLayer
 
 
         public async Task<NewsGallery> GetById(int? id) =>
-            await FindByCondition(x=>x.NewsGalleryId.Equals(id)).DefaultIfEmpty(new NewsGallery()).SingleAsync();
+            await FindByCondition(x => x.NewsGalleryId.Equals(id)).FirstOrDefaultAsync();
 
         public async Task Remove(NewsGallery newsGallery)
         {

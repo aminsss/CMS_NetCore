@@ -25,7 +25,7 @@ namespace CMS_NetCore.ServiceLayer
             var dataGridView = new DataGridViewModel<Module>
             {
                 Records = await FindByCondition(x => x.ModuleTitle.Contains(searchString))
-                .OrderBy(o => o.DisplayOrder).OrderBy(O => O.PositionId).Include(x => x.Component).Include(x => x.Position)
+                .OrderBy(o => o.DisplayOrder).OrderBy(p => p.PositionId).Include(x => x.Component).Include(x => x.Position)
                 .ToListAsync()
             };
 
@@ -113,16 +113,17 @@ namespace CMS_NetCore.ServiceLayer
             await FindByCondition(x => x.PositionId == id).ToListAsync();
 
         public async Task<Module> GetById(int? id) =>
-           await FindByCondition(x => x.ModuleId.Equals(id)).DefaultIfEmpty(new Module()).SingleAsync();
+           await FindByCondition(x => x.ModuleId.Equals(id)).FirstOrDefaultAsync();
 
         public async Task<bool> ExistModule(int? id) =>
             await FindByCondition(x => x.ModuleId.Equals(id)).AnyAsync();
 
         public async Task<Module> GetMenuModuleById(int? id) =>
-            await FindByCondition(x => x.ModuleId.Equals(id)).Include(x => x.MenuModule).DefaultIfEmpty(new Module()).FirstOrDefaultAsync();
+            await FindByCondition(x => x.ModuleId.Equals(id)).Include(x => x.MenuModule).FirstOrDefaultAsync();
         public async Task<Module> GetHtmlModuleById(int? id) =>
-                await FindByCondition(x => x.ModuleId.Equals(id)).Include(x => x.HtmlModule).DefaultIfEmpty(new Module()).FirstOrDefaultAsync();
+                await FindByCondition(x => x.ModuleId.Equals(id)).Include(x => x.HtmlModule).FirstOrDefaultAsync();
 
         public async Task<Module> GetContactModuleById(int? id) =>
-                  await FindByCondition(x => x.ModuleId.Equals(id)).Include(x => x.ContactModule).DefaultIfEmpty(new Module()).FirstOrDefaultAsync();    }
+                  await FindByCondition(x => x.ModuleId.Equals(id)).Include(x => x.ContactModule).FirstOrDefaultAsync();
+    }
 }

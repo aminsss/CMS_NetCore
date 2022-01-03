@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CMS_NetCore.DomainClasses;
-using  CMS_NetCore.ViewModels;
+using CMS_NetCore.ViewModels;
 
 namespace CMS_NetCore.Interfaces
 {
@@ -17,6 +17,7 @@ namespace CMS_NetCore.Interfaces
         Task<IList<Menu>> GetByParentGroupOrder(int? parentId, int? menuGroupId, int? pastDisOrder);
         Task Add(Menu menu);
         Task Edit(Menu menu, int? pastDisOrder, int? pastParentId, int? pastGroupId);
+        Task<Menu> GetByPageName(string pageName);
         Task Remove(Menu menu);
         Task<bool> UniquePageName(string pageName, int? menuId);
         Task<IEnumerable<Menu>> Menus();

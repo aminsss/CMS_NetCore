@@ -1,44 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
-    <PackageReference Include="System.Drawing.Common" Version="4.6.0-rc1.19456.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.14.0" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="CMS_NetCore.DataLayer">
-      <HintPath>..\CMS_NetCore.DataLayer\bin\Debug\netcoreapp2.2\CMS_NetCore.DataLayer.dll</HintPath>
+      <HintPath>..\CMS_NetCore.DataLayer\bin\Debug\net5.0\CMS_NetCore.DataLayer.dll</HintPath>
     </Reference>
     <Reference Include="CMS_NetCore.DomainClasses">
-      <HintPath>..\CMS_NetCore.DomainClasses\bin\Debug\netcoreapp2.2\CMS_NetCore.DomainClasses.dll</HintPath>
+      <HintPath>..\CMS_NetCore.DomainClasses\bin\Debug\net5.0\CMS_NetCore.DomainClasses.dll</HintPath>
     </Reference>
     <Reference Include="CMS_NetCore.Interfaces">
-      <HintPath>..\CMS_NetCore.Interfaces\bin\Debug\netcoreapp2.2\CMS_NetCore.Interfaces.dll</HintPath>
+      <HintPath>..\CMS_NetCore.Interfaces\bin\Debug\net5.0\CMS_NetCore.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="CMS_NetCore.ViewModels">
-      <HintPath>..\CMS_NetCore.ViewModels\bin\Debug\netcoreapp2.2\CMS_NetCore.ViewModels.dll</HintPath>
+      <HintPath>..\CMS_NetCore.ViewModels\bin\Debug\net5.0\CMS_NetCore.ViewModels.dll</HintPath>
     </Reference>
     <Reference Include="CMS_NetCore.Helpers">
-      <HintPath>..\CMS_NetCore.Helpers\bin\Debug\netcoreapp2.2\CMS_NetCore.Helpers.dll</HintPath>
+      <HintPath>..\CMS_NetCore.Helpers\bin\Debug\net5.0\CMS_NetCore.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Authentication.Cookies">
-      <HintPath>D:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.authentication.cookies\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Cookies.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
-      <HintPath>D:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.hosting.abstractions\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.Tokens">
-      <HintPath>D:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.identitymodel.tokens\5.3.0\lib\netstandard2.0\Microsoft.IdentityModel.Tokens.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IdentityModel.Tokens.Jwt">
-      <HintPath>D:\Program Files\dotnet\sdk\NuGetFallbackFolder\system.identitymodel.tokens.jwt\5.3.0\lib\netstandard2.0\System.IdentityModel.Tokens.Jwt.dll</HintPath>
-    </Reference>
-  
   </ItemGroup>
-
 </Project>

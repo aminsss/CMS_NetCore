@@ -24,6 +24,7 @@ namespace  CMS_NetCore.DataLayer.EntityConfigurations
                 .WithOne(t => t.Module)
                 .HasForeignKey<ContactModule>(t=>t.ContactModuleId)
                 .OnDelete(DeleteBehavior.Cascade);
+           
         }
     }
 }

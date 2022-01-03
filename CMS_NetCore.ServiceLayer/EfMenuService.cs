@@ -29,7 +29,7 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<Menu> GetById(int? id) =>
-            await FindByCondition(x => x.MenuId.Equals(id)).DefaultIfEmpty(new Menu()).SingleAsync();
+            await FindByCondition(x => x.MenuId.Equals(id)).FirstOrDefaultAsync();
 
         public async Task Add(Menu menu)
         {
@@ -161,7 +161,7 @@ namespace CMS_NetCore.ServiceLayer
         public async Task<bool> UniquePageName(string pageName, int? menuId) =>
             await FindByCondition(s => s.PageName == pageName && s.MenuId != menuId).AnyAsync();
 
-        public async Task<IList<Menu>> GetByParentId(int? parentId,int? menuGroupId) =>
+        public async Task<IList<Menu>> GetByParentId(int? parentId, int? menuGroupId) =>
             await FindByCondition(x => x.ParentId == parentId && x.MenuGroupId == menuGroupId).ToListAsync();
 
         public async Task<IEnumerable<Menu>> Menus() =>
@@ -173,6 +173,8 @@ namespace CMS_NetCore.ServiceLayer
         public async Task<IList<Menu>> GetIncludeModulePage(int? menuGroupId) =>
             await FindByCondition(x => x.MenuGroupId.Equals(menuGroupId)).Include(x => x.ModulePage).ToListAsync();
 
+        public async Task<Menu> GetByPageName(string pageName) =>
+            await FindByCondition(x => x.PageName == pageName).Include(x=>x.ModulePage).ThenInclude(x=>x.Module).FirstOrDefaultAsync();
 
     }
 }

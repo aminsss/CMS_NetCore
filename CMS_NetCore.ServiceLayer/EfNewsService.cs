@@ -53,7 +53,7 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<News> GetById(int? id) =>
-           await FindByCondition(x => x.NewsId.Equals(id)).DefaultIfEmpty(new News()).SingleAsync();
+           await FindByCondition(x => x.NewsId.Equals(id)).FirstOrDefaultAsync();
 
         public async Task<bool> UniqueAlias(string aliasName, int? newsId) =>
             await FindByCondition(x => x.AliasName == aliasName && x.NewsId != newsId).AnyAsync();

@@ -20,10 +20,10 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         private readonly IRoleService _roleService;
         private readonly IChartPost _chartPost;
         private readonly IUserService _userService;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
 
-        public UsersController(IUserService userService,IRoleService roleService,IChartPost chartPost, IHostingEnvironment env)
+        public UsersController(IUserService userService,IRoleService roleService,IChartPost chartPost, IWebHostEnvironment env)
         {
             _userService = userService;
             _roleService = roleService;

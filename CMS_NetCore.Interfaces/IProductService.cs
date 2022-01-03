@@ -14,11 +14,11 @@ namespace CMS_NetCore.Interfaces
         Task<Product> GetById(int? id);
         Task Add(Product product, string galleyFiles, string tags);
         Task Edit(Product product, string galleryFiles, string tags);
-        Task Remove(Product product);
+        Task Remove(Product product, string webRootPath);
         Task<bool> UniqueAlias(string aliasName, int? productId);
         Task<IEnumerable<Product>> GetAll();
         Task<bool> ProductExsitence(int? id);
         Task<Product> GetIncludeById(int? id);
-        Task DeleteImage(int id);
+        Task DeleteImage(int id,string webRootPath);
     }
 }

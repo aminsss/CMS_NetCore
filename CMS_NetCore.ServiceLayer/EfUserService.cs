@@ -15,9 +15,9 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http.Authentication;
-using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Authentication.Cookies;
+//using Microsoft.AspNetCore.Http.Authentication;
+//using Microsoft.AspNetCore.Http;
 
 namespace CMS_NetCore.ServiceLayer
 {
@@ -49,9 +49,8 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<User> GetById(int? id) =>
-            await FindByCondition(x => x.UserId.Equals(id)).DefaultIfEmpty(new User())
-            .Include(x => x.Role).Include(x=>x.chartPost).SingleAsync();
-
+             await FindByCondition(x => x.UserId.Equals(id))
+                .Include(x => x.Role).Include(x => x.chartPost).FirstOrDefaultAsync();
 
         public async Task<User> GetUserByIdentity(string mobile) =>
            await FindByCondition(x => x.moblie == mobile).FirstOrDefaultAsync();

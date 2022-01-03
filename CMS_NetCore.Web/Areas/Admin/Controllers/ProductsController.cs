@@ -22,9 +22,9 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         private readonly IProductAttributeService _productAttributeService;
         private readonly IProductDetailService _productDetailService;
         private readonly IDetailGroupService _detailGroupService;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
-        public ProductsController(IProductService productService, IHostingEnvironment env ,
+        public ProductsController(IProductService productService, IWebHostEnvironment env ,
             IAttributeGrpService attributeGrpService, IDetailItemService detailItemService, IProductAttributeService productAttributeService
             , IProductDetailService productDetailService, IDetailGroupService detailGroupService)
         {
@@ -202,13 +202,13 @@ namespace CMS_NetCore.Web.Areas.Admin.Controllers
         {
             var product = await _productService.GetIncludeById(id);
             
-            await _productService.Remove(product);
+            await _productService.Remove(product, _env.WebRootPath);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<JsonResult> DeleteGallery(int id)
         {
-            await _productService.DeleteImage(id);
+            await _productService.DeleteImage(id, _env.WebRootPath);
             return Json(true);
         }
 

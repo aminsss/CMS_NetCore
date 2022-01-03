@@ -48,7 +48,7 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<MenuGroup> GetById(int? id) =>
-            await FindByCondition(x=>x.MenuGroupId.Equals(id)).DefaultIfEmpty(new MenuGroup()).SingleAsync();
+            await FindByCondition(x=>x.MenuGroupId.Equals(id)).FirstOrDefaultAsync();
 
         public async Task<IEnumerable<MenuGroup>> MenuGroup() =>
             await FindAll().ToListAsync();

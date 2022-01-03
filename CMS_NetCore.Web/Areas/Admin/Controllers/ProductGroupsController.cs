@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CMS_NetCore.DataLayer;
 using CMS_NetCore.DomainClasses;
 using CMS_NetCore.Interfaces;
 

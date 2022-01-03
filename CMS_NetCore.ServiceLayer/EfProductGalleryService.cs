@@ -25,7 +25,7 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<ProductGallery> GetById(int id) =>
-            await FindByCondition(x=>x.ProductGalleryId.Equals(id)).DefaultIfEmpty(new ProductGallery()).SingleAsync();
+            await FindByCondition(x=>x.ProductGalleryId.Equals(id)).FirstOrDefaultAsync();
 
         public async Task Add(IList<ProductGallery> productGalleries)
         {

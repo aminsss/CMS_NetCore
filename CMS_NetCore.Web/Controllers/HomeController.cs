@@ -6,17 +6,55 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CMS_NetCore.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using CMS_NetCore.Interfaces;
 
 namespace CMS_NetCore.Web.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-        [AllowAnonymous]
-        public IActionResult Index()
+
+        private IMenuService _menuService;
+        private IUserService _userService;
+        private IMessageService _messageService;
+        private IProductGroupService _productGroupService;
+        private IProductService _productService;
+        private INewsGroupService _newsGroupService;
+        private INewsService _newsService;
+
+        public HomeController(IMenuService menuService, IUserService userService, IMessageService messageService, IProductGroupService productGroupService, IProductService productService,
+                               INewsGroupService newsGroupService, INewsService newsService)
         {
-            return View();
+            _menuService = menuService;
+            _userService = userService;
+            _messageService = messageService;
+            _productGroupService = productGroupService;
+            _productService = productService;
+            _newsGroupService = newsGroupService;
+            _newsService = newsService;
         }
+
+        [AllowAnonymous]
+        [Route("{id?}")]
+        public async Task<IActionResult> Index(string id)
+        {
+            id = id ?? "Home";
+            var menu = await _menuService.GetByPageName(id);
+            if (menu == null)
+                return View("Error");
+
+            return View(menu);
+        }
+
+        //public ActionResult _navbar()
+        //{
+        //    return PartialView(/*_menuService.menus()*/);
+        //}
+
+        //public ActionResult NotFound()
+        //{
+        //    return View("_NotFound");
+        //}
 
         public IActionResult About()
         {

@@ -1,0 +1,123 @@
+﻿@*@model IEnumerable<Koshop.DomainClasses.Menu>
+@{
+    Koshop.DataLayer.AppDbContext db = new Koshop.DataLayer.AppDbContext();
+}
+
+<div class="navbar-area">
+    <div class="zovio-responsive-nav">
+        <div class="container">
+            <div class="zovio-responsive-menu">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="/Upload/13981208-14121808.png" alt="logo">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="zovio-nav">
+        <div class="container">
+            <nav class="navbar navbar-expand-md navbar-light">
+                <a class="navbar-brand" href="">
+                    <img src="/Upload/13981208-14121808.png" alt="logo">
+                </a>
+                <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        @MenuTree(Model.Where(s => s.Depth == 0 && s.MenuGroup.MenuType == "MainMenu"))
+                        <li class="nav-item ">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a href="/Account/Login" class="nav-link"><img src="/zovio/assets/fonts/user.svg" style="height: 24px;"></a>
+                            }
+                            else
+                            {
+                                <a href="#" class="nav-link"><img src="/zovio/assets/fonts/user.svg" style="height: 24px;"></a>
+                                <ul class="dropdown-menu">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        var user = db.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+                                        <li class="nav-item">
+                                            <a href="/Account/Profile" class="nav-link"><img src="~/Upload/Profile/@user.Profile" style="height: 24px;" class="img-circle img-responsive" /> @user.Name</a>
+                                        </li>
+                                        if (user.RoleId == 1)
+                                        {
+                                            <li class="nav-item">
+                                                <a href="/Admin" class="nav-link"><img src="~/zovio/assets/fonts/star.svg" style="height: 18px" class="img-circle img-responsive" /> ورود به پنل مدیریت</a>
+                                            </li>
+                                        }
+                                        <li class="nav-item">
+                                            <a href="/Account/SignOut" class="nav-link"><img src="~/zovio/assets/fonts/logout.svg" style="height: 18px" class="img-circle img-responsive" /> خروج از حساب کاربری</a>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    </ul>
+
+                    <div class="others-options">
+                        <a href="#" class="cart-btn"><i class="flaticon-bag"></i></a>
+                        <div class="option-item">
+                            <i class="search-btn"> </i>
+                            <i class="close-btn fas fa-times"></i>
+                            <div class="search-overlay search-popup">
+                                <a href="/Login"><p>ورود</p></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+helper MenuTree(IEnumerable<Koshop.DomainClasses.Menu> menu)
+{
+    foreach (var item in menu.OrderBy(x => x.DisplayOrder).Where(y=>y.IsActive == true))
+    {
+        <li class="nav-item ">
+            @if (item.PageType == "4")
+            {
+                <a class="nav-link">@item.MenuTitle<i></i></a>
+            }
+            else
+            {
+                <a href="/@item.PageName" class="nav-link">@item.MenuTitle<i></i></a>
+            }
+            @if (Model.Any(s => s.ParentId == item.MenuId))
+            {
+                <ul class="dropdown-menu">
+                    @foreach (var item2 in Model.Where(s => s.ParentId == item.MenuId))
+                    {
+                    <li class="nav-item">
+                        @if (item2.PageType == "4")
+                        {
+                            <a class="nav-link">@item2.MenuTitle</a>
+                        }
+                        else
+                        {
+                            <a href="/@item2.PageName" class="nav-link">@item2.MenuTitle</a>
+                        }
+                        @if (Model.Any(s => s.ParentId == item2.MenuId))
+                        {
+                            <ul class="dropdown-menu">
+                                @foreach (var item3 in Model.Where(s => s.ParentId == item2.MenuId))
+                                {
+                                <li class="nav-item">
+                                    @if (item3.PageType == "4")
+                                    {
+                                        <a class="nav-link">@item3.MenuTitle</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/@item3.PageName" class="nav-link">@item3.MenuTitle</a>
+                                    }
+                                </li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                    }
+                </ul>
+            }
+        </li>
+    }
+}*@

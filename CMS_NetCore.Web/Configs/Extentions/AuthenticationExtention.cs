@@ -14,8 +14,6 @@ namespace CMS_NetCore.Web.Configs.Extentions
 {
     public static class AuthenticationExtention
     {
-        
-
         public static IServiceCollection AddOurAuthentication(this IServiceCollection services, AppSettings appSettings)
         {
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
@@ -58,6 +56,6 @@ namespace CMS_NetCore.Web.Configs.Extentions
         }
 
 
-       
+
     }
 }

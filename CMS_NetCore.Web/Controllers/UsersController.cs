@@ -35,7 +35,7 @@ namespace CMS_NetCore.Web.Controllers
             if (userToken == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
 
-            return  Ok(userToken);
+            return  Ok(200);
         }
 
         [HttpGet("GetAll")]

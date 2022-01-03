@@ -56,7 +56,7 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<Order> GetById(int? id) =>
-            await FindByCondition(x=>x.OrderId.Equals(id)).DefaultIfEmpty(new Order()).SingleAsync();
+            await FindByCondition(x => x.OrderId.Equals(id)).FirstOrDefaultAsync();
 
         public async Task<IEnumerable<Order>> GetAll () =>
             await FindAll().ToListAsync();

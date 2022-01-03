@@ -59,6 +59,6 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<Message> GetById(int? id) =>
-            await FindByCondition(x => x.MessageId.Equals(id)).DefaultIfEmpty(new Message()).SingleAsync();
+            await FindByCondition(x => x.MessageId.Equals(id)).FirstOrDefaultAsync();
     }
 }

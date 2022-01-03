@@ -88,7 +88,7 @@ namespace CMS_NetCore.ServiceLayer
         }
 
         public async Task<ProductGroup> GetById(int? id) =>
-            await FindByCondition(x => x.ProductGroupId.Equals(id)).DefaultIfEmpty(new ProductGroup()).SingleAsync();
+            await FindByCondition(x => x.ProductGroupId.Equals(id)).FirstOrDefaultAsync();
 
         public async Task<IEnumerable<ProductGroup>> ProductGroups() =>
             await FindAll().ToListAsync();
