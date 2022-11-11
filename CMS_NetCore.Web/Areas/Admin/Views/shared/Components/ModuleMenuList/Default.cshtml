@@ -16,6 +16,6 @@
         if (Model.Any(s => s.ParentId == item.Id))
         {
             @await Component.InvokeAsync("ModuleMenuList", new { depth = (item.Depth + 1), parentId = item.Id, menuGroupId = item.MenuGroupId, moduleId = moduleId })
-            }
+        }
         }
     }

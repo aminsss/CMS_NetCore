@@ -1,31 +1,29 @@
-﻿using CMS_NetCore.Interfaces;
-using CMS_NetCore.DomainClasses;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CMS_NetCore.DomainClasses;
+using CMS_NetCore.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CMS_NetCore.Web.ViewComponents
+namespace CMS_NetCore.Web.Areas.Admin.ViewComponents;
+
+[ViewComponent(Name = "ModuleUsersShow")]
+public class ModuleUsersShow : ViewComponent
 {
-    [ViewComponent(Name = "ModuleUsersShow")]
-    public class ModuleUsersShow : ViewComponent
+    private readonly IUserService _userService;
+
+    public ModuleUsersShow(IUserService userService)
     {
-        private IUserService _userService;
-
-        public ModuleUsersShow(IUserService userService)
-        {
-            _userService = userService;
-        }
-
-        public async Task<IViewComponentResult> InvokeAsync(int? moduleId)
-        {
-            ViewBag.moduleId = moduleId;
-            var list = await GetUsers();
-            return View(list);
-        }
-        // GET: Admin/Partial
-        public async Task<IEnumerable<User>> GetUsers() =>
-             await _userService.GetContactPerson();
+        _userService = userService;
     }
+
+    public async Task<IViewComponentResult> InvokeAsync(int? moduleId)
+    {
+        ViewBag.moduleId = moduleId;
+        var list = await GetUsers();
+        return null;
+    }
+
+    // GET: Admin/Partial
+    public async Task<IEnumerable<User>> GetUsers() =>
+        await _userService.GetContactPerson();
 }

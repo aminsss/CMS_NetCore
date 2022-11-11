@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CMS_NetCore.Web.Areas.Admin.ViewComponents;
 
-[ViewComponent(Name = "ProductGroupList")]
-public class ProductGroupList : ViewComponent
+[ViewComponent(Name = "ProductsGroupGrid")]
+public class ProductGroupGrid : ViewComponent
 {
     private readonly IProductGroupService _productGroupService;
 
-    public ProductGroupList(IProductGroupService productGroupService)
+    public ProductGroupGrid(IProductGroupService productGroupService)
     {
         _productGroupService = productGroupService;
     }
@@ -24,7 +24,7 @@ public class ProductGroupList : ViewComponent
         ViewBag.Depth = depth;
         ViewBag.ParentId = parentId;
         var list = await ProductGroups();
-        return View(list);
+        return null;
     }
 
     // GET: Admin/Partial
