@@ -15,7 +15,7 @@
     }
     @foreach (var item in Model.OrderBy(x => x.DisplayOrder))
     {
-        <option value="@item.DisplayOrder">@item.ModuleTitle</option>
+        <option value="@item.DisplayOrder">@item.Title</option>
     }
     @if (lastMenu != "1")
     {

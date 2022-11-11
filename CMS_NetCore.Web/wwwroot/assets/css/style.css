@@ -2542,7 +2542,7 @@ body, #page-content {
 }
 
 .backgrstore {
-    background: url('/StoreImage/thumbnail/no-photo.png') center center no-repeat;
+    background: url('/StoreImage/thumbnail/no-photo.jpg') center center no-repeat;
     background-size: cover;
     object-fit: cover;
 }

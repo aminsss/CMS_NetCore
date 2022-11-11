@@ -1,15 +1,14 @@
 ﻿using CMS_NetCore.DomainClasses;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace  CMS_NetCore.DataLayer.EntityConfigurations
+namespace CMS_NetCore.DataLayer.EntityConfigurations;
+
+public class ContactModuleConfig : IEntityTypeConfiguration<ContactModule>
 {
-    public class ContactModuleConfig : IEntityTypeConfiguration<ContactModule>
+    public void Configure(EntityTypeBuilder<ContactModule> builder)
     {
-        public void Configure(EntityTypeBuilder<ContactModule> builder)
-        {
-            builder.HasOne(t => t.Module)
-                 .WithOne();
-        }
+        builder.HasOne(contactModule => contactModule.Module)
+            .WithOne();
     }
 }

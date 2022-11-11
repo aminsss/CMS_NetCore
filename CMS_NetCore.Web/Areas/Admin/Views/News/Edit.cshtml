@@ -2,9 +2,9 @@
 
 <form asp-action="Edit" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="NewsId" />
+    <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="NewsImage" />
-    <input type="hidden" asp-for="AddedDate" />
+    <input type="hidden" asp-for="CreatedDate" />
 
     <div id="editor-ltr" hidden></div>
 
@@ -118,11 +118,11 @@
             <div class="form-group ">
                 <label class="control-label col-md-2" for="newsGalleryPost"></label>
                 <div class="col-md-10">
-                    @foreach (var galery in Model.NewsGallery)
+                    @foreach (var galery in Model.NewsGalleries)
                     {
-                        <div class="col-md-3" id="image_@(galery.NewsGalleryId)">
+                        <div class="col-md-3" id="image_@(galery.Id)">
                             <img src="~/NewsImages/thumbnail/@galery.ImageName" class="thumbnail" style="width:150px; height:150px">
-                            <a class="btn btn-block btn-danger" style="width:150px" onclick="deleteImage(@galery.NewsGalleryId)">حذف</a>
+                            <a class="btn btn-block btn-danger" style="width:150px" onclick="deleteImage(@galery.Id)">حذف</a>
                         </div>
                     }
                 </div>
@@ -136,7 +136,7 @@
     <script src="/assets/js/pages/ckeditor.js"></script>
     <script>
          $(function () {
-             $('#NewsGroupId').val('@Model.NewsGroup.NewsGroupId');
+             $('#NewsGroupId').val('@Model.NewsGroup.Id');
         });
 
         function deleteImage(id) {

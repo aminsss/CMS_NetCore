@@ -45,13 +45,13 @@
             @Html.DisplayNameFor(model => model.User)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.UserId)
+            @Html.DisplayFor(model => model.User.Id)
         </dd class>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AddedDate)
+            @Html.DisplayNameFor(model => model.CreatedDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AddedDate)
+            @Html.DisplayFor(model => model.CreatedDate)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ModifiedDate)
@@ -60,15 +60,15 @@
             @Html.DisplayFor(model => model.ModifiedDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IP)
+            @Html.DisplayNameFor(model => model.Ip)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IP)
+            @Html.DisplayFor(model => model.Ip)
         </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="NewsId" />
+        <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

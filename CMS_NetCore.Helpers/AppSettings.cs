@@ -1,9 +1,6 @@
-﻿using System;
+﻿namespace CMS_NetCore.Helpers;
 
-namespace CMS_NetCore.Helpers
+public class AppSettings
 {
-    public class AppSettings
-    {
-        public string Secret { get; set; }
-    }
+    public string Secret { get; set; }
 }

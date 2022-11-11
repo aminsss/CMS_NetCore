@@ -15,6 +15,7 @@ namespace CMS_NetCore.Web.Controllers
     {
 
         private IMenuService _menuService;
+        private IModulePageService _modulePageService;
         private IUserService _userService;
         private IMessageService _messageService;
         private IProductGroupService _productGroupService;
@@ -23,9 +24,10 @@ namespace CMS_NetCore.Web.Controllers
         private INewsService _newsService;
 
         public HomeController(IMenuService menuService, IUserService userService, IMessageService messageService, IProductGroupService productGroupService, IProductService productService,
-                               INewsGroupService newsGroupService, INewsService newsService)
+                               INewsGroupService newsGroupService, INewsService newsService,IModulePageService modulePageService)
         {
             _menuService = menuService;
+            _modulePageService = modulePageService;
             _userService = userService;
             _messageService = messageService;
             _productGroupService = productGroupService;
@@ -39,6 +41,8 @@ namespace CMS_NetCore.Web.Controllers
         public async Task<IActionResult> Index(string id)
         {
             id = id ?? "Home";
+            //if(id.ToLower() == "admin")
+            //    return RedirectToAction("Index", "Default", new { area = "Admin" });
             var menu = await _menuService.GetByPageName(id);
             if (menu == null)
                 return View("Error");

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CMS_NetCore.DomainClasses;
 
-namespace CMS_NetCore.Interfaces
+namespace CMS_NetCore.Interfaces;
+
+public interface IPositionService
 {
-    public interface IPositionService
-    {
-        Task<IEnumerable<Position>> GetAll();
-    }
+    Task<IEnumerable<Position>> GetAll();
 }

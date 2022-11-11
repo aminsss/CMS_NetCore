@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CMS_NetCore.DomainClasses;
 
-namespace CMS_NetCore.Interfaces
+namespace CMS_NetCore.Interfaces;
+
+public interface IMenuModuleService
 {
-    public interface IMenuModuleService 
-    {
-        Task<MenuModule> GetByModuleId(int? id);
-        Task Edit(MenuModule menuModule);
-    }
+    Task<MenuModule> GetByModuleId(int? id);
+    Task Edit(MenuModule menuModule);
 }

@@ -26,6 +26,6 @@ namespace CMS_NetCore.Web.ViewComponents
         }
         // GET: Admin/Partial
         public async Task<IEnumerable<User>> GetUsers() =>
-             await _userService.GetContactctPerson();
+             await _userService.GetContactPerson();
     }
 }

@@ -17,7 +17,7 @@ namespace CMS_NetCore.Web.Configs.Extentions
             services.AddScoped<IRoleService, EfRoleService>();
             services.AddScoped<IChartPost, EfChartPostService>();
             services.AddScoped<IProductGroupService, EfProductGroupService>();
-            services.AddScoped<IAttributeGrpService, EfAttributeGrpService>();
+            services.AddScoped<IAttributeGroupService, EfAttributeGroupService>();
             services.AddScoped<IAttributeItemService, EfAttributeItemService>();
             services.AddScoped<IMenuGroupService, EfMenuGroupService>();
             services.AddScoped<IMenuService, EfMenuService>();
@@ -43,6 +43,8 @@ namespace CMS_NetCore.Web.Configs.Extentions
             services.AddScoped<IMenuModuleService, EfMenuModuleService>();
             services.AddScoped<IContactModuleService, EfContactModuleService>();
             services.AddScoped<IContactPersonService, EfContactPersonService>();
+            services.AddScoped<IMultiPictureModuleService, EfMultiPictureModuleService>();
+            services.AddScoped<IMultiPictureItemService, EfMultiPictureItemService>();
             return services;
         }
     }

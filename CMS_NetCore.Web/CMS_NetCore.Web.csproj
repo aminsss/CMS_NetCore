@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
+		<LangVersion>11</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -20,7 +21,6 @@
 		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.14.0" />
 		<PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
-		<!--<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />-->
 	</ItemGroup>
 
 	<ItemGroup>
@@ -31,6 +31,7 @@
 		<Folder Include="wwwroot\assets\plugins\paper-ripple\dist\systemjs\" />
 		<Folder Include="wwwroot\assets\plugins\summernote\dist\lang\" />
 		<Folder Include="wwwroot\js\" />
+		<Folder Include="wwwroot\Upload\ModuleImages\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -41,9 +42,6 @@
 		<Reference Include="CMS_NetCore.DomainClasses">
 			<HintPath>..\CMS_NetCore.DomainClasses\bin\Debug\net5.0\CMS_NetCore.DomainClasses.dll</HintPath>
 		</Reference>
-		<Reference Include="CMS_NetCore.Interfaces">
-			<HintPath>..\CMS_NetCore.Interfaces\bin\Debug\net5.0\CMS_NetCore.Interfaces.dll</HintPath>
-		</Reference>
 		<Reference Include="CMS_NetCore.ViewModels">
 			<HintPath>..\CMS_NetCore.ViewModels\bin\Debug\net5.0\CMS_NetCore.ViewModels.dll</HintPath>
 		</Reference>
@@ -53,6 +51,15 @@
 		<Reference Include="CMS_NetCore.Helpers">
 			<HintPath>..\CMS_NetCore.Helpers\bin\Debug\net5.0\CMS_NetCore.Helpers.dll</HintPath>
 		</Reference>
+	<Reference Include="CMS_NetCore.Interfaces">
+			<HintPath>..\CMS_NetCore.Interfaces\bin\Debug\net5.0\CMS_NetCore.Interfaces.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Remove="wwwroot\Upload\ModuleImages\96359228cef849c5a585d457ea2f88df.jpg" />
+	  <Content Remove="wwwroot\Upload\ModuleImages\59eeead07b6948c8b6ef6933cbd67d3a.jpg" />
+	  <Content Remove="wwwroot\Upload\ModuleImages\254b9a353292480982b0d4135f9f9908.jpg" />
 	</ItemGroup>
 
 </Project>

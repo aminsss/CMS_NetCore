@@ -8,13 +8,13 @@
 <ul class="dropdown-menu">
     <li>
 
-        <a href="/admin/users/edit/@Model.UserId">
+        <a href="/admin/users/edit/@Model.Id">
             <i class="icon-note"></i>
             ویرایش پروفایل
         </a>
     </li>
     <li>
-        <a href="/Admin/Users/changePass/@Model.UserId">
+        <a href="/Admin/Users/changePass/@Model.Id">
             <i class="icon-key"></i>
             تفییر رمز عبور
         </a>
@@ -22,7 +22,7 @@
     <li class="divider"></li>
     <li>
         <a href="/admin/Messages/Index">
-            <span class="badge badge-primary pull-left"> @Model.Messages.Where(u => u.ISRead == false).Count() </span>
+            <span class="badge badge-primary pull-left"> @Model.MessagesFrom.Where(u => u.IsRead == false).Count() </span>
             <i class="icon-envelope"></i>
             پیام های جدید
         </a>

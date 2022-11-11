@@ -1,14 +1,10 @@
-﻿using CMS_NetCore.DomainClasses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CMS_NetCore.DomainClasses;
 
-namespace CMS_NetCore.Interfaces
+namespace CMS_NetCore.Interfaces;
+
+public interface IRoleService
 {
-    public interface IRoleService
-    {
-        Task<IEnumerable<Role>> Roles();
-    }
+    Task<IEnumerable<Role>> Roles();
 }

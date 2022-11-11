@@ -1,0 +1,116 @@
+﻿<form asp-action="Index">
+    <div class="table-responsive portlet box border shadow">
+        <div class="portlet-heading">
+            <h2 class="col-md-10">لیست منو</h2>
+                <a asp-action="Index" asp-controller="MenuGroup" class="btn btn-warning btn-round pull-left">
+                    <i class="icon-close"></i>
+                    بازگشت
+                </a>
+            <br />
+        </div>
+        <div class="col-sm-4 m-b-20">
+            <a asp-action="Create" asp-route-id="@ViewBag.MnuGroupSelected" class="btn btn-success btn-round">
+                <i class="icon-plus"></i>
+                افزودن
+            </a>
+        </div><!-- /.col-sm-4 -->
+        <div class="col-sm-4 m-b-20"></div><!-- /.col-sm-4 -->
+        <div class="col-sm-4 m-b-20">
+            <div class="input-group round">
+            </div><!-- /.col-sm-4 -->
+        </div>
+        <table class="table table-bordered table-hover table-striped text-center" id="data-table">
+            <thead>
+                <tr>
+                    <th>
+                        عنوان منو
+                    </th>
+                    <th>
+                        سطح
+                    </th>
+                    <th>
+                        ترتیب
+                    </th>
+                    <th>
+                        وضعیت منو
+                    </th>
+                    <th>
+                        عملیات
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @await Component.InvokeAsync("MenuGridView", new { depth = 0 , parentId = 0 , menuGroupId = ViewBag.MnuGroupSelected })
+            </tbody>
+        </table>
+        <br />
+    </div>
+</form>
+
+@section Script{
+    <script src="~/assets/plugins/ladda/dist/spin.min.js"></script>
+    <script src="~/assets/plugins/ladda/dist/ladda.min.js"></script>
+    <script src="~/assets/js/pages/ladda.js"></script>
+
+    <script>
+       function Delete(id) {
+            swal({
+                title: 'آیا اطمینان دارید؟',
+                text: "این عملیات برگشت پذیر نیست...",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#f44336',
+                cancelButtonColor: '#777',
+                confirmButtonText: 'بله، حذف شود. '
+            }).then(function (result) {
+                $.ajax({
+                    url: "/admin/Menus/Delete",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    data: {
+                        __RequestVerificationToken: gettoken(),
+                         id: id
+                    },
+                    async: true,
+                    cache: false,
+                    success: function (result) {
+                        swal(
+                            'انتخاب شما حذف کردن بود.',
+                            'منو با موفقیت حذف شد.',
+                            'success'
+                        ).then(location.reload())
+
+                    },
+                    error: function (xc) {
+                        swal(
+                            'خطا در پردازش.',
+                            'منو به دلایلی قابل حذف نمیباشد.',
+                            'error'
+                        );
+                    }
+                })
+            }, function (dismiss) {
+                if (dismiss == 'cancel') {
+                    swal(
+                        'لغو گردید',
+                        'منو همچنان وجود دارد.',
+                        'error'
+                    ).catch(swal.noop);;
+                }
+            }).catch(swal.noop);
+        }
+
+        function gettoken() {
+            var token = '@Html.AntiForgeryToken()';
+            token = $(token).val();
+            return token;
+        }
+    </script>
+
+}
+
+@section Head{
+    <link href="~/assets/plugins/noty/css/flat.css" rel="stylesheet">
+    <link href="~/assets/plugins/ladda/dist/ladda-themeless.min.css" rel="stylesheet">
+}

@@ -1,43 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CMS_NetCore.DomainClasses;
-using CMS_NetCore.ViewModels;
-using CMS_NetCore.Interfaces;
 using CMS_NetCore.DataLayer;
+using CMS_NetCore.DomainClasses;
+using CMS_NetCore.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CMS_NetCore.ServiceLayer
+namespace CMS_NetCore.ServiceLayer;
+
+public class EfProductAttributeService : RepositoryBase<ProductAttribute>, IProductAttributeService
 {
-    public class EfProductAttributeService : RepositoryBase<Product_Attribut>,IProductAttributeService
+    public EfProductAttributeService(AppDbContext context) : base(context)
     {
+    }
 
-        public EfProductAttributeService(AppDbContext context) : base(context)
-        {
-        }
+    public async Task<ProductAttribute> GetProductAttribute(
+        int? productId,
+        int? attributeGroupId
+    ) =>
+        await FindByCondition(
+                productAttribute =>
+                    productAttribute.ProductId == productId &&
+                    productAttribute.AttributeItem.AttributeGroupId == attributeGroupId
+            )
+            .FirstOrDefaultAsync();
 
+    public void Remove(ProductAttribute productAttribute) =>
+        Delete(productAttribute);
 
-        public async Task<Product_Attribut> GetProductAttribute(int? productId, int? atrributeGrpId) =>
-           await FindByCondition(x => x.ProductId == productId && x.AttributItem.AttributGrpId == atrributeGrpId).FirstOrDefaultAsync();
+    public void Edit(ProductAttribute productAttribute) =>
+        Update(productAttribute);
 
-        public void Remove(Product_Attribut product_Attribut)
-        {
-            Delete(product_Attribut);
-        }
-
-        public void Edit(Product_Attribut product_Attribut)
-        {
-            Update(product_Attribut);
-        }
-
-        public void Add(IList<Product_Attribut> product_Attributs)
-        {
-            foreach (var product_Attribut in product_Attributs)
-            {
-                Create(product_Attribut);
-            }
-        }
+    public void Add(IList<ProductAttribute> productAttributes)
+    {
+        foreach (var productAttribute in productAttributes)
+            Create(productAttribute);
     }
 }

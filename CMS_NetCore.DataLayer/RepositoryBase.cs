@@ -1,54 +1,51 @@
-﻿using CMS_NetCore.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
+using CMS_NetCore.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace CMS_NetCore.DataLayer
+namespace CMS_NetCore.DataLayer;
+
+public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    private AppDbContext RepositoryContext { get; }
+    private readonly DbSet<T> _dbSet;
+
+
+    protected RepositoryBase(AppDbContext repositoryContext)
     {
-        protected AppDbContext RepositoryContext { get; set; }
-        private DbSet<T> _dbSet;
+        RepositoryContext = repositoryContext;
+        _dbSet = repositoryContext.Set<T>();
+    }
 
+    public IQueryable<T> FindAll()
+    {
+        return _dbSet;
+    }
 
-        public RepositoryBase(AppDbContext repositoryContext)
-        {
-            this.RepositoryContext = repositoryContext;
-            _dbSet = repositoryContext.Set<T>();
-        }
+    public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+    {
+        return _dbSet.Where(expression);
+    }
 
-        public IQueryable<T> FindAll()
-        {
-            return _dbSet;
-        }
+    public void Create(T entity)
+    {
+        _dbSet.Add(entity);
+    }
 
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
-        {
-            return _dbSet.Where(expression);
-        }
+    public void Update(T entity)
+    {
+        _dbSet.Update(entity);
+    }
 
-        public void Create(T entity)
-        {
-            _dbSet.Add(entity);
-        }
+    public void Delete(T entity)
+    {
+        _dbSet.Remove(entity);
+    }
 
-        public void Update(T entity)
-        {
-            _dbSet.Update(entity);
-        }
-
-        public void Delete(T entity)
-        {
-            _dbSet.Remove(entity);
-        }
-
-        public async Task SaveAsync()
-        {
-            await this.RepositoryContext.SaveChangesAsync();
-        }
+    public async Task SaveAsync()
+    {
+        await RepositoryContext.SaveChangesAsync();
     }
 }

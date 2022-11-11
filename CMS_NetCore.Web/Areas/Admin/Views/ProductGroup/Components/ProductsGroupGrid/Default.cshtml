@@ -1,0 +1,35 @@
+﻿@model IEnumerable<CMS_NetCore.DomainClasses.ProductGroup>
+@{
+    int depth = ViewBag.Depth;
+    int parentId = ViewBag.ParentId;
+
+    foreach (var item in Model.Where(x => x.Depth == depth && x.ParentId == parentId))
+    {
+        <tr>
+            <td style="text-align:right">
+                @string.Concat(Enumerable.Repeat(" ┊ ", Convert.ToInt32(item.Depth))) @Html.DisplayFor(modelItem => item.GroupTitle)
+            </td>
+            <td>
+                <label class="label-info">@item.Depth</label>
+            </td>
+            <td>
+                @if (item.IsActive == true)
+                {
+                    <label class="label-success">فعال</label>
+                }
+                else
+                {
+                    <label class="label-danger">غیر فعال</label>
+                }
+            </td>
+            <td>
+                <a id="btnEdit_@item.Id" class="btn btn-info btn-round" data-style="slide-right" onclick="Edit(@item.Id)">ویرایش</a>
+                <a id="btnDelete_@item.Id" class="btn btn-danger btn-round" data-style="slide-right" onclick="Delete(@item.Id)">حذف</a>
+            </td>
+        </tr>
+        if (Model.Any(s => s.ParentId == item.Id))
+        {
+            @await Component.InvokeAsync("ProductsGroupGrid", new { depth = (item.Depth + 1), parentId = item.Id })
+        }
+    }
+}

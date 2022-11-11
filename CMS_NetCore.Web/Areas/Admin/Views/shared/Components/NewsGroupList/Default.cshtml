@@ -5,10 +5,10 @@
 
     foreach (var item in Model.Where(x => x.Depth == depth && x.ParentId == parentId))
     {
-        <option value="@item.NewsGroupId">@string.Concat(Enumerable.Repeat(" - ", Convert.ToInt32(item.Depth))) @item.GroupTitle</option>
-        if (Model.Any(s => s.ParentId == item.NewsGroupId))
+        <option value="@item.Id">@string.Concat(Enumerable.Repeat(" - ", Convert.ToInt32(item.Depth))) @item.GroupTitle</option>
+        if (Model.Any(s => s.ParentId == item.Id))
         {
-            @await Component.InvokeAsync("NewsGroupList", new { depth = (item.Depth + 1), parentId = item.NewsGroupId })
+            @await Component.InvokeAsync("NewsGroupList", new { depth = (item.Depth + 1), parentId = item.Id })
         }
     }
 }

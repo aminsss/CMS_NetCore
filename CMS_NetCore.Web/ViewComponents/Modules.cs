@@ -19,7 +19,7 @@ namespace CMS_NetCore.Web.ViewComponents
             _moduleService = moduleService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int id, string moduleName = "Default1",string moduleType = "1")
+        public async Task<IViewComponentResult> InvokeAsync(int id, string moduleName ,string moduleType)
         {
             var list = await GetModule(id, moduleType);
             return View(moduleName, list);
@@ -31,8 +31,6 @@ namespace CMS_NetCore.Web.ViewComponents
             {
                 case "1":
                   return  await _moduleService.GetById(id);
-                case "2":
-                   return await _moduleService.GetById(id);
                 default:
                     return null;
             }

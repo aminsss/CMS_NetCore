@@ -65,7 +65,7 @@ namespace CMS_NetCore.Web
 
             services.AddSession();
 
-            var connection = @"Data Source=.;Initial Catalog=CMS_NetCoreDb;Trusted_Connection=True;ConnectRetryCount=0";
+            var connection = @"Data Source=.;Initial Catalog=CMS_Yek3d;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<AppDbContext>
                 (options => options.UseSqlServer(connection, b => b.MigrationsAssembly("CMS_NetCore.Web")));
 

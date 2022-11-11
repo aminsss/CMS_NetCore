@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CMS_NetCore.DomainClasses
 {
@@ -11,13 +7,12 @@ namespace CMS_NetCore.DomainClasses
     {
         [DisplayFormat(DataFormatString = "{0: yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "تاریخ ایجاد")]
-        public Nullable<DateTime> AddedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         [DisplayFormat(DataFormatString = "{0: yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "تاریخ ویرایش")]
-        public Nullable<DateTime> ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
 
-        [MaxLength(100)]
-        public string IP { get; set; }
+        [MaxLength(100)] public string Ip { get; set; }
     }
 }

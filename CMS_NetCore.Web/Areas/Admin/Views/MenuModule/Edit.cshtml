@@ -1,0 +1,93 @@
+﻿@model CMS_NetCore.ViewModels.MenuModuleViewModel
+<form asp-action="Edit">
+    <input asp-for="ModuleId" type="hidden" />
+    <input name="pastPosition" type="hidden" value="@Model.PositionId" />
+    <input name="pastDisOrder" type="hidden" value="@Model.DisplayOrder" />
+    <div class="portlet box border shadow">
+        <div>
+            <div class="portlet-heading">
+                <h2 class="col-md-10">افزودن ماژول منو</h2>
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-info btn-round">
+                        <i class="icon-check"></i>
+                        ذخیره
+                    </button>
+                    <a asp-action="Index" class="btn btn-warning btn-round">
+                        <i class="icon-close"></i>
+                        بازگشت
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <ul class="nav nav-tabs curve">
+            <li class="active">
+                <a data-toggle="tab" href="#tab1">ماژول</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tab2">صفحات انتخابی</a>
+            </li>
+        </ul>
+        <div class="tab-content ">
+            <div id="tab1" class="tab-pane fade active in">
+                <div class="row">
+                    <br />
+                    <div class=" col-md-6">
+                        <div class="form-group">
+                            <label asp-for="ModuleTitle" class="control-label"></label>
+                            <div class="col-md-12">
+                                <input asp-for="ModuleTitle" class="form-control" />
+                                <span asp-validation-for="ModuleTitle" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MenuGroupId" class="control-label"></label>
+                            <div class="col-md-12">
+                                <select asp-for="MenuGroupId" class="form-control" asp-items="ViewBag.MenuGroupId"></select>
+                                <span asp-validation-for="MenuGroupId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-md-4 pull-left">
+                        <div class="form-group">
+                            <label asp-for="IsActive" class="control-label"></label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(model => model.IsActive, new[] {
+new SelectListItem() { Text = "فعال", Value = bool.TrueString },
+new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
+}, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Positions" class="control-label"></label>
+                            <div class="col-md-12">
+                                <select asp-for="PositionId" class="form-control" asp-items="ViewBag.PositionId"></select>
+                                <span asp-validation-for="Positions" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DisplayOrder" class="control-label"></label>
+                            <div class="col-md-12">
+                                @await Component.InvokeAsync("ModuleOrder", new { positionId = Model.PositionId })
+                                <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div id="tab2" class="tab-pane fade">
+                <div class="row">
+                    @await Component.InvokeAsync("ModulePagesShow", new { moduleId = Model.ModuleId })
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Script{
+    <script>
+        $('#DisplayOrder').val('@Model.DisplayOrder');
+    </script>
+}
+

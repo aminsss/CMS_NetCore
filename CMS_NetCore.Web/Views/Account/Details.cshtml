@@ -17,10 +17,10 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.DisplayNameFor(model => model.Username)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserName)
+            @Html.DisplayFor(model => model.Username)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Password)
@@ -41,10 +41,10 @@
             @Html.DisplayFor(model => model.ActiveCode)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ISActive)
+            @Html.DisplayNameFor(model => model.IsActive)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ISActive)
+            @Html.DisplayFor(model => model.IsActive)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Email)
@@ -59,10 +59,10 @@
             @Html.DisplayFor(model => model.Profile)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MeliID)
+            @Html.DisplayNameFor(model => model.NationalCode)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MeliID)
+            @Html.DisplayFor(model => model.NationalCode)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.BirthDate)
@@ -71,16 +71,16 @@
             @Html.DisplayFor(model => model.BirthDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.moblie)
+            @Html.DisplayNameFor(model => model.Mobile)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.moblie)
+            @Html.DisplayFor(model => model.Mobile)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.phoneNo)
+            @Html.DisplayNameFor(model => model.PhoneNo)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.phoneNo)
+            @Html.DisplayFor(model => model.PhoneNo)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.State)
@@ -95,34 +95,34 @@
             @Html.DisplayFor(model => model.City)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Adress)
+            @Html.DisplayNameFor(model => model.Address)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Adress)
+            @Html.DisplayFor(model => model.Address)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.activecodeDate)
+            @Html.DisplayNameFor(model => model.ActiveCodeDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.activecodeDate)
+            @Html.DisplayFor(model => model.ActiveCodeDate)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Role)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Role.RoleName)
+            @Html.DisplayFor(model => model.Role.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.chartPost)
+            @Html.DisplayNameFor(model => model.ChartPost)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.chartPost.chartPostId)
+            @Html.DisplayFor(model => model.ChartPost.chartPostId)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AddedDate)
+            @Html.DisplayNameFor(model => model.CreatedDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AddedDate)
+            @Html.DisplayFor(model => model.CreatedDate)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ModifiedDate)
@@ -131,14 +131,14 @@
             @Html.DisplayFor(model => model.ModifiedDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IP)
+            @Html.DisplayNameFor(model => model.Ip)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IP)
+            @Html.DisplayFor(model => model.Ip)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.UserId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

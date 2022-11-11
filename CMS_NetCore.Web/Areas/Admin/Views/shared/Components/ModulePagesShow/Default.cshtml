@@ -6,7 +6,7 @@
     {
         <div class="col-md-3">
             <br />
-            <label class="label-info">@Menugroup.MenuTitile</label>
+            <label class="label-info">@Menugroup.Title</label>
             <br />
             @await Component.InvokeAsync("ModuleMenuList", new { depth = 0, parentId = 0, menuGroupId = Menugroup.MenuGroupId, moduleId = moduleId })
         </div>

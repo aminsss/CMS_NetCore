@@ -1,27 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CMS_NetCore.Interfaces;
 using CMS_NetCore.DataLayer;
 using CMS_NetCore.DomainClasses;
-using CMS_NetCore.ViewModels;
-using System.Linq.Expressions;
+using CMS_NetCore.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CMS_NetCore.ServiceLayer
+namespace CMS_NetCore.ServiceLayer;
+
+public class EfChartPostService : RepositoryBase<ChartPost>, IChartPost
 {
-    public class EfChartPostService : RepositoryBase<chartPost>, IChartPost
+    public EfChartPostService(AppDbContext context)
+        : base(context)
     {
-       
-        public EfChartPostService(AppDbContext contex)
-        : base(contex)
-        {
-        }
-
-        public async Task<IEnumerable<chartPost>> chartPosts() =>
-                    await FindAll().ToListAsync();
-
     }
+
+    public async Task<IEnumerable<ChartPost>> ChartPosts() =>
+        await FindAll().ToListAsync();
 }

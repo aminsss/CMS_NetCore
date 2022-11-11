@@ -2,22 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace  CMS_NetCore.DataLayer.EntityConfigurations
+namespace CMS_NetCore.DataLayer.EntityConfigurations;
+
+public class UserConfig : IEntityTypeConfiguration<User>
 {
-    public class UserConfig : IEntityTypeConfiguration<User>
+    public void Configure(EntityTypeBuilder<User> builder)
     {
-        public void Configure(EntityTypeBuilder<User> builder)
-        {
-            //Relations
-            builder.HasMany(t => t.Messages)
-                .WithOne(t => t.UsersFrom)
-                .HasForeignKey(t => t.FromUser);
+        builder.HasMany(user => user.MessagesFrom)
+            .WithOne(message => message.UserFrom)
+            .HasForeignKey(message => message.FromUser);
 
-
-            //Relations
-            builder.HasMany(t => t.Messages1)
-                .WithOne(t => t.UsersTo)
-                .HasForeignKey(t => t.ToUser);
-        }
+        builder.HasMany(user => user.MessagesTo)
+            .WithOne(message => message.UserTo)
+            .HasForeignKey(message => message.ToUser);
     }
 }

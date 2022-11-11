@@ -1,15 +1,10 @@
-﻿using CMS_NetCore.DomainClasses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CMS_NetCore.DomainClasses;
 
+namespace CMS_NetCore.Interfaces;
 
-namespace CMS_NetCore.Interfaces
+public interface IChartPost
 {
-    public interface IChartPost
-    {
-        Task<IEnumerable<chartPost>> chartPosts();
-    }
+    Task<IEnumerable<ChartPost>> ChartPosts();
 }

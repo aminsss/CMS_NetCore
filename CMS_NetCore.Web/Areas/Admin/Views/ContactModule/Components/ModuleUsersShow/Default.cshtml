@@ -1,0 +1,16 @@
+﻿@model IEnumerable<CMS_NetCore.DomainClasses.User>
+@{
+    int moduleId = ViewBag.moduleId ?? 0;
+    foreach (var User in Model.Where(x => x.RoleId == 1 && x.IsActive == true))
+    {
+        string isChecked = "";
+        <div class="col-md-3">
+            <br />
+            @if (User.ContactPersons.Any(x => x.ContactModuleId == moduleId))
+            {
+                isChecked = "checked";
+            }
+            <input class="form-control" id="User[@User.Id]" name="User[@User.Id]" type="checkbox" @isChecked /> @User.Mobile
+        </div>
+    }
+}

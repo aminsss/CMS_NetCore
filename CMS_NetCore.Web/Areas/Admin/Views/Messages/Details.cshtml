@@ -4,7 +4,7 @@
     <div class="portlet-heading">
         <h2 class="col-md-10">مشاهده پیام</h2>
         <div>
-            <a class="btn btn-info btn-round" asp-action="Create" asp-route-id="@Model.MessageId">پاسخ به پیام</a>
+            <a class="btn btn-info btn-round" asp-action="Create" asp-route-id="@Model.Id">پاسخ به پیام</a>
             <a asp-action="Index" class="btn btn-warning btn-round">بازگشت</a>
         </div>
         <br />
@@ -23,9 +23,9 @@
                 }
                 else
                 {
-                    <img class="img-person img-circle" src="~/Upload/Profile/thumbnail/@Model.UsersFrom.Profile">
+                    <img class="img-person img-circle" src="~/Upload/Profile/thumbnail/@Model.UserFrom.Profile">
                     <span>
-                        @Html.DisplayFor(modelitem => Model.UsersFrom.moblie)
+                        @Html.DisplayFor(modelitem => Model.UserFrom.Mobile)
                     </span>
                 }
             </td>
@@ -42,7 +42,7 @@
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.UsersFrom.Email)
+                    @Html.DisplayFor(model => model.UserFrom.Email)
 
                 }
             </td>
@@ -52,7 +52,7 @@
                 تاریخ
             </th>
             <td class="pull-right">
-                @Html.DisplayFor(model => model.AddedDate)
+                @Html.DisplayFor(model => model.CreatedDate)
             </td>
         </tr>
         <tr>

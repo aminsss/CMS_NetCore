@@ -30,10 +30,10 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ISRead)
+            @Html.DisplayNameFor(model => model.IsRead)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ISRead)
+            @Html.DisplayFor(model => model.IsRead)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.SenderName)
@@ -42,22 +42,22 @@
             @Html.DisplayFor(model => model.SenderName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UsersFrom)
+            @Html.DisplayNameFor(model => model.UserFrom)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UsersFrom.UserId)
+            @Html.DisplayFor(model => model.UserFrom.Id)
         </dd class>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UsersTo)
+            @Html.DisplayNameFor(model => model.UserTo)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UsersTo.UserId)
+            @Html.DisplayFor(model => model.UserTo.Id)
         </dd class>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AddedDate)
+            @Html.DisplayNameFor(model => model.CreatedDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AddedDate)
+            @Html.DisplayFor(model => model.CreatedDate)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ModifiedDate)
@@ -66,15 +66,15 @@
             @Html.DisplayFor(model => model.ModifiedDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IP)
+            @Html.DisplayNameFor(model => model.Ip)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IP)
+            @Html.DisplayFor(model => model.Ip)
         </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="MessageId" />
+        <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

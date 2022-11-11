@@ -1,0 +1,82 @@
+﻿@model CMS_NetCore.DomainClasses.MultiPictureItem
+
+@{
+    int ModuleId = ViewBag.moduleId ?? 0;
+}
+<form id="form" asp-action="CreateItems" class="form-horizontal" style="padding:10px">
+    <input name="ModuleId" type="hidden" value="@ModuleId" />
+    <div class="form-horizontal" style="padding:10px">
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <div class="col-md-12">
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TitleBold" class="control-label"></label>
+            <div class="col-md-12">
+                <input asp-for="TitleBold" class="form-control" />
+                <span asp-validation-for="TitleBold" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label asp-for="Link" class="control-label"></label>
+            <div class="col-md-12">
+                <input asp-for="Link" class="form-control" />
+                <span asp-validation-for="Link" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label asp-for="LinkMore" class="control-label"></label>
+            <div class="col-md-12">
+                <input asp-for="LinkMore" class="form-control" />
+                <span asp-validation-for="LinkMore" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <div class="col-md-12">
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-actions text-left">
+            <a id="submit" class="btn btn-info btn-round">
+                <i class="icon-check"></i>
+                ذخیره
+            </a>
+            <a data-dismiss="modal" class="btn btn-warning btn-round">
+                <i class="icon-close"></i>
+                بازگشت
+            </a>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+
+    $(document).ready(function () {
+        $("#Description").attr("cols","65").attr("rows","8");
+        var l = Ladda.create(document.querySelector('#submit'));
+        l.start();
+        $("#submit").on('click', function () {
+            $.ajax({
+                url: '/admin/MultiPictureModule/CreateItems',
+                type: "POST",
+                dataType: 'json',
+                data: $("#form").serialize(),
+                success: function (result) {
+                    $("#myModal").modal('toggle');
+                    getItems(@ModuleId);
+                },
+                error: function (xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            })
+        });
+        l.stop();
+    });
+</script>
+
