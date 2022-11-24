@@ -31,10 +31,10 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr id="Item_@item.MenuGroupId">
+                <tr id="Item_@item.Id">
 
                     <td>
-                        <a href="/admin/Menus/Index/@item.MenuGroupId"> @Html.DisplayFor(modelItem => item.Title)</a>
+                        <a href="/admin/Menus/Index/@item.Id"> @Html.DisplayFor(modelItem => item.Title)</a>
                     </td>
                     <td>
                         @if (item.IsActive == true)
@@ -50,9 +50,9 @@
                         @Html.DisplayFor(modelItem => item.Type)
                     </td>
                     <td>
-                        <a  asp-action="Index" asp-controller="Menu" asp-route-id="@item.MenuGroupId" class="btn btn-success btn-round" >زیر منوها</a>
-                        <a id="btnEdit_@item.MenuGroupId" data-style="slide-right" class="btn btn-info btn-round" onclick="Edit(@item.MenuGroupId)">ویرایش</a>
-                        <a class="btn btn-danger btn-round" onclick="Delete(@item.MenuGroupId)">حذف</a>
+                        <a  asp-action="Index" asp-controller="Menu" asp-route-id="@item.Id" class="btn btn-success btn-round" >زیر منوها</a>
+                        <a id="btnEdit_@item.Id" data-style="slide-right" class="btn btn-info btn-round" onclick="Edit(@item.Id)">ویرایش</a>
+                        <a class="btn btn-danger btn-round" onclick="Delete(@item.Id)">حذف</a>
                     </td>
                 </tr>
             }
@@ -166,7 +166,6 @@
             return token;
         }
     </script>
-
 }
 
 @section Head{

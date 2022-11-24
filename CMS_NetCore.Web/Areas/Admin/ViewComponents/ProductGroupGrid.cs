@@ -23,8 +23,8 @@ public class ProductGroupGrid : ViewComponent
     {
         ViewBag.Depth = depth;
         ViewBag.ParentId = parentId;
-        var list = await ProductGroups();
-        return null;
+
+        return View(await ProductGroups());
     }
 
     // GET: Admin/Partial

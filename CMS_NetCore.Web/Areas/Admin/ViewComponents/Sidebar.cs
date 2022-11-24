@@ -17,8 +17,7 @@ public class Sidebar : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var item = await SidebarList();
-        return View(item);
+        return View(await SidebarList());
     }
 
     // GET: Admin/Partial

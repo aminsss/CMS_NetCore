@@ -1,8 +1,9 @@
 ﻿@model CMS_NetCore.ViewModels.ContactModuleViewModel
+
 <form asp-action="Edit">
-    <input asp-for="ModuleId" type="hidden" />
-    <input name="pastPosition" type="hidden" value="@Model.PositionId" />
-    <input name="pastDisOrder" type="hidden" value="@Model.DisplayOrder" />
+    <input asp-for="ModuleId" type="hidden"/>
+    <input name="pastPosition" type="hidden" value="@Model.PositionId"/>
+    <input name="pastDisOrder" type="hidden" value="@Model.DisplayOrder"/>
     <div id="editor-ltr" hidden></div>
     <div class="portlet box border shadow">
         <div>
@@ -38,12 +39,12 @@
         <div class="tab-content ">
             <div id="tab1" class="tab-pane fade active in">
                 <div class="row">
-                    <br />
+                    <br/>
                     <div class=" col-md-8">
                         <div class="form-group">
                             <label asp-for="ModuleTitle" class="control-label"></label>
                             <div class="col-md-12">
-                                <input asp-for="ModuleTitle" class="form-control" />
+                                <input asp-for="ModuleTitle" class="form-control"/>
                                 <span asp-validation-for="ModuleTitle" class="text-danger"></span>
                             </div>
                         </div>
@@ -53,10 +54,11 @@
                         <div class="form-group">
                             <label asp-for="IsActive" class="control-label"></label>
                             <div class="col-md-12">
-                                @Html.DropDownListFor(model => model.IsActive, new[] {
-new SelectListItem() { Text = "فعال", Value = bool.TrueString },
-new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
-}, new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.IsActive, new[]
+                                {
+                                    new SelectListItem() { Text = "فعال", Value = bool.TrueString },
+                                    new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
+                                }, new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -73,7 +75,7 @@ new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
                                 <span asp-validation-for="DisplayOrder" class="text-danger"></span>
                             </div>
                         </div>
-                        <br />
+                        <br/>
                     </div>
                 </div>
             </div>
@@ -84,44 +86,44 @@ new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
             </div>
             <div id="tab3" class="tab-pane fade">
                 <div class="row">
-                    <br />
+                    <br/>
                     <div class=" col-md-4">
                         <div class="form-group ">
                             <label asp-for="PhoneNum" class="control-label"></label>
                             <div class="col-md-12">
-                                <input asp-for="PhoneNum" class="form-control ltr text-left" />
+                                <input asp-for="PhoneNum" class="form-control ltr text-left"/>
                                 <span asp-validation-for="PhoneNum" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label asp-for="MobileNum" class="control-label"></label>
                             <div class="col-md-12">
-                                <input asp-for="MobileNum" class="form-control ltr text-left" />
+                                <input asp-for="MobileNum" class="form-control ltr text-left"/>
                                 <span asp-validation-for="MobileNum" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group ">
                             <label asp-for="PostCode" class="control-label"></label>
                             <div class="col-md-12">
-                                <input asp-for="PostCode" class="form-control ltr text-left" />
+                                <input asp-for="PostCode" class="form-control ltr text-left"/>
                                 <span asp-validation-for="PostCode" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group ">
                             <label asp-for="Email" class="control-label"></label>
                             <div class="col-md-12">
-                                <input asp-for="Email" class="form-control ltr text-left" />
+                                <input asp-for="Email" class="form-control ltr text-left"/>
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group ">
                             <label asp-for="Address" class="control-label"></label>
                             <div class="col-md-12">
-                                <input asp-for="Address" class="form-control " />
+                                <input asp-for="Address" class="form-control "/>
                                 <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
                         </div>
-                        <br />
+                        <br/>
                     </div>
                     <div class="col-md-8">
                         <div class="form-group">
@@ -141,6 +143,7 @@ new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
         </div>
     </div>
 </form>
+
 @section Script{
     <script>
         $("#DisplayOrder").val(@Model.DisplayOrder);

@@ -2,13 +2,13 @@
 @{
     int moduleId = ViewBag.moduleId ?? 0;
 
-    foreach (var Menugroup in Model)
+    foreach (var menuGroup in Model)
     {
         <div class="col-md-3">
             <br />
-            <label class="label-info">@Menugroup.Title</label>
+            <label class="label-info">@menuGroup.Title</label>
             <br />
-            @await Component.InvokeAsync("ModuleMenuList", new { depth = 0, parentId = 0, menuGroupId = Menugroup.MenuGroupId, moduleId = moduleId })
+            @await Component.InvokeAsync("ModuleMenuList", new { depth = 0, parentId = 0, menuGroupId = menuGroup.Id, moduleId = moduleId })
         </div>
     }
 }

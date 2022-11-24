@@ -11,7 +11,7 @@
         {
             check = "checked";
         }
-        <div><input class="form-control" id="Page[@item.Id]" name="Page[@item.Id]" type="checkbox" @check />  @string.Concat(Enumerable.Repeat(" ┊ ", Convert.ToInt32(item.Depth))) @Html.DisplayFor(modelitem => item.MenuTitle)</div>
+        <div><input class="form-control" id="Page[@item.Id]" name="Page[@item.Id]" type="checkbox" @check />  @string.Concat(Enumerable.Repeat(" ┊ ", Convert.ToInt32(item.Depth))) @Html.DisplayFor(modelitem => item.Title)</div>
 
         if (Model.Any(s => s.ParentId == item.Id))
         {

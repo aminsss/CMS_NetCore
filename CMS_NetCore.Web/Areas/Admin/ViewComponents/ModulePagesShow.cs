@@ -19,8 +19,8 @@ public class ModulePagesShow : ViewComponent
     public async Task<IViewComponentResult> InvokeAsync(int moduleId)
     {
         ViewBag.moduleId = moduleId;
-        var list = await GetModulePage();
-        return View(list);
+
+        return View(await GetModulePage());
     }
 
     // GET: Admin/Partial

@@ -23,10 +23,10 @@
             <div class="row">
                 <div class=" col-md-8">
                     <div class="form-group">
-                        <label asp-for="MenuTitle" class="control-label"></label>
+                        <label asp-for="Title" class="control-label"></label>
                         <div class="col-md-12">
-                            <input asp-for="MenuTitle" class="form-control" />
-                            <span asp-validation-for="MenuTitle" class="text-danger"></span>
+                            <input asp-for="Title" class="form-control"/>
+                            <span asp-validation-for="Title" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -42,7 +42,7 @@
                     <div class="form-group">
                         <label asp-for="PageName" class="control-label"></label>
                         <div class="col-md-12">
-                            <input asp-for="PageName" class="form-control" />
+                            <input asp-for="PageName" class="form-control"/>
                             <span asp-validation-for="PageName" class="text-danger"></span>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                     <div class="form-group">
                         <label asp-for="ParentId" class="control-label"></label>
                         <div class="col-md-12">
-                            <select  class="form-control" id="ParentId" name="ParentId"></select>
+                            <select class="form-control" id="ParentId" name="ParentId"></select>
                             <span asp-validation-for="ParentId" class="text-danger"></span>
                         </div>
                     </div>
@@ -63,10 +63,11 @@
                     <div class="form-group">
                         <label asp-for="IsActive" class="control-label"></label>
                         <div class="col-md-12">
-                            @Html.DropDownListFor(model => model.IsActive, new[] {
-new SelectListItem() { Text = "فعال", Value = bool.TrueString },
-new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
-}, new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.IsActive, new[]
+                            {
+                                new SelectListItem() { Text = "فعال", Value = bool.TrueString },
+                                new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString }
+                            }, new { @class = "form-control" })
                             <span asp-validation-for="IsActive" class="text-danger"></span>
                         </div>
                     </div>
@@ -97,6 +98,7 @@ new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
         </div>
     </div>
 </form>
+
 @section Script{
     <script src="/assets/plugins/ckeditor-full/ckeditor.js"></script>
     <script src="/assets/js/pages/ckeditor.js"></script>
@@ -168,7 +170,5 @@ new SelectListItem() { Text = "غیر فعال", Value = bool.FalseString },
                 $('#divContetnt').html("<input id=\"PageContetnt\" name=\"PageContetnt\" class=\"form-control ltr text-left \" Value=\"#\">");
             }
         }
-
     </script>
 }
-

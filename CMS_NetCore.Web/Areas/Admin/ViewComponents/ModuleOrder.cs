@@ -18,8 +18,7 @@ public class ModuleOrder : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(int positionId)
     {
-        var list = await GetModuleOrder(positionId);
-        return View(list);
+        return View(await GetModuleOrder(positionId));
     }
 
     // GET: Admin/Partial

@@ -17,8 +17,7 @@ public class UserProfile : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var item = await ReturnUserId();
-        return View(item);
+        return View(await ReturnUserId());
     }
 
     // GET: Admin/Partial

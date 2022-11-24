@@ -8,7 +8,7 @@
     }
     foreach (var item in Model.Where(x => x.Depth == depth && x.ParentId == parentId))
     {
-        <option value="@item.Id">@string.Concat(Enumerable.Repeat(" - ", Convert.ToInt32(item.Depth))) @item.MenuTitle</option>
+        <option value="@item.Id">@string.Concat(Enumerable.Repeat(" - ", Convert.ToInt32(item.Depth))) @item.Title</option>
         if (Model.Any(s => s.ParentId == item.Id))
         {
             @await Component.InvokeAsync("MenuList", new { depth = (item.Depth + 1), parentId = item.Id, menuGroupId = item.MenuGroupId })

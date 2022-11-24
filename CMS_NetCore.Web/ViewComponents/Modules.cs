@@ -27,13 +27,11 @@ namespace CMS_NetCore.Web.ViewComponents
         // GET: Admin/Partial
         public async Task<Module> GetModule(int id,string moduleType)
         {
-            switch (moduleType)
+            return moduleType switch
             {
-                case "1":
-                  return  await _moduleService.GetById(id);
-                default:
-                    return null;
-            }
+                "1" => await _moduleService.GetById(id),
+                _ => null
+            };
         }
     }
 }

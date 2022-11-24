@@ -19,8 +19,8 @@ public class ModuleUsersShow : ViewComponent
     public async Task<IViewComponentResult> InvokeAsync(int? moduleId)
     {
         ViewBag.moduleId = moduleId;
-        var list = await GetUsers();
-        return null;
+
+        return View(await GetUsers());
     }
 
     // GET: Admin/Partial

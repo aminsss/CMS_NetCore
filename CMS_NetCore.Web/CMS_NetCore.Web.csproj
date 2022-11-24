@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
-		<LangVersion>11</LangVersion>
+		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -60,6 +60,10 @@
 	  <Content Remove="wwwroot\Upload\ModuleImages\96359228cef849c5a585d457ea2f88df.jpg" />
 	  <Content Remove="wwwroot\Upload\ModuleImages\59eeead07b6948c8b6ef6933cbd67d3a.jpg" />
 	  <Content Remove="wwwroot\Upload\ModuleImages\254b9a353292480982b0d4135f9f9908.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Areas\Admin\Views\Menu\Components\MenuGridView\Default.cshtml" />
 	</ItemGroup>
 
 </Project>

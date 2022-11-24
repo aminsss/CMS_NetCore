@@ -1,51 +1,46 @@
 ﻿@model IEnumerable<CMS_NetCore.DomainClasses.AttributeGroup>
 
-
 <div class="table-responsive portlet box border shadow">
     <div class="portlet-heading">
         <h2 class="col-md-10">@ViewBag.Title</h2>
         <a id="btnAdd" asp-action="Create" data-style="slide-right" class="btn btn-success btn-round pull-left">افزودن گروه </a>
-        <br />
+        <br/>
     </div>
     <table class="table table-bordered table-hover table-striped text-center" id="data-table">
         <thead>
-
-            <tr>
-
-                <th>
-                    نام گروه خصوصیت
-                </th>
-                <th>
-                    گروه  محصول انتخابی
-                </th>
-                <th>
-                    عملیات
-                </th>
-            </tr>
-
+        <tr>
+            <th>
+                نام گروه خصوصیت
+            </th>
+            <th>
+                گروه محصول انتخابی
+            </th>
+            <th>
+                عملیات
+            </th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr id="Item_@item.Id">
-                    <td>
-                        <a asp-action="Index" asp-controller="AttributeItem" asp-route-id="@item.Id"> @Html.DisplayFor(modelItem => item.Name)</a>
-                    </td>
+        @foreach (var item in Model)
+        {
+            <tr id="Item_@item.Id">
+                <td>
+                    <a asp-action="Index" asp-controller="AttributeItem" asp-route-id="@item.Id"> @Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductGroup.GroupTitle)
-                    </td>
-                    <td>
-                        <a asp-action="Index" asp-controller="AttributeItem" asp-route-id="@item.Id" class="btn btn-success btn-round"> خصوصیات</a>
-                        <a id="btnEdit_@item.Id" data-style="slide-right" class="btn btn-info btn-round" onclick="Edit(@item.Id)">ویرایش</a>
-                        <a class="btn btn-danger btn-round" onclick="Delete(@item.Id)">حذف</a>
-                    </td>
-                </tr>
-            }
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductGroup.GroupTitle)
+                </td>
+                <td>
+                    <a asp-action="Index" asp-controller="AttributeItem" asp-route-id="@item.Id" class="btn btn-success btn-round"> خصوصیات</a>
+                    <a id="btnEdit_@item.Id" data-style="slide-right" class="btn btn-info btn-round" onclick="Edit(@item.Id)">ویرایش</a>
+                    <a class="btn btn-danger btn-round" onclick="Delete(@item.Id)">حذف</a>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
-    <br />
-
+    <br/>
 </div>
 
 <div id="myModal" class="modal fade" role="dialog">
@@ -69,7 +64,7 @@
     <script>
         $("#btnAdd").on("click", function Create(e) {
             e.preventDefault();
-            var l = Ladda.create(document.querySelector('#btnAdd'));
+            const l = Ladda.create(document.querySelector('#btnAdd'));
             l.start();
             $.ajax({
                 url: "/admin/AttributGrps/Create",
@@ -84,7 +79,7 @@
         });
 
         function Edit(id) {
-            var l = Ladda.create(document.querySelector('#btnEdit_' + id));
+            const l = Ladda.create(document.querySelector('#btnEdit_' + id));
             l.start();
             $.ajax({
                 url: "/admin/AttributGrps/Edit/" + id,
@@ -97,8 +92,6 @@
                 l.stop();
             });
         }
-
-
         
         function Delete(id) {
             swal({
@@ -109,7 +102,7 @@
                 confirmButtonColor: '#f44336',
                 cancelButtonColor: '#777',
                 confirmButtonText: 'بله، حذف شود. '
-            }).then(function (result) {
+            }).then(function () {
                 $.ajax({
                     url: "/admin/AttributGrps/Delete",
                     dataType: "json",
@@ -121,7 +114,7 @@
                     },
                     async: true,
                     cache: false,
-                    success: function (result) {
+                    success: function () {
                         swal(
                             'انتخاب شما حذف کردن بود.',
                             'گروه فیلتر با موفقیت حذف شد.',
@@ -129,7 +122,7 @@
                         ).then($("#Item_" + id).hide(700))
 
                     },
-                    error: function (xc) {
+                    error: function () {
                         swal(
                             'خطا در پردازش.',
                             'گروه فیلتر به دلایلی قابل حذف نمیباشد.',
@@ -138,27 +131,25 @@
                     }
                 })
             }, function (dismiss) {
-                if (dismiss == 'cancel') {
+                if (dismiss === 'cancel') {
                     swal(
                         'لغو گردید',
                         'گروه فیلتر همچنان وجود دارد.',
                         'error'
-                    ).catch(swal.noop);;
+                    ).catch(swal.noop);
                 }
             }).catch(swal.noop);
         }
 
         function gettoken() {
-            var token = '@Html.AntiForgeryToken()';
+            let token = '@Html.AntiForgeryToken()';
             token = $(token).val();
             return token;
         }
     </script>
-
 }
 
 @section Head{
     <link href="~/assets/plugins/noty/css/flat.css" rel="stylesheet">
     <link href="~/assets/plugins/ladda/dist/ladda-themeless.min.css" rel="stylesheet">
 }
-

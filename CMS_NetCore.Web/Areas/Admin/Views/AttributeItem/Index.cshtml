@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<CMS_NetCore.DomainClasses.AttributeItem>
 
 <form asp-action="Create">
-
     <div class="table-responsive portlet box border shadow">
         <div class="portlet-heading">
             <h2 class="col-md-10">@ViewBag.Title</h2>
@@ -9,7 +8,7 @@
                 <i class="icon-close"></i>
                 بازگشت
             </a>
-            <br />
+            <br/>
         </div>
         <div class="row">
             <div class="col-sm-4 m-b-20">
@@ -33,44 +32,43 @@
         </div>
         <table class="table table-bordered table-hover table-striped text-center" id="data-table">
             <thead>
-                <tr>
-                    <th>
-                        خصوصیت
-                    </th>
-                    <th>
-                        گروه خصوصیت
-                    </th>
-                    <th>
-                        گروه پدر
-                    </th>
-                    <th>
-                        عملیات
-                    </th>
-                </tr>
+            <tr>
+                <th>
+                    خصوصیت
+                </th>
+                <th>
+                    گروه خصوصیت
+                </th>
+                <th>
+                    گروه پدر
+                </th>
+                <th>
+                    عملیات
+                </th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr id="Item_@item.AttributItemId">
-                        <td>
-                            <label class="label-info">@item.Name</label>
-                        </td>
-                        <td>
-                            <label class="label-warning">@item.AttributeGroup.Name</label>
-                        </td>
-                        <td>
-                            <label class="label-warning">@item.AttributeGroup.ProductGroup.GroupTitle</label>
-                        </td>
-                        <td>
-                            <a id="btnEdit_@item.AttributItemId" data-style="slide-right" class="btn btn-primary btn-round" onclick="Edit(@item.AttributItemId)">ویرایش</a>
-                            <a id="btnDelete" class="btn btn-danger btn-round" onclick="Delete(@item.AttributItemId)">حذف</a>
-                        </td>
-                    </tr>
-                }
+            @foreach (var item in Model)
+            {
+                <tr id="Item_@item.Id">
+                    <td>
+                        <label class="label-info">@item.Name</label>
+                    </td>
+                    <td>
+                        <label class="label-warning">@item.AttributeGroup.Name</label>
+                    </td>
+                    <td>
+                        <label class="label-warning">@item.AttributeGroup.ProductGroup.GroupTitle</label>
+                    </td>
+                    <td>
+                        <a id="btnEdit_@item.Id" data-style="slide-right" class="btn btn-primary btn-round" onclick="Edit(@item.Id)">ویرایش</a>
+                        <a id="btnDelete" class="btn btn-danger btn-round" onclick="Delete(@item.Id)">حذف</a>
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
-        <br />
-
+        <br/>
     </div>
 </form>
 
@@ -94,7 +92,7 @@
 
     <script>
             $("#btnAdd").on("click", function Create(e) {
-                var l = Ladda.create(document.querySelector('#btnAdd'));
+                const l = Ladda.create(document.querySelector('#btnAdd'));
                 l.start();
                 e.preventDefault();
                 $.ajax({
@@ -110,7 +108,7 @@
             });
 
         function Edit(id) {
-            var l = Ladda.create(document.querySelector('#btnEdit_' + id));
+            const l = Ladda.create(document.querySelector('#btnEdit_' + id));
             l.start();
             $.ajax({
                 url: "/admin/AttributItems/Edit/" + id,
@@ -123,7 +121,7 @@
                 l.stop();
             });
         }
-
+        
         function Delete(id) {
             swal({
                 title: 'آیا اطمینان دارید؟',
@@ -133,19 +131,19 @@
                 confirmButtonColor: '#f44336',
                 cancelButtonColor: '#777',
                 confirmButtonText: 'بله، حذف شود. '
-            }).then(function (result) {
+            }).then(function () {
                 $.ajax({
                     url: "/admin/AttributItems/Delete",
                     dataType: "json",
                     type: "POST",
                     contentType: 'application/x-www-form-urlencoded; charset=utf-8',
                     data: {
-                        __RequestVerificationToken: gettoken(),
+                        __RequestVerificationToken: GetToken(),
                          id: id
                     },
                     async: true,
                     cache: false,
-                    success: function (result) {
+                    success: function () {
                         swal(
                             'انتخاب شما حذف کردن بود.',
                             ' فیلتر با موفقیت حذف شد.',
@@ -153,7 +151,7 @@
                         ).then($("#Item_" + id).hide(700))
 
                     },
-                    error: function (xc) {
+                    error: function () {
                         swal(
                             'خطا در پردازش.',
                             ' فیلتر به دلایلی قابل حذف نمیباشد.',
@@ -162,29 +160,25 @@
                     }
                 })
             }, function (dismiss) {
-                if (dismiss == 'cancel') {
+                if (dismiss === 'cancel') {
                     swal(
                         'لغو گردید',
                         ' فیلتر همچنان وجود دارد.',
                         'error'
-                    ).catch(swal.noop);;
+                    ).catch(swal.noop);
                 }
             }).catch(swal.noop);
         }
 
-        function gettoken() {
-            var token = '@Html.AntiForgeryToken()';
+        function GetToken() {
+            let token = '@Html.AntiForgeryToken()';
             token = $(token).val();
             return token;
-
         }
-
     </script>
-
 }
 
 @section Head{
     <link href="~/assets/plugins/noty/css/flat.css" rel="stylesheet">
     <link href="~/assets/plugins/ladda/dist/ladda-themeless.min.css" rel="stylesheet">
 }
-

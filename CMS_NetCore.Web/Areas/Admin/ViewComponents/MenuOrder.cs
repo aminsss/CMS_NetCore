@@ -21,11 +21,12 @@ public class MenuOrder : ViewComponent
         int menuGroupId
     )
     {
-        var list = await GetMenuOrder(
-            parentId,
-            menuGroupId
+        return View(
+            await GetMenuOrder(
+                parentId,
+                menuGroupId
+            )
         );
-        return null;
     }
 
     // GET: Admin/Partial

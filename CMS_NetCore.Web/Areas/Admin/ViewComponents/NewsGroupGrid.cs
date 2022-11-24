@@ -23,8 +23,8 @@ public class NewsGroupGrid : ViewComponent
     {
         ViewBag.Depth = depth;
         ViewBag.ParentId = parentId;
-        var list = await GetNewsGroup();
-        return null;
+
+        return View(await GetNewsGroup());
     }
 
     // GET: Admin/Partial

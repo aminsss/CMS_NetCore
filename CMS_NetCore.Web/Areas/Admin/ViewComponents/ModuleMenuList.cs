@@ -26,8 +26,8 @@ public class ModuleMenuList : ViewComponent
         ViewBag.depth = depth;
         ViewBag.parentId = parentId;
         ViewBag.moduleId = moduleId;
-        var list = await GetModulePage(menuGroupId);
-        return View(list);
+
+        return View(await GetModulePage(menuGroupId));
     }
 
     // GET: Admin/Partial

@@ -24,8 +24,7 @@ public class MenuList : ViewComponent
     {
         ViewBag.Depth = depth;
         ViewBag.ParentId = parentId;
-        var list = await GetMenuList(menuGroupId);
-        return null;
+        return View(await GetMenuList(menuGroupId));
     }
 
     // GET: Admin/Partial

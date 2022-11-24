@@ -24,8 +24,7 @@ public class MenuGridView : ViewComponent
     {
         ViewBag.Depth = depth;
         ViewBag.ParentId = parentId;
-        var list = await GetMenuGridView(menuGroupId);
-        return null;
+        return View(await GetMenuGridView(menuGroupId));
     }
 
     // GET: Admin/Partial
